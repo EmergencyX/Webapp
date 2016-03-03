@@ -12,8 +12,8 @@
   <body>
     @include('layouts.header')
     
-    @include('layouts.navigation')
     <div class="container">
+        @include('layouts.navigation')
         @yield('content')
     </div>
 
