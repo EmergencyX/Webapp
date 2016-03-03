@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace EmergencyExplorer\Events;
 
 abstract class Event
 {

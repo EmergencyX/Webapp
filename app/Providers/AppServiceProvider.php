@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace EmergencyExplorer\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
