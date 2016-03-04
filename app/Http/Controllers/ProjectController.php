@@ -13,7 +13,7 @@ class ProjectController extends Controller
     function index() {
         $projects = Project::with('game')->get();
     
-        return view('project.index', ['projects' => $projects]);
+        return view('project.index', ['projects' => $projects, 'active' => 'projects']);
     }
     
     function show($id, $seo = null) {
@@ -23,7 +23,7 @@ class ProjectController extends Controller
         if ($seo != $slug) {
             return redirect(action('ProjectController@show', ['id' => $id, 'seo' => $slug]));
         }
-        
-        return view('project.show', ['project' => $project]);
+
+        return view('project.show', ['project' => $project, 'active' => 'projects']);
     }
 }
