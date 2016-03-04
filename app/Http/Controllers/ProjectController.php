@@ -11,7 +11,7 @@ use EmergencyExplorer\Project;
 class ProjectController extends Controller
 {
     function index() {
-        $projects = Project::all();
+        $projects = Project::with('game')->get();
     
         return view('project.index', ['projects' => $projects]);
     }

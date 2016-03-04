@@ -7,6 +7,7 @@
     <tr>
       <th>Id</th>
       <th>Name</th>
+      <th>Game</th>
       <th>Link</th>
     </tr>
   </thead>
@@ -15,6 +16,7 @@
     <tr>
       <th scope="row">{{ $project->id }}</th>
       <td>{{ $project->name }}</td>
+      <td>{{ $project->game->name }}</td>
       <td><a href="{{ action('ProjectController@show', ['id'=>$project->id, 'seo'=>str_slug($project->name)]) }}">Link</a></td>
     </tr>
    @endforeach
