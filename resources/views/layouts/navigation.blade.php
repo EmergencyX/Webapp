@@ -6,10 +6,16 @@
     <a class="navbar-brand" href="{{ action('HomeController@index') }}">Emergency Explorer</a>
     <ul class="nav navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="#">{{ trans('app.modifications') }}</a>
+        <a class="nav-link" href="{{ action('ProjectController@index') }}">{{ trans('app.modifications') }}</a>
       </li>
+    </ul>
+    <ul class="nav navbar-nav pull-xs-right">
       <li class="nav-item">
-        <a class="nav-link" href="#">{{ trans('app.multiplayer') }}</a>
+        @if(auth()->check())
+            <a class="nav-link" href="{{ action('Auth\AuthController@getLogout') }}">{{ trans('app.logout') }}</a>
+        @else
+            <a class="nav-link" href="{{ action('Auth\AuthController@getLogin') }}">{{ trans('app.join_the_dark') }}</a>
+        @endif
       </li>
     </ul>
   </div>
