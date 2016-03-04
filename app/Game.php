@@ -9,4 +9,8 @@ class Game extends Model
     function projects() {
         return $this->hasMany(Project::class);
     }
+    
+    function badges() {
+        return $this->hasMany(Badge::class);
+    }
 }

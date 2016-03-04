@@ -9,4 +9,8 @@ class Badge extends Model
     function users() {
         return $this->hasMany(User::class)->with('given_at');
     }
+    
+    function game() {
+        return $this->belongsTo(Game::class);
+    }
 }
