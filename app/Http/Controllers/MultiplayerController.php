@@ -8,5 +8,7 @@ use EmergencyExplorer\Http\Requests;
 
 class MultiplayerController extends Controller
 {
-    //
+    function index() {
+        
+    }
 }
