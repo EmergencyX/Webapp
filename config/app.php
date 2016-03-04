@@ -156,6 +156,8 @@ return [
         EmergencyExplorer\Providers\EventServiceProvider::class,
         EmergencyExplorer\Providers\RouteServiceProvider::class,
 
+        Folklore\Image\ImageServiceProvider::class,
+
     ],
 
     /*
@@ -201,6 +203,8 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+        
+        'Thumbnail' => Folklore\Image\Facades\Image::class,
 
     ],
 
