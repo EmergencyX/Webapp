@@ -10,6 +10,10 @@ use EmergencyExplorer\Project;
 
 class ProjectController extends Controller
 {
+    function __construct() {
+        view()->share('active', 'projects');
+    }
+    
     function index() {
         $projects = Project::with('game')->get();
     
@@ -24,6 +28,8 @@ class ProjectController extends Controller
             return redirect(action('ProjectController@show', ['id' => $id, 'seo' => $slug]));
         }
 
-        return view('project.show', ['project' => $project, 'active' => 'projects']);
+        $members = $project->users;
+
+        return view('project.show', ['project' => $project, 'members' => $members]);
     }
 }
