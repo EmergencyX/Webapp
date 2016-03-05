@@ -2,9 +2,8 @@
 
 @section('content')
 <h1>{{ trans('auth.join_the_force') }}</h1>
-<form method="POST" action="/auth/login">
-    {!! csrf_field() !!}
-
+{!! Form::open(['action' => 'Auth\AuthController@postLogin']) !!}
+    {!! Form::token() !!}
     <fieldset class="form-group">
         <label for="name">{{ trans('auth.name') }}</label>
         <input type="text" class="form-control" name="name" id="name" placeholder="{{ trans('auth.name') }}">
@@ -19,6 +18,6 @@
         </label>
     </div>
 
-        <button type="submit btn btn-primary">{{ trans('auth.join_the_force') }}</button>
-</form>
+    <button type="submit btn btn-primary">{{ trans('auth.join_the_force') }}</button>
+{!! Form::close() !!}
 @endsection

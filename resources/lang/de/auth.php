@@ -5,5 +5,4 @@ return [
     'name' => 'Username',
     'password' => 'Passwort',
     'remember_me' => 'Angemeldet bleiben',
-    
 ];
