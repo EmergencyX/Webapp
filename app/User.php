@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'password',
     ];
 
     /**
@@ -25,14 +25,14 @@ class User extends Authenticatable
     ];
     
     function badges() {
-        return $this->hasMany(Badge::class)->with('given_at');
+        return $this->belongsToMany(Badge::class)->withPivot('given_at');
     }
     
     function media() {
-        return $this->hasMany(Media::class);
+        return $this->belongsToMany(Media::class);
     }
     
     function projects() {
-        return $this->hasMany(Project::class)->with('role');
+        return $this->belongsToMany(Project::class)->withPivot('role');
     }
 }

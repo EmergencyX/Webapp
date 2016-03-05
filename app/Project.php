@@ -16,10 +16,10 @@ class Project extends Model
     }
     
     function users() {
-        return $this->hasMany(User::class)->with('role');
+        return $this->belongsToMany(User::class)->withPivot('role');
     }
     
     function media() {
-        return $this->hasMany(Media::class);
+        return $this->belongsToMany(Media::class);
     }
 }
