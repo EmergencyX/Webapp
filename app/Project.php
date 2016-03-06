@@ -11,6 +11,10 @@ class Project extends Model
     const PROJECT_ROLE_MEMBER = 2;
     const PROJECT_ROLE_ADMIN = 3;
     
+    protected $fillable = [
+        'name', 'description', 'status',
+    ];
+    
     function game() {
         return $this->belongsTo(Game::class);
     }

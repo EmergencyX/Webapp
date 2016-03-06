@@ -41,7 +41,10 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('invitation/update', 'InvitationController@update');
     
         Route::delete('invitation/reset', 'InvitationController@resetRejected');
+        
+        Route::get('mods/create', 'ProjectController@create');
+        Route::post('mods', 'ProjectController@store');
+        Route::get('mods/{id}/edit', 'ProjectController@edit');
+        Route::patch('mods/{id}', 'ProjectController@update');
     });
-    
-   
 });
