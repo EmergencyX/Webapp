@@ -36,8 +36,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('mods/{id}', 'ProjectController@show')->where('id', '[0-9]+');
     Route::get('mods/{id}-{seo}', 'ProjectController@show');
     
-    Route::get('notifications', 'NotificationController@index');
-    Route::post('invitation/update', 'InvitationController@update');
+    Route::group(['middleware' => ['auth']], function () {
+        Route::get('notifications', 'NotificationController@index');
+        Route::post('invitation/update', 'InvitationController@update');
     
-    Route::delete('invitation/reset', 'InvitationController@resetRejected');
+        Route::delete('invitation/reset', 'InvitationController@resetRejected');
+    });
+    
+   
 });
