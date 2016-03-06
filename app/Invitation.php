@@ -19,6 +19,8 @@ class Invitation extends Model
         return $this->belongsTo(User::class, 'for_user_id');
     }
     
+    //We will see if this works out as expected.
+    //Hopefully the ORM catches the hint - would love to not have to store the full class name for each entry (@see laravel morphMany())
     function relatedTarget() {
         switch ($this->invitation_type) {
             case INVITATION_TYPE_PROJECT:
