@@ -156,8 +156,10 @@ return [
         EmergencyExplorer\Providers\EventServiceProvider::class,
         EmergencyExplorer\Providers\RouteServiceProvider::class,
 
-        Folklore\Image\ImageServiceProvider::class,
+        
+        Barryvdh\Debugbar\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Folklore\Image\ImageServiceProvider::class,
 
     ],
 
