@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use EmergencyExplorer\Http\Requests;
 
 use EmergencyExplorer\Invitation;
+use EmergencyExplorer\Http\Requests\UpdateInvitationRequest;
 
 class InvitationController extends Controller
 {
@@ -24,12 +25,12 @@ class InvitationController extends Controller
         //   - is in project / ...
         //   - has privilegies
         // - check the user who is about to be invited is not already in this project / ...
-        $invitation = Invitation::firstOrNew([
+       /* $invitation = Invitation::firstOrNew([
             'from_user_id' => $user,
             'for_user_id' => ,
             'invitation_target_id' =>,
             'invitation_type' => ,
-        ]);
+        ]);*/
 
         if ($invitation->exists()) {
             return;
@@ -38,14 +39,28 @@ class InvitationController extends Controller
         $invitation->save();
     }
 
-    function update(Request $request) {
-        $invitation = Invitation::firstOrFail($request->invitation_id);
-        //todo: validiation
-        if ($request->status === Invitation::INVITATION_STATE_REJECT) {
-            $invitation->invitation_state = Invitation::INVITATION_STATE_REJECT;
+    function update(UpdateInvitationRequest $updateInvitationRequest) {
+        $invitation = $updateInvitationRequest->getInvitation();
+
+        if ($updateInvitationRequest->reject) {
+            $invitation->invitation_state = Invitation::INVITATION_STATE_REJECTED;
+            $invitation->save();
+            logger()->notice('rejected the invite');
         } else {
+            if ($invitation->for_user_id != auth()->user()->id) {
+               abort(403); //While the requester (from) may cancel, he may not accept for the other person 
+            }
             //todo: actually add to project or whatever
             $invitation->delete();
+            logger()->notice('deleted the invite');
         }
+        
+        return back();
+    }
+    
+    function resetRejected() {
+        Invitation::where('for_user_id', auth()->user()->id)
+        ->where('invitation_state', Invitation::INVITATION_STATE_REJECTED)
+        ->delete();
     }
 }
