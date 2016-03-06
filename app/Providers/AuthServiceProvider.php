@@ -5,6 +5,9 @@ namespace EmergencyExplorer\Providers;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
+use EmergencyExplorer\Invitation;
+use EmergencyExplorer\Policies\InvitationPolicy;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -13,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'EmergencyExplorer\Model' => 'EmergencyExplorer\Policies\ModelPolicy',
+        Invitation::class => InvitationPolicy::class
     ];
 
     /**
