@@ -30,7 +30,7 @@ This file is meant to be included by notification.index
 </table>
 
 
-{!! Form::open(['action'=>'InvitationController@update']) !!}
+{!! Form::open(['action'=>'InvitationController@resetRejected', 'method'=>'delete']) !!}
     {!! Form::token() !!}
     {!! Form::label('reset-reject-list', 'Manchmal ist es an der Zeit zu vergeben') !!}
     {!! Form::submit('L10N Banliste zurücksetzen', ['class'=>'btn btn-secondary', 'name'=>'reset-reject-list']) !!}

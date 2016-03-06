@@ -38,4 +38,6 @@ Route::group(['middleware' => ['web']], function () {
     
     Route::get('notifications', 'NotificationController@index');
     Route::post('invitation/update', 'InvitationController@update');
+    
+    Route::delete('invitation/reset', 'InvitationController@resetRejected');
 });
