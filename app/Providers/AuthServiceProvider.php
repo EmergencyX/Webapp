@@ -8,6 +8,9 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use EmergencyExplorer\Invitation;
 use EmergencyExplorer\Policies\InvitationPolicy;
 
+use EmergencyExplorer\Project;
+use EmergencyExplorer\Policies\ProjectPolicy;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -16,7 +19,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Invitation::class => InvitationPolicy::class
+        Invitation::class => InvitationPolicy::class,
+        Project::class => ProjectPolicy::class
     ];
 
     /**
@@ -28,7 +32,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(GateContract $gate)
     {
         $this->registerPolicies($gate);
-
-        //
     }
 }
