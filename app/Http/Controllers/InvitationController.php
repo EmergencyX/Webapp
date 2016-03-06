@@ -49,7 +49,7 @@ class InvitationController extends Controller
             $invitation->save();
             logger()->notice('rejected the invite');
         } else {
-            if ($invitation->for_user_id != auth()->user()->id) {
+            if ($invitation->for_user_id != $updateInvitationRequest->user()->id) {
                abort(403); //While the requester (from) may cancel, he may not accept for the other person 
             }
 
@@ -63,9 +63,11 @@ class InvitationController extends Controller
         return back();
     }
     
-    function resetRejected() {
-        Invitation::where('for_user_id', auth()->user()->id)
+    function resetRejected(Request $request) {
+        Invitation::where('for_user_id', $request->user()->id)
         ->where('invitation_state', Invitation::INVITATION_STATE_REJECTED)
         ->delete();
+        
+        return back();
     }
 }
