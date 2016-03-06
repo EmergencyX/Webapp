@@ -19,6 +19,19 @@ class Project extends Model
         return $this->belongsToMany(User::class)->withPivot('role');
     }
     
+    function admins() {
+        return $this->users()->wherePivot('role', self::PROJECT_ROLE_ADMIN);
+    }
+    
+    function watchers() {
+        return $this->users()->wherePivot('role', self::PROJECT_ROLE_WATCHER);
+    }
+    
+    function members() {
+        return $this->users()->wherePivot('role', self::PROJECT_ROLE_ADMIN)
+        ->orWherePivot('role', self::PROJECT_ROLE_MEMBER);
+    }
+    
     function media() {
         return $this->belongsToMany(Media::class);
     }
