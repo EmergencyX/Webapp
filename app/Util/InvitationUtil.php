@@ -1,0 +1,27 @@
+<?php
+
+namespace EmergencyExplorer\Util;
+
+use EmergencyExplorer\Invitation;
+use EmergencyExplorer\Project;
+
+use Gate;
+
+class InvitationUtil {
+    //Todo(rs) Move this into an action?
+    public static function execute(Invitation $invitation) {
+        if ($invitation->invitation_state != Invitation::INVITATION_STATE_PENDING) {
+            abort(403); 
+        }
+        
+        switch ($invitation->invitation_type) {
+            case Invitation::INVITATION_TYPE_PROJECT: {
+                $project = Project::findOrFail($invitation->invitation_target_id);
+                
+                if (Gate::denies('add-user', $project)) {
+                    abort(403);
+                }
+            }
+        }
+    }
+}
