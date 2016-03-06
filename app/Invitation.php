@@ -6,16 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invitation extends Model
 {
-    const INVITATION_TYPE_PROJECT = 1
+    const INVITATION_TYPE_PROJECT = 1;
     
-    const INVITATION_STATE_PENDING = 1;
+    const INVITATION_STATE_PENDING  = 1;
     const INVITATION_STATE_REJECTED = 2;
+    const INVITATION_STATE_ACCEPTED = 3;
 
-    function from() {
+    function fromUser() {
         return $this->belongsTo(User::class, 'from_user_id');
     }
     
-    function for() {
+    function forUser() {
         return $this->belongsTo(User::class, 'for_user_id');
     }
     
