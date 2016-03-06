@@ -17,7 +17,7 @@ class ProjectController extends Controller
     function index() {
         $projects = Project::with('game')->get();
     
-        return view('project.index', ['projects' => $projects, 'active' => 'projects']);
+        return view('project.index', compact('projects'));
     }
     
     function show($id, $seo = null) {
@@ -28,8 +28,8 @@ class ProjectController extends Controller
             return redirect(action('ProjectController@show', ['id' => $id, 'seo' => $slug]));
         }
 
-        $members = $project->users;
+        $members = $project->members;
 
-        return view('project.show', ['project' => $project, 'members' => $members]);
+        return view('project.show', compact('project', 'members'));
     }
 }
