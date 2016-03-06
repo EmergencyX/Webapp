@@ -18,9 +18,11 @@ class InvitationUtil {
             case Invitation::INVITATION_TYPE_PROJECT: {
                 $project = Project::findOrFail($invitation->invitation_target_id);
                 
-                if (Gate::denies('add-user', $project)) {
+                if (Gate::forUser($invitation->fromUser)->denies('add-user', $project)) {
                     abort(403);
                 }
+                
+                return $project->users()->save($invitation->forUser, ['role' => Project::PROJECT_ROLE_MEMBER]);
             }
         }
     }

@@ -9,6 +9,8 @@ use EmergencyExplorer\Http\Requests;
 use EmergencyExplorer\Invitation;
 use EmergencyExplorer\Http\Requests\UpdateInvitationRequest;
 
+use EmergencyExplorer\Util\InvitationUtil;
+
 class InvitationController extends Controller
 {
     function __construct() {
@@ -50,9 +52,12 @@ class InvitationController extends Controller
             if ($invitation->for_user_id != auth()->user()->id) {
                abort(403); //While the requester (from) may cancel, he may not accept for the other person 
             }
-            //todo: actually add to project or whatever
-            $invitation->delete();
-            logger()->notice('deleted the invite');
+
+            if (InvitationUtil::execute($invitation)) {
+                $invitation->delete();
+                logger()->notice('deleted the invite');
+            }
+            //well, this should not happen. Maybe just return?
         }
         
         return back();
