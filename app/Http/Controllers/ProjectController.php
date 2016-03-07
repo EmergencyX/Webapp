@@ -56,7 +56,7 @@ class ProjectController extends Controller
     
     function update(Request $request, $id) {
         $project = Project::findOrFail($id);
-        $project->update($request->only(['name','description','status','game_id','visible']));
+        $project->update($request->only(['name','description','status','visible']));
         $project->save();
         
         return redirect(action('ProjectController@show', ['id' => $project->id, 'seo' => str_slug($project->name)]));

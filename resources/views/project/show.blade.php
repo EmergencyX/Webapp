@@ -2,7 +2,9 @@
 
 @section('content')
     <h1><small>{{ trans('project.project_short') }}</small> {{ $project->name }}</h1>
-  
+@can('edit', $project)
+    <a href="{{ action('ProjectController@edit', $project->id) }}" class="btn btn-primary">{{ trans('project.edit') }}</a>
+@endcan
     <table class="table table-inverse">
       <thead>
         <tr>

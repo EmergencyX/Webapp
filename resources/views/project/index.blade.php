@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>{{ trans('project.all_projects') }}</h1>
+<h1>{{ trans('project.all_projects') }} <a class="btn btn-primary pull-xs-right" href="{{ action('ProjectController@create') }}">{{ trans('project.create') }}</a></h1>
 <table class="table table-inverse">
   <thead>
     <tr>

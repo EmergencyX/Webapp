@@ -30,7 +30,7 @@
     </fieldset>
   </div>
   <div class="col-md-4">
-    <fieldset>
+    <fieldset {{ isset($project->game_id) ? 'disabled' : '' }}>
     {!! Form::label('game_id', trans('project.game')) !!}
     {!! Form::select('game_id', 
     $games,

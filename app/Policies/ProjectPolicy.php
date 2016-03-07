@@ -28,4 +28,8 @@ class ProjectPolicy
         
         return $project->admins->contains($user);
     }
+    
+    public function edit(User $user, Project $project) {
+        return $project->admins->contains($user);
+    }
 }
