@@ -12,7 +12,7 @@ class Project extends Model
     const PROJECT_ROLE_ADMIN = 3;
     
     protected $fillable = [
-        'name', 'description', 'status',
+        'name', 'description', 'status', 'game_id', 'visible'
     ];
     
     function game() {
@@ -32,8 +32,7 @@ class Project extends Model
     }
     
     function members() {
-        return $this->users()->wherePivot('role', self::PROJECT_ROLE_ADMIN)
-        ->orWherePivot('role', self::PROJECT_ROLE_MEMBER);
+        return $this->users()->whereIn('project_user.role', [self::PROJECT_ROLE_MEMBER, self::PROJECT_ROLE_ADMIN]);
     }
     
     function media() {
