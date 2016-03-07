@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use EmergencyExplorer\Http\Requests;
 
+use EmergencyExplorer\Game;
 use EmergencyExplorer\Project;
 
 class ProjectController extends Controller
@@ -34,23 +35,28 @@ class ProjectController extends Controller
     }
     
     function create() {
-        return view('project.create');
+        $games = Game::all()->pluck('name','id');
+        
+        return view('project.create', compact('games'));
     }
     
     function store(Request $request) {
-        $project = Project::create($request->only(['name','description','status']));
+        $project = Project::create($request->only(['name','description','status','game_id','visible']));
+        $project->users()->save($request->user(), ['role' => Project::PROJECT_ROLE_ADMIN]);
         
         return redirect(action('ProjectController@show', ['id' => $project->id, 'seo' => str_slug($project->name)]));
     }
     
     function edit($id) {
         $project = Project::findOrFail($id);
-        return view('project.edit', compact('project'));
+        $games = Game::all()->pluck('name','id');
+
+        return view('project.edit', compact('project', 'games'));
     }
     
     function update(Request $request, $id) {
         $project = Project::findOrFail($id);
-        $project->update($request->only(['name','description','status']));
+        $project->update($request->only(['name','description','status','game_id','visible']));
         $project->save();
         
         return redirect(action('ProjectController@show', ['id' => $project->id, 'seo' => str_slug($project->name)]));

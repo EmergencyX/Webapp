@@ -3,7 +3,7 @@
 @section('content')
 <h1>L10N Projekt {{ $project->name }} bearbeiten</h1>
 
-{!! Form::open(['action'=>['ProjectController@edit', $project->id]]) !!}
-    @include('project.component.editor')
+{!! Form::open(['action'=>['ProjectController@update', $project->id], 'method'=>'patch']) !!}
+    @include('project.component.editor', compact('games'))
 {!! Form::close() !!}
 @endsection
