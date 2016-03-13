@@ -38,4 +38,12 @@ class Project extends Model
     function media() {
         return $this->belongsToMany(Media::class);
     }
+    
+    function repositories() {
+        return $this->hasMany(ProjectRepository::class);
+    }
+    
+    function releases() {
+        return $this->hasManyThrough(Release::class, ProjectRepository::class);
+    }
 }
