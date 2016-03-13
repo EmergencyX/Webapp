@@ -30,7 +30,7 @@
       <thead>
         <tr>
           <th>Id</th>
-          <th>Semver</th>
+          <th>Name</th>
           <th>Erstellt</th>
           <th>Download</th>
         </tr>
@@ -39,7 +39,7 @@
       @foreach($project->releases as $release)
         <tr>
           <th scope="row">{{ $release->id }}</th>
-          <td>{{ $release->semver }}</td>
+          <td>{{ $release->name }}</td>
           <td>{{ $release->created_at }}</td>
           <td><a href="{{ \EmergencyExplorer\Util\ReleaseUtil::getDownloadLink($release) }}" class="btn btn-secondary">Download</a></td>
         </tr>
