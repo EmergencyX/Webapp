@@ -15,6 +15,8 @@ class CreateReleasesTable extends Migration
         Schema::create('releases', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('project_repository_id')->unsigned();
+            $table->string('name');
+            $table->string('extra');
             $table->timestamps();
         });
     }

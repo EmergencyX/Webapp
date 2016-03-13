@@ -15,7 +15,9 @@ class CreateProjectRepositoriesTable extends Migration
         Schema::create('project_repositories', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('project_id')->unsigned();
+            $table->tinyInteger('repository_type')->unsigned();
             $table->string('name');
+            $table->string('extra');
             $table->timestamps();
         });
     }
