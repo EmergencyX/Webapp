@@ -29,9 +29,7 @@ class ProjectController extends Controller
             return redirect(action('ProjectController@show', ['id' => $id, 'seo' => $slug]));
         }
 
-        $members = $project->members;
-
-        return view('project.show', compact('project', 'members'));
+        return view('project.show', compact('project'));
     }
     
     function create() {
