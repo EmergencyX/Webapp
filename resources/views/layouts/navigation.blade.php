@@ -12,7 +12,7 @@
     <ul class="nav navbar-nav pull-xs-right">
       <li class="nav-item {{ isset($active) && $active === 'login' ? 'active' : '' }}">
         @if(auth()->check())
-            <a class="nav-link" href="{{ action('Auth\AuthController@getLogout') }}">{{ trans('auth.logout') }}</a>
+            <a class="nav-link" href="{{ action('Auth\AuthController@logout') }}">{{ trans('auth.logout') }}</a>
         @else
             <a class="nav-link" href="{{ action('Auth\AuthController@getLogin') }}">{{ trans('auth.join_the_force') }}</a>
         @endif
