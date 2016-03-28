@@ -36,6 +36,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('mods/{id}', 'ProjectController@show')->where('id', '[0-9]+');
     Route::get('mods/{id}-{seo}', 'ProjectController@show');
     
+    Route::get('users', 'UserController@index');
+    Route::get('users/{id}', 'UserController@show')->where('id', '[0-9]+');
+    Route::get('users/{id}-{seo}', 'UserController@show');
+  
     Route::group(['middleware' => ['auth']], function () {
         Route::get('notifications', 'NotificationController@index');
         Route::post('invitation/update', 'InvitationController@update');

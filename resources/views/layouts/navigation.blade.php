@@ -8,6 +8,9 @@
       <li class="nav-item {{ isset($active) && $active === 'projects' ? 'active' : '' }}">
         <a class="nav-link" href="{{ action('ProjectController@index') }}">{{ trans('app.modifications') }}</a>
       </li>
+      <li class="nav-item {{ isset($active) && $active === 'users' ? 'active' : '' }}">
+        <a class="nav-link" href="{{ action('UserController@index') }}">{{ trans('app.users') }}</a>
+      </li>
     </ul>
     <ul class="nav navbar-nav pull-xs-right">
       <li class="nav-item {{ isset($active) && $active === 'login' ? 'active' : '' }}">

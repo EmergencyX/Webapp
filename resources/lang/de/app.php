@@ -1,5 +1,6 @@
 <?php
 return [
     'modifications'     => 'Modifikationen',
-    'multiplayer'       => 'Multiplayer'
+    'multiplayer'       => 'Multiplayer',
+    'users'             => 'Mitglieder'
 ];

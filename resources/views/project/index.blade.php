@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>{{ trans('project.all_projects') }} <a class="btn btn-primary pull-xs-right" href="{{ action('ProjectController@create') }}">{{ trans('project.create') }}</a></h1>
-<table class="table table-inverse">
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Id</th>

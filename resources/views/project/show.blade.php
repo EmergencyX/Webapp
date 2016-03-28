@@ -6,7 +6,7 @@
     <a href="{{ action('ProjectController@edit', $project->id) }}" class="btn btn-primary">{{ trans('project.edit') }}</a>
 @endcan
     <h3>Mitglieder</h3>
-    <table class="table table-inverse">
+    <table class="table table-striped">
       <thead>
         <tr>
           <th>Id</th>
@@ -19,7 +19,7 @@
         <tr>
           <th scope="row">{{ $member->id }}</th>
           <td>{{ $member->name }}</td>
-          <td>{{ $member->pivot->role }}</td>
+          <td>{{ trans('project.role.' . $member->pivot->role) }}</td>
         </tr>
        @endforeach
       </tbody>
