@@ -9,6 +9,8 @@ use EmergencyExplorer\Http\Requests;
 use EmergencyExplorer\Game;
 use EmergencyExplorer\Project;
 
+use EmergencyExplorer\Util\MediaUtil;
+
 class ProjectController extends Controller
 {
     function __construct() {
@@ -28,6 +30,8 @@ class ProjectController extends Controller
         if ($seo != $slug) {
             return redirect(action('ProjectController@show', ['id' => $id, 'seo' => $slug]));
         }
+        
+        $project->load(['media']);
 
         return view('project.show', compact('project'));
     }
@@ -56,6 +60,24 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
         $project->update($request->only(['name','description','status','visible']));
         $project->save();
+        
+        return redirect(action('ProjectController@show', ['id' => $project->id, 'seo' => str_slug($project->name)]));
+    }
+  
+    function createMedia($id) {
+        //Todo: Check permission
+        $project = Project::findOrFail($id);
+        return view('project.create_media', compact('project'));
+    }
+    
+    function storeMedia(Request $request, $id) {
+        //Todo: Check permission
+        $user = $request->user();
+        $project = Project::findOrFail($id);
+        if ($request->hasFile('media') && ($file = $request->file('media'))->isValid()) {
+            $media = MediaUtil::createMedia($request->only('name','description'), $file);
+            $project->media()->save($media);
+        }
         
         return redirect(action('ProjectController@show', ['id' => $project->id, 'seo' => str_slug($project->name)]));
     }

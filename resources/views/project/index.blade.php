@@ -14,7 +14,11 @@
   <tbody>
   @foreach($projects as $project)
     <tr>
-      <th scope="row">{{ $project->id }}</th>
+      <th scope="row">
+          @if($project->media->count() > 0)
+          <img src="{{  $project->media->first()->getThumbnail() }}" alt="{{ $project->name }}"/>
+          @endif 
+        </th>
       <td>{{ $project->name }}</td>
       <td>{{ $project->game->name }}</td>
       <td><a href="{{ action('ProjectController@show', ['id'=>$project->id, 'seo'=>str_slug($project->name)]) }}">Link</a></td>

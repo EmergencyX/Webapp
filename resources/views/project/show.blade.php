@@ -4,6 +4,7 @@
     <h1>{{ trans('project.project_short') }} {{ $project->name }}</h1>
 @can('edit', $project)
     <a href="{{ action('ProjectController@edit', $project->id) }}" class="btn btn-primary">{{ trans('project.edit') }}</a>
+    <a href="{{ action('ProjectController@createMedia', $project->id) }}" class="btn btn-secondary">{{ trans('project.create_media') }}</a>
 @endcan
     <h3>Mitglieder</h3>
     <table class="table table-striped">
@@ -26,7 +27,7 @@
     </table>
     
     <h3>Releases</h3>
-    <table class="table table-inverse">
+    <table class="table table-striped">
       <thead>
         <tr>
           <th>Id</th>
@@ -46,6 +47,9 @@
        @endforeach
       </tbody>
     </table>
-
+    <h3>Bilder</h3>
+       @foreach($project->media as $media)
+        <img src="{{ $media->getThumbnail() }}" alt="{{ $media->name }}"/>
+       @endforeach
 
 @endsection

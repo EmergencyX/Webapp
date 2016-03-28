@@ -50,5 +50,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('mods', 'ProjectController@store');
         Route::get('mods/{id}/edit', 'ProjectController@edit');
         Route::patch('mods/{id}', 'ProjectController@update');
+        
+        Route::get('mods/{id}/create-media', 'ProjectController@createMedia');
+        Route::post('mods/{id}/store-media', 'ProjectController@storeMedia');
     });
 });
