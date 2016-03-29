@@ -26,6 +26,4 @@
    @endforeach
   </tbody>
 </table>
-<pre>{{ var_dump($projects) }}</pre>
-
 @endsection
