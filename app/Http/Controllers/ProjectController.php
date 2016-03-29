@@ -18,7 +18,7 @@ class ProjectController extends Controller
     }
     
     function index() {
-        $projects = Project::with('game')->get();
+        $projects = Project::with(['game', 'media'])->get();
     
         return view('project.index', compact('projects'));
     }
@@ -31,8 +31,8 @@ class ProjectController extends Controller
             return redirect(action('ProjectController@show', ['id' => $id, 'seo' => $slug]));
         }
         
-        $project->load(['media']);
-
+        $project->load('members', 'releases', 'game', 'media');
+        
         return view('project.show', compact('project'));
     }
     
