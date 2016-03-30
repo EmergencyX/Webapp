@@ -21,7 +21,7 @@
         </th>
       <td>{{ $project->name }}</td>
       <td>{{ $project->game->name }}</td>
-      <td><a href="{{ action('ProjectController@show', ['id'=>$project->id, 'seo'=>str_slug($project->name)]) }}">Link</a></td>
+      <td><a href="{{ \EmergencyExplorer\Util\ProjectUtil::getProjectAction($project) }}">Link</a></td>
     </tr>
    @endforeach
   </tbody>

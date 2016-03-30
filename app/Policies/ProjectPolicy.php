@@ -20,7 +20,15 @@ class ProjectPolicy
     {
         //
     }
-    
+
+    /**
+     * Check if user may add a new user
+     * 
+     * @param \EmergencyExplorer\User $user
+     * @param \EmergencyExplorer\Project $project
+     *
+     * @return bool
+     */
     public function addUser(User $user, Project $project) {
         if (!$project->relationLoaded('admins')) {
             $project->load('admins');
@@ -31,5 +39,18 @@ class ProjectPolicy
     
     public function edit(User $user, Project $project) {
         return $project->admins->contains($user);
+    }
+
+    /**
+     * Check if user may delete project
+     * 
+     * @param \EmergencyExplorer\User $user
+     * @param \EmergencyExplorer\Project $project
+     *
+     * @return bool
+     */
+    public function remove(User $user, Project $project)
+    {
+        return $this->edit($user, $project);
     }
 }

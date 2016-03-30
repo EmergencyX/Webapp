@@ -11,7 +11,7 @@ use EmergencyExplorer\Project;
 class HomeController extends Controller
 {
     function index() {
-        $projects = Project::orderBy('updated_at','desc')->limit(4)->get();
+        $projects = Project::with('media')->orderBy('updated_at','desc')->limit(5)->get();
         
         return view('home.index', compact('projects'));
     }

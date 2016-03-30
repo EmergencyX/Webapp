@@ -12,7 +12,6 @@
 */
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -31,27 +30,31 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('auth/login', 'Auth\AuthController@getLogin');
     Route::post('auth/login', 'Auth\AuthController@postLogin');
     Route::get('auth/logout', 'Auth\AuthController@logout');
-    
+
     Route::get('mods', 'ProjectController@index');
     Route::get('mods/{id}', 'ProjectController@show')->where('id', '[0-9]+');
-    Route::get('mods/{id}-{seo}', 'ProjectController@show');
-    
+    Route::get('mods/{id}-{seo}', 'ProjectController@show')->where(['id'=>'[0-9]+','seo'=>'.*']);
+
     Route::get('users', 'UserController@index');
     Route::get('users/{id}', 'UserController@show')->where('id', '[0-9]+');
-    Route::get('users/{id}-{seo}', 'UserController@show');
-  
+    Route::get('users/{id}-{seo}', 'UserController@show')->where(['id'=>'[0-9]+','seo'=>'.*']);
+
     Route::group(['middleware' => ['auth']], function () {
         Route::get('notifications', 'NotificationController@index');
         Route::post('invitation/update', 'InvitationController@update');
-    
+
         Route::delete('invitation/reset', 'InvitationController@resetRejected');
-        
+
         Route::get('mods/create', 'ProjectController@create');
         Route::post('mods', 'ProjectController@store');
         Route::get('mods/{id}/edit', 'ProjectController@edit');
         Route::patch('mods/{id}', 'ProjectController@update');
-        
+
+        Route::get('mods/{id}/delete', 'ProjectController@delete');
+
         Route::get('mods/{id}/create-media', 'ProjectController@createMedia');
         Route::post('mods/{id}/store-media', 'ProjectController@storeMedia');
+
+        Route::get('media/{id}/delete', 'MediaController@delete');
     });
 });
