@@ -2,11 +2,13 @@
 
 @section('content')
     <h1>{{ trans('user.profile_of') }} {{ $user->name }}</h1>
-    {{--
+
     @can('edit', $user)
         <a href="{{ action('UserController@edit', $user->id) }}" class="btn btn-primary">{{ trans('user.edit') }}</a>
     @endcan
-    --}}
+
+
+
     <h3>{{ trans('user.projects_of') }} {{ $user->name }}</h3>
     <table class="table table-striped">
         <thead>
