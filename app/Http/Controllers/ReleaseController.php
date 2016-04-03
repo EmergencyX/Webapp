@@ -4,6 +4,7 @@ namespace EmergencyExplorer\Http\Controllers;
 
 use EmergencyExplorer\Project;
 use EmergencyExplorer\ProjectRepository;
+use EmergencyExplorer\Release;
 use Illuminate\Http\Request;
 
 use EmergencyExplorer\Http\Requests;
@@ -17,7 +18,6 @@ class ReleaseController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -52,12 +52,16 @@ class ReleaseController extends Controller
      * Display the specified resource.
      *
      * @param  int $id
+     * @param  int $release_id
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $release_id)
     {
-        //
+        $project = Project::findOrFail($id);
+        $release = Release::findOrFail($release_id);
+
+        return view('project.release.show', compact('project', 'release'));
     }
 
     /**

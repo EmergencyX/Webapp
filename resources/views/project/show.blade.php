@@ -29,15 +29,23 @@
                     <div class="clearfix">
                         <p>
                             Versionen
-                            @if(true)
+                            @if($project->releases->count() > 4)
                                 <a class="pull-xs-right" href="#">
                                     Alle <i class="fa fa-chevron-right"></i>
                                 </a>
                             @endif
-
-                            <br/><span class="text-muted">L10n Keine Versionen</span>
+                            @if($project->releases->isEmpty())
+                                <br/><span class="text-muted">L10n Keine Versionen</span>
+                            @endif
                         </p>
                     </div>
+                    <ul class="list-inline">
+                        @foreach($project->releases->take(2) as $release)
+                            <li class="list-inline-item">
+                                <a href="{{ action('ReleaseController@show', [$project->id, $release->id]) }}">{{ $release->name }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
                 </li>
                 <li class="list-group-item">
                     <div class="clearfix">
