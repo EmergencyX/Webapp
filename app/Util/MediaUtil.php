@@ -4,6 +4,7 @@ namespace EmergencyExplorer\Util;
 
 use EmergencyExplorer\Media;
 
+use EmergencyExplorer\User;
 use Gate;
 use Thumbnail; //Todo: Use DIJ instead of facade
 use Illuminate\Http\UploadedFile;
@@ -32,6 +33,19 @@ class MediaUtil
 
         //unlink($filePath); //Todo: Keep the original file for later re-processing?
         return $media;
+    }
+
+
+    /**
+     * @param \EmergencyExplorer\User $user
+     * @param \Illuminate\Http\UploadedFile $file
+     */
+    public static function createUserMedia(User $user, UploadedFile $file)
+    {
+        $file->move(storage_path('app'), $user->id . '.' . $file->getClientOriginalExtension());
+        Thumbnail::open(storage_path('app/' . $user->id . '.' . $file->getClientOriginalExtension()))
+            ->thumbnail(new \Imagine\Image\Box(128, 128), \Imagine\Image\ImageInterface::THUMBNAIL_OUTBOUND)
+            ->save(public_path('storage/user-' . $user->id . '.jpg'));
     }
 
     /**
