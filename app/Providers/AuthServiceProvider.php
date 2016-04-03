@@ -2,6 +2,8 @@
 
 namespace EmergencyExplorer\Providers;
 
+use EmergencyExplorer\Policies\UserPolicy;
+use EmergencyExplorer\User;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -20,13 +22,15 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Invitation::class => InvitationPolicy::class,
-        Project::class => ProjectPolicy::class
+        Project::class    => ProjectPolicy::class,
+        User::class       => UserPolicy::class,
     ];
 
     /**
      * Register any application authentication / authorization services.
      *
-     * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
+     * @param  \Illuminate\Contracts\Auth\Access\Gate $gate
+     *
      * @return void
      */
     public function boot(GateContract $gate)

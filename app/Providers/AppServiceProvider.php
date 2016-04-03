@@ -2,6 +2,8 @@
 
 namespace EmergencyExplorer\Providers;
 
+use Carbon\Carbon;
+use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Carbon::setLocale(config('app.locale'));
     }
 
     /**
@@ -23,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        app()->singleton(NavigationHelper::class, function() {
+            return new NavigationHelper();
+        });
     }
 }

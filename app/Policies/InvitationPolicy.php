@@ -11,21 +11,12 @@ class InvitationPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Create a new policy instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
     
     /**
      * Determine if the given invitation can be updated by the user.
      *
      * @param  \EmergencyExplorer\User  $user
-     * @param  \EmergencyExplorer\Intivation  $invitation
+     * @param  \EmergencyExplorer\Invitation  $invitation
      * @return bool
      */
     public function update(User $user, Invitation $invitation)

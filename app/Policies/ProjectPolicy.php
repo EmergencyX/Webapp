@@ -12,38 +12,32 @@ class ProjectPolicy
     use HandlesAuthorization;
 
     /**
-     * Create a new policy instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Check if user may add a new user
-     * 
+     *
      * @param \EmergencyExplorer\User $user
      * @param \EmergencyExplorer\Project $project
      *
      * @return bool
      */
-    public function addUser(User $user, Project $project) {
-        if (!$project->relationLoaded('admins')) {
+    public function addUser(User $user, Project $project)
+    {
+        if (! $project->relationLoaded('admins')) {
             $project->load('admins');
         }
-        
+
         return $project->admins->contains($user);
     }
-    
-    public function edit(User $user, Project $project) {
-        return $project->admins->contains($user);
+
+    public function edit(User $user, Project $project)
+    {
+        $auth = $project->admins->contains($user);
+
+        return $auth;
     }
 
     /**
      * Check if user may delete project
-     * 
+     *
      * @param \EmergencyExplorer\User $user
      * @param \EmergencyExplorer\Project $project
      *
