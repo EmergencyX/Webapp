@@ -2,6 +2,7 @@
 
 namespace EmergencyExplorer\Http\Controllers;
 
+use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use EmergencyExplorer\Util\ProjectUtil;
 use Illuminate\Http\Request;
 
@@ -14,9 +15,14 @@ use EmergencyExplorer\Util\MediaUtil;
 
 class ProjectController extends Controller
 {
-    function __construct()
+    /**
+     * ProjectController constructor.
+     *
+     * @param \EmergencyExplorer\Http\View\Helper\NavigationHelper $navigationHelper
+     */
+    public function __construct(NavigationHelper $navigationHelper)
     {
-        view()->share('active', 'projects');
+        $navigationHelper->setSection(NavigationHelper::PROJECTS);
     }
 
     function index()
@@ -36,7 +42,7 @@ class ProjectController extends Controller
             return redirect(ProjectUtil::getProjectAction($project));
         }
 
-        $project->load('members', 'releases', 'game', 'media');
+        $project->load('members', 'releases', 'game', 'media', 'repositories');
 
         return view('project.show', compact('project'));
     }

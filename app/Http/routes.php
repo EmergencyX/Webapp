@@ -55,6 +55,14 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('mods/{id}/create-media', 'ProjectController@createMedia');
         Route::post('mods/{id}/store-media', 'ProjectController@storeMedia');
 
+        Route::get('users/{id}/edit', 'UserController@edit');
+        Route::patch('users/{id}', 'UserController@update');
+
+
         Route::get('media/{id}/delete', 'MediaController@delete');
+        
+        Route::get('mods/{id}/repositories/create', 'ProjectRepositoryController@create');
+        Route::get('mods/{id}/repositories', 'ProjectRepositoryController@index'); //Todo: Seo hier?
+        Route::get('mods/{id}/repositories/{project_repository_id}/release/create', 'ReleaseController@create');
     });
 });
