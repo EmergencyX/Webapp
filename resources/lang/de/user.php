@@ -1,6 +1,7 @@
 <?php
 return [
-  'profile_of' => 'Profil von',
-  'projects_of' => 'Projekte von',
-  'all_users'   => 'Alle Mitglieder'
+    'profile_of'  => 'Profil von',
+    'projects_of' => 'Projekte von',
+    'all_users'   => 'Alle Mitglieder',
+    'edit'        => 'Profil bearbeiten',
 ];
