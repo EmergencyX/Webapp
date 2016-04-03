@@ -35,4 +35,8 @@ class User extends Authenticatable
     function projects() {
         return $this->belongsToMany(Project::class)->withPivot('role');
     }
+
+    function getThumbnail() {
+        return asset('storage/user-' . $this->id . '.jpg');
+    }
 }
