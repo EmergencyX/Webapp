@@ -30,6 +30,7 @@ class ProjectUtil
      * @param \EmergencyExplorer\Project $project
      *
      * @return string
+     * 
      */
     public static function getProjectAction(Project $project)
     {

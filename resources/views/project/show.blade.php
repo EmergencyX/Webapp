@@ -13,10 +13,22 @@
         <div class="col-md-8">
             @can('edit', $project)
             <a href="{{ action('ProjectController@createMedia', $project->id) }}" class="btn btn-secondary">{{ trans('project.create_media') }}</a>
-            <a href="{{ action('ProjectRepositoryController@index', $project->id) }}" class="btn btn-secondary">{{ trans('project.create_release') }}</a>
+            @if($project->repositories->count() > 0)
+                <a href="{{ action('ReleaseController@index', $project->id) }}" class="btn btn-secondary">{{ trans('project.create_release') }}</a>
+            @endif
+            <a href="{{ action('ProjectRepositoryController@create', $project->id) }}" class="btn btn-secondary">{{ trans('project.create_repository') }}</a>
             @endcan
 
-            <p>Todo: Aktivitäten</p>
+            @forelse($activities as $activity)
+                <p>{{ trans('activity.' .$activity['topic'], $activity['meta']) }} <br>
+                    <small class="text-muted">{{ $activity['timestamp']->diffForHumans() }}</small>
+                </p>
+                @if(isset($activity['meta']['url']))
+                    <img class="figure-img img-fluid img-rounded" src="{{ $activity['meta']['url'] }}" style="max-width: 64px">
+                @endif
+            @empty
+                <p>Keine Aktivitäten verfügbar.</p>
+            @endforelse
         </div>
         <div class="col-md-4">
             <div class="card card-block">

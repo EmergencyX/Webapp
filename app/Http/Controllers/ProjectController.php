@@ -3,6 +3,7 @@
 namespace EmergencyExplorer\Http\Controllers;
 
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
+use EmergencyExplorer\Util\ProjectActivityUtil;
 use EmergencyExplorer\Util\ProjectUtil;
 use Illuminate\Http\Request;
 
@@ -16,13 +17,20 @@ use EmergencyExplorer\Util\MediaUtil;
 class ProjectController extends Controller
 {
     /**
+     * @var ProjectActivityUtil
+     */
+    protected $projectActivityUtil;
+
+    /**
      * ProjectController constructor.
      *
-     * @param \EmergencyExplorer\Http\View\Helper\NavigationHelper $navigationHelper
+     * @param NavigationHelper $navigationHelper
+     * @param ProjectActivityUtil $projectActivityUtil
      */
-    public function __construct(NavigationHelper $navigationHelper)
+    public function __construct(NavigationHelper $navigationHelper, ProjectActivityUtil $projectActivityUtil)
     {
         $navigationHelper->setSection(NavigationHelper::PROJECTS);
+        $this->projectActivityUtil = $projectActivityUtil;
     }
 
     function index()
@@ -35,7 +43,7 @@ class ProjectController extends Controller
     function show($id, $seo = null)
     {
         $project = Project::findOrFail($id);
-        $slug = ProjectUtil::getProjectSlug($project);
+        $slug    = ProjectUtil::getProjectSlug($project);
 
         if (urldecode($seo) != urldecode($slug)) {
 
@@ -43,8 +51,10 @@ class ProjectController extends Controller
         }
 
         $project->load('members', 'releases', 'game', 'media', 'repositories');
+        
+        $activities = $this->projectActivityUtil->getRecentActivities($project, 5);
 
-        return view('project.show', compact('project'));
+        return view('project.show', compact('project', 'activities'));
     }
 
     function create()
@@ -65,7 +75,7 @@ class ProjectController extends Controller
     function edit($id)
     {
         $project = Project::findOrFail($id);
-        $games = Game::all()->pluck('name', 'id');
+        $games   = Game::all()->pluck('name', 'id');
 
         return view('project.edit', compact('project', 'games'));
     }
@@ -90,13 +100,14 @@ class ProjectController extends Controller
     function storeMedia(Request $request, $id)
     {
         //Todo: Check permission
-        $user = $request->user();
+        $user    = $request->user();
         $project = Project::findOrFail($id);
-        $file = $request->file('media');
+        $file    = $request->file('media');
         if ($request->hasFile('media') && $file->isValid()) {
             $media = MediaUtil::createMedia($request->only('name', 'description'), $file);
             $project->media()->save($media);
-        }   
+        }
+
         return redirect(ProjectUtil::getProjectAction($project));
     }
 

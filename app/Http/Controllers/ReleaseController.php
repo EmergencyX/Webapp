@@ -16,8 +16,11 @@ class ReleaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
+        $project = Project::with(['repositories', 'repositories.releases'])->findOrFail($id);
+
+        return view('project.release.index', compact('project'));
     }
 
     /**
@@ -30,22 +33,30 @@ class ReleaseController extends Controller
      */
     public function create($id, $project_repository_id)
     {
-        $project           = Project::findOrFail($id);
-        $projectRepository = ProjectRepository::findOrFail($project_repository_id);
+        $project    = Project::findOrFail($id);
+        $repository = ProjectRepository::findOrFail($project_repository_id);
 
-        return view('project.release.create', compact('project', 'projectRepository'));
+        return view('project.release.create', compact('project', 'repository'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
+     * @param \EmergencyExplorer\Project $project
+     * @param \EmergencyExplorer\ProjectRepository $repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project, ProjectRepository $repository)
     {
-        //
+        $release = new Release($request->only(['name']));
+
+        $release->extra        = "{}";
+        $release->release_type = 3;
+        $repository->releases()->save($release);
+
+        return redirect(action('ReleaseController@show', [$project->id, $release->id]));
     }
 
     /**

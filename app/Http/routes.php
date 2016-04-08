@@ -65,7 +65,10 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('mods/{id}/repositories', 'ProjectRepositoryController@index'); //Todo: Seo hier?
         Route::get('mods/{id}/repositories/{project_repository_id}/release/create', 'ReleaseController@create');
 
+        Route::post('mods/{project}/repositories/{repository}/release', 'ReleaseController@store');
+        Route::get('mods/{id}/releases', 'ReleaseController@index');
         Route::get('mods/{id}/releases/{release_id}', 'ReleaseController@show');
+
 
     });
 });
