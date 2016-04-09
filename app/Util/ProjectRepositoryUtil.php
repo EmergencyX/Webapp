@@ -17,4 +17,14 @@ class ProjectRepositoryUtil
     {
         return $projectRepository->repository_type != ProjectRepository::REPOSITORY_TYPE_BIN;
     }
+
+    /**
+     * Get a list of all available repository types (could be upgraded to a db)
+     *
+     * @return array
+     */
+    public static function getRepositoryTypes()
+    {
+        return [ProjectRepository::REPOSITORY_TYPE_BIN];
+    }
 }

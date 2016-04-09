@@ -1,42 +1,73 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>{{ trans('project.project_short') }} {{ $project->name }}</h1>
-    @can('edit', $project)
-    <a href="{{ action('ProjectController@edit', $project->id) }}" class="btn btn-primary">{{ trans('project.edit') }}</a>
-    <a href="{{ action('ProjectController@delete', $project->id) }}" class="btn btn-danger">{{ trans('project.delete') }}</a>
-    @endcan
-
-    <p>{{ $project->description }}</p>
+    <img class="figure-img img-fluid" src="{{ $project->media->first()->getThumbnail('md') }}" style="width:100%;max-height:300px;object-fit: cover;" alt="{{ $project->name }}">
 
     <div class="row">
         <div class="col-md-8">
-            @can('edit', $project)
-            <a href="{{ action('ProjectController@createMedia', $project->id) }}" class="btn btn-secondary">{{ trans('project.create_media') }}</a>
-            @if($project->repositories->count() > 0)
-                <a href="{{ action('ReleaseController@index', $project->id) }}" class="btn btn-secondary">{{ trans('project.create_release') }}</a>
-            @endif
-            <a href="{{ action('ProjectRepositoryController@create', $project->id) }}" class="btn btn-secondary">{{ trans('project.create_repository') }}</a>
-            @endcan
+            <h1>{{ trans('project.project_short') }} {{ $project->name }}            </h1>
+
+            <p>{{ $project->description }}</p>
+
+
+            <br>
+
+            <div class="card">
+                <div class="card-block">
+                    <p class="card-title m-b-0">Neues Release veröffentlicht</p>
+                    <p class="card-text">Upgraden (/^-^)/</p>
+                    <p class="card-text">
+                        <small class="text-muted">Irgendwann, irgendwie, irgendwo</small>
+                    </p>
+                </div>
+            </div>
 
             @forelse($activities as $activity)
-                <p>{{ trans('activity.' .$activity['topic'], $activity['meta']) }} <br>
-                    <small class="text-muted">{{ $activity['timestamp']->diffForHumans() }}</small>
-                </p>
-                @if(isset($activity['meta']['url']))
-                    <img class="figure-img img-fluid img-rounded" src="{{ $activity['meta']['url'] }}" style="max-width: 64px">
-                @endif
+                <div class="card">
+                    <div class="card-block">
+                        <p class="card-title m-b-0">{{ trans('activity.' .$activity['topic'], $activity['meta']) }}</p>
+                        @if(isset($activity['meta']['description']))
+                            <p class="card-text">{{ $activity['meta']['description']}}</p>
+                        @endif
+
+                        @if(isset($activity['meta']['url']))
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img class="img-fluid img-rounded" src="{{ $activity['meta']['url'] }}">
+                                </div>
+                            </div>
+                        @endif
+
+                        <p class="card-text">
+                            <small class="text-muted">{{ $activity['timestamp']->diffForHumans() }}</small>
+                        </p>
+                    </div>
+                </div>
             @empty
                 <p>Keine Aktivitäten verfügbar.</p>
             @endforelse
         </div>
         <div class="col-md-4">
-            <div class="card card-block">
+            <div class="card card-block m-t-1">
                 <h4 class="card-title">Modifikation installieren</h4>
                 <a href="#" class="btn btn-primary">Installieren</a>
             </div>
 
-            <ul class="list-group">
+            @can('edit', $project)
+            <div class="list-group" style="margin-bottom:0.75rem">
+                <a href="{{ action('ProjectController@edit', $project->id) }}" class="list-group-item">{{ trans('project.edit') }}</a>
+
+                <a href="{{ action('ProjectController@createMedia', $project->id) }}" class="list-group-item">{{ trans('project.create_media') }}</a>
+                @if($project->repositories->count() > 0)
+                    <a href="{{ action('ProjectRepositoryController@index', $project->id) }}" class="list-group-item">{{ trans('project.create_release') }}</a>
+                @else
+                    <a href="{{ action('ProjectRepositoryController@create', $project) }}" class="list-group-item">{{ trans('project.create_repository') }}</a>
+                @endif
+                <a href="{{ action('ProjectRepositoryController@index', $project) }}" class="list-group-item">{{ trans('project.show_repositories') }}</a>
+            </div>
+            @endcan
+
+            <ul class="list-group" style="margin-bottom:0.75rem">
                 <li class="list-group-item">
                     <div class="clearfix">
                         <p>
@@ -52,7 +83,7 @@
                         </p>
                     </div>
                     <ul class="list-inline">
-                        @foreach($project->releases->take(2) as $release)
+                        @foreach($project->releases->sortByDesc('updated_at')->take(2) as $release)
                             <li class="list-inline-item">
                                 @if($release->beta)
                                     <span class="label label-primary">Beta</span>
@@ -101,7 +132,7 @@
                         </p>
                     </div>
                     <div class="row">
-                        @foreach($project->media->take(4) as $media)
+                        @foreach($project->media->sortByDesc('updated_at')->take(4) as $media)
                             <div class="col-md-3 col-xs-3">
                                 <img class="figure-img img-fluid img-rounded" src="{{ $media->getThumbnail() }}" alt="{{ $media->name }}">
                             </div>
@@ -109,6 +140,25 @@
                     </div>
                 </li>
             </ul>
+
+            <div class="card card-block">
+                <p class="card-text">
+                    Repositories
+                    <a class="pull-xs-right" href="{{ action('ProjectRepositoryController@index', $project) }}">
+                        Alle <i class="fa fa-chevron-right"></i>
+                    </a>
+                </p>
+                <ul class="list-inline">
+                    @foreach($project->repositories->sortByDesc('updated_at')->take(2) as $repository)
+                        <li class="list-inline-item">
+                            <a href="{{ action('ProjectRepositoryController@show', [$project, $repository]) }}">
+                                {{ $repository->name }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
             @can('edit', $project)
             <div class="card card-block">
                 <p class="card-text">
@@ -117,6 +167,8 @@
                 <a href="{{ action('ProjectController@delete', $project->id) }}" class="btn btn-danger">{{ trans('project.delete') }}</a>
             </div>
             @endcan
+
+
         </div>
     </div>
 

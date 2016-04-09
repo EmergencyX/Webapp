@@ -3,14 +3,15 @@
 @section('content')
     <h1>Repositories
         <br>
-        <small>für {{ $project->name }}</small>
+        <small>für <a href="{{ \EmergencyExplorer\Util\ProjectUtil::getProjectAction($project)  }}">{{ $project->name }}</a>
+        <a href="{{ action('ProjectRepositoryController@create', $project) }}">Neues Repository erstellen</a></small>
     </h1>
     <table class="table table-striped">
         <thead>
         <tr>
             <th>Id</th>
             <th>Name</th>
-            <th>Release erstellen</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -18,7 +19,9 @@
             <tr>
                 <th scope="row">{{ $repository->id }}</th>
                 <td>{{ $repository->name }}</td>
-                <td><a href="{{ action('ReleaseController@create', [$project->id, $repository->id]) }}">Release
+                <td><a href="{{ action('ProjectRepositoryController@show', [$project, $repository]) }}">Repository
+                                                                                                        ansehen</a>
+                    <a href="{{ action('ReleaseController@create', [$project->id, $repository->id]) }}">Release
                                                                                                         erstellen</a>
                 </td>
             </tr>

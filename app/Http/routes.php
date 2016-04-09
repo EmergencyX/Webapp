@@ -61,9 +61,13 @@ Route::group(['middleware' => ['web']], function () {
 
         Route::get('media/{id}/delete', 'MediaController@delete');
         
-        Route::get('mods/{id}/repositories/create', 'ProjectRepositoryController@create');
-        Route::get('mods/{id}/repositories', 'ProjectRepositoryController@index'); //Todo: Seo hier?
         Route::get('mods/{id}/repositories/{project_repository_id}/release/create', 'ReleaseController@create');
+
+        Route::get('mods/{project}/repositories', 'ProjectRepositoryController@index'); //Todo: Seo hier?
+        Route::get('mods/{project}/repositories/{repository}', 'ProjectRepositoryController@show')->where('repository', '[0-9]+');
+        Route::get('mods/{project}/repositories/create', 'ProjectRepositoryController@create');
+
+        Route::post('mods/{project}/repositories', 'ProjectRepositoryController@store');
 
         Route::post('mods/{project}/repositories/{repository}/release', 'ReleaseController@store');
         Route::get('mods/{id}/releases', 'ReleaseController@index');

@@ -13,8 +13,13 @@ return [
         9 => 'Admin',
     ],
 
-    'create'       => 'Neue Modifikation erstellen',
-    'edit'         => 'Bearbeiten',
-    'delete'       => 'Löschen',
-    'create_media' => 'Bild hochladen',
+    'create'            => 'Neue Modifikation erstellen',
+    'edit'              => 'Bearbeiten',
+    'delete'            => 'Löschen',
+    'create_media'      => 'Bild hochladen',
+    'create_release'    => 'Neue Version veröffentlichen',
+    'create_repository' => 'Repository hinzufügen',
+    'show_repositories' => 'Repositories anzeigen',
+
+    
 ];

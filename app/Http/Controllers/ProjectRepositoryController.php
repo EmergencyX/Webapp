@@ -3,6 +3,9 @@
 namespace EmergencyExplorer\Http\Controllers;
 
 use EmergencyExplorer\Project;
+use EmergencyExplorer\ProjectRepository;
+use EmergencyExplorer\Util\ProjectRepositoryUtil;
+use Illuminate\Cache\Repository;
 use Illuminate\Http\Request;
 
 use EmergencyExplorer\Http\Requests;
@@ -12,11 +15,13 @@ class ProjectRepositoryController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Project $project
+     *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index(Project $project)
     {
-        $project = Project::with('repositories')->findOrFail($id);
+        $project->load('repositories');
 
         return view('project.repository.index', compact('project'));
     }
@@ -24,13 +29,15 @@ class ProjectRepositoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param Project $project
+     *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create(Project $project)
     {
-        $project = Project::findOrFail($id);
+        $repositoryTypes = ProjectRepositoryUtil::getRepositoryTypes();
 
-        return view('project.repository.create', compact('project'));
+        return view('project.repository.create', compact('project', 'repositoryTypes'));
     }
 
     /**
@@ -38,23 +45,31 @@ class ProjectRepositoryController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      *
+     * @param Project $project
+     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project)
     {
-        //
+        $repository = new ProjectRepository($request->only(['name', 'visible', 'repository_type']));
+        $project->repositories()->save($repository);
+        
+        return redirect(action('ProjectRepositoryController@show', compact('project', 'repository')));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param Project $project
+     * @param ProjectRepository $repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Project $project, ProjectRepository $repository)
     {
-        //
+        $repository->load('releases');
+        
+        return view('project.repository.show', compact('project','repository'));
     }
 
     /**

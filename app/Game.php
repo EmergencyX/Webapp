@@ -18,6 +18,6 @@ class Game extends Model
 
     function versions()
     {
-        return $this->hasMany(GameVersion::class);
+        return $this->hasMany(GameVersion::class)->orderBy('sequence', 'asc');
     }
 }

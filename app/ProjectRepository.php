@@ -11,6 +11,9 @@ class ProjectRepository extends Model
     const REPOSITORY_TYPE_GIT = 2;
     const REPOSITORY_TYPE_SVN = 3;
 
+    protected $fillable = ['name', 'visible', 'repository_type'];
+
+
     public function project()
     {
         return $this->belongsTo(Project::class);

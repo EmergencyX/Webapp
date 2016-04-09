@@ -33,7 +33,7 @@ class ReleaseController extends Controller
      */
     public function create($id, $project_repository_id)
     {
-        $project    = Project::findOrFail($id);
+        $project    = Project::with(['game', 'game.versions'])->findOrFail($id);
         $repository = ProjectRepository::findOrFail($project_repository_id);
 
         return view('project.release.create', compact('project', 'repository'));
@@ -50,7 +50,7 @@ class ReleaseController extends Controller
      */
     public function store(Request $request, Project $project, ProjectRepository $repository)
     {
-        $release = new Release($request->only(['name', 'beta', 'visible']));
+        $release = new Release($request->only(['name', 'beta', 'visible', 'game_version_id']));
         $repository->releases()->save($release);
 
         return redirect(action('ReleaseController@show', [$project->id, $release->id]));

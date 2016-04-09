@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Release extends Model
 {
-    protected $fillable = ['name'];
-    
+    protected $fillable = ['name', 'visible', 'beta', 'game_version_id'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
