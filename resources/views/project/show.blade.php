@@ -54,7 +54,12 @@
                     <ul class="list-inline">
                         @foreach($project->releases->take(2) as $release)
                             <li class="list-inline-item">
-                                <a href="{{ action('ReleaseController@show', [$project->id, $release->id]) }}">{{ $release->name }}</a>
+                                @if($release->beta)
+                                    <span class="label label-primary">Beta</span>
+                                @endif
+                                <a href="{{ action('ReleaseController@show', [$project->id, $release->id]) }}">
+                                    {{ $release->name }}
+                                </a>
                             </li>
                         @endforeach
                     </ul>
@@ -104,6 +109,14 @@
                     </div>
                 </li>
             </ul>
+            @can('edit', $project)
+            <div class="card card-block">
+                <p class="card-text">
+                    Projekt löschen
+                </p>
+                <a href="{{ action('ProjectController@delete', $project->id) }}" class="btn btn-danger">{{ trans('project.delete') }}</a>
+            </div>
+            @endcan
         </div>
     </div>
 
