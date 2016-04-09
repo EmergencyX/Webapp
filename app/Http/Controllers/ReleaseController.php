@@ -50,10 +50,7 @@ class ReleaseController extends Controller
      */
     public function store(Request $request, Project $project, ProjectRepository $repository)
     {
-        $release = new Release($request->only(['name']));
-
-        $release->extra        = "{}";
-        $release->release_type = 3;
+        $release = new Release($request->only(['name', 'beta', 'visible']));
         $repository->releases()->save($release);
 
         return redirect(action('ReleaseController@show', [$project->id, $release->id]));

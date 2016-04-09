@@ -19,7 +19,7 @@ class MediaUtil
      */
     public static function createMedia(array $mediaInfo, UploadedFile $file)
     {
-        $media = Media::create(array_merge($mediaInfo, ['meta' => '{}']));
+        $media = Media::create($mediaInfo);
         $file->move(storage_path('app'), $media->id . '.' . $file->getClientOriginalExtension());
 
         $filePath = storage_path('app/' . $media->id . '.' . $file->getClientOriginalExtension());
