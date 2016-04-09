@@ -32,7 +32,7 @@ class Project extends Model
 
     function admins()
     {
-        return $this->users()->withPivot('role')->wherePivot('role', self::PROJECT_ROLE_ADMIN);
+        return $this->users()->wherePivot('role', self::PROJECT_ROLE_ADMIN);
     }
 
     function watchers()
@@ -47,7 +47,7 @@ class Project extends Model
 
     function media()
     {
-        return $this->belongsToMany(Media::class);
+        return $this->belongsToMany(Media::class)->withPivot('user_id');
     }
 
     function repositories()

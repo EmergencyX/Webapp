@@ -14,7 +14,7 @@ class ExtendProjectsTable extends Migration
     {
         Schema::table('projects', function (Blueprint $table) {
             $table->tinyInteger('status')->after('description');
-            $table->boolean('visible')->after('status');
+            $table->boolean('visible')->after('status')->default(true);
         });
     }
 

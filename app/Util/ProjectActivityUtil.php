@@ -4,6 +4,7 @@ namespace EmergencyExplorer\Util;
 
 use EmergencyExplorer\Media;
 use EmergencyExplorer\Project;
+use EmergencyExplorer\User;
 use Illuminate\Cache\Repository as CacheRepository;
 use Illuminate\Support\Collection as Collection;
 
@@ -68,7 +69,7 @@ class ProjectActivityUtil
             return $this->createActivity(self::TOPIC_MEDIA,
                 [
                     'url'  => $media->getThumbnail(),
-                    'name' => 'Someone',
+                    'name' => User::findOrFail($media->pivot->user_id)->name,
                 ], $media->updated_at);
         });
 

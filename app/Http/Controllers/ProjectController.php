@@ -105,7 +105,7 @@ class ProjectController extends Controller
         $file    = $request->file('media');
         if ($request->hasFile('media') && $file->isValid()) {
             $media = MediaUtil::createMedia($request->only('name', 'description'), $file);
-            $project->media()->save($media);
+            $project->media()->save($media, ['user_id' => $user->id]);
         }
 
         return redirect(ProjectUtil::getProjectAction($project));
