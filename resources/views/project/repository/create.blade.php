@@ -7,6 +7,7 @@
     </h1>
     <form method="post" action="{{ action('ProjectRepositoryController@store', compact('project')) }}">
         {!! Form::token() !!}
+ {!! Form::hidden('visible', 0) !!}
         <fieldset class="form-group">
             <label for="name">{{ trans('repository.create.name') }}</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="{{ trans('repository.create.placeholder_name') }}">

@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+@unless($project->media->isEmpty())
     <img class="figure-img img-fluid" src="{{ $project->media->first()->getThumbnail('md') }}" style="width:100%;max-height:300px;object-fit: cover;" alt="{{ $project->name }}">
-
+@endunless
     <div class="row">
         <div class="col-md-8">
-            <h1>{{ trans('project.project_short') }} {{ $project->name }}            </h1>
+            <h1>{{ $project->name }}</h1>
 
             <p>{{ $project->description }}</p>
 
