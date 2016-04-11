@@ -33,11 +33,11 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('mods', 'ProjectController@index');
     Route::get('mods/{id}', 'ProjectController@show')->where('id', '[0-9]+');
-    Route::get('mods/{id}-{seo}', 'ProjectController@show')->where(['id'=>'[0-9]+','seo'=>'.*']);
+    Route::get('mods/{id}-{seo}', 'ProjectController@show')->where(['id' => '[0-9]+', 'seo' => '.*']);
 
     Route::get('users', 'UserController@index');
     Route::get('users/{id}', 'UserController@show')->where('id', '[0-9]+');
-    Route::get('users/{id}-{seo}', 'UserController@show')->where(['id'=>'[0-9]+','seo'=>'.*']);
+    Route::get('users/{id}-{seo}', 'UserController@show')->where(['id' => '[0-9]+', 'seo' => '.*']);
 
     Route::group(['middleware' => ['auth']], function () {
         Route::get('notifications', 'NotificationController@index');
@@ -60,11 +60,12 @@ Route::group(['middleware' => ['web']], function () {
 
 
         Route::get('media/{id}/delete', 'MediaController@delete');
-        
+
         Route::get('mods/{id}/repositories/{project_repository_id}/release/create', 'ReleaseController@create');
 
         Route::get('mods/{project}/repositories', 'ProjectRepositoryController@index'); //Todo: Seo hier?
-        Route::get('mods/{project}/repositories/{repository}', 'ProjectRepositoryController@show')->where('repository', '[0-9]+');
+        Route::get('mods/{project}/repositories/{repository}', 'ProjectRepositoryController@show')->where('repository',
+            '[0-9]+');
         Route::get('mods/{project}/repositories/create', 'ProjectRepositoryController@create');
 
         Route::post('mods/{project}/repositories', 'ProjectRepositoryController@store');
@@ -73,6 +74,10 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('mods/{id}/releases', 'ReleaseController@index');
         Route::get('mods/{id}/releases/{release_id}', 'ReleaseController@show');
 
-
+        Route::get('mods/{project}/install', 'ReleaseInstallationController@index');
+        Route::get('release/{release}/post-install', 'ReleaseInstallationController@postInstall');
+        Route::get('release/{release}/post-uninstall', 'ReleaseInstallationController@postUninstall');
+        Route::get('release/{release}/post-cancel', 'ReleaseInstallationController@postCancel');
+        Route::get('release/{release}/post-play', 'ReleaseInstallationController@postPlay');
     });
 });

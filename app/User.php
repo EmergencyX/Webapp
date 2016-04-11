@@ -36,6 +36,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class)->withPivot('role');
     }
 
+    function installedReleases() {
+        return $this->belongsToMany(Release::class)->withPivot('progress');
+    }
+
     function getThumbnail() {
         return asset('storage/user-' . $this->id . '.jpg');
     }

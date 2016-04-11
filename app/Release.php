@@ -15,4 +15,20 @@ class Release extends Model
     {
         return $this->belongsTo(ProjectRepository::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function gameVersion()
+    {
+        return $this->belongsTo(GameVersion::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class)->withPivot('progress');
+    }
 }

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-@unless($project->media->isEmpty())
-    <img class="figure-img img-fluid" src="{{ $project->media->first()->getThumbnail('md') }}" style="width:100%;max-height:300px;object-fit: cover;" alt="{{ $project->name }}">
-@endunless
+    @unless($project->media->isEmpty())
+        <img class="figure-img img-fluid" src="{{ $project->media->first()->getThumbnail('md') }}" style="width:100%;max-height:300px;object-fit: cover;" alt="{{ $project->name }}">
+    @endunless
     <div class="row">
         <div class="col-md-8">
             <h1>{{ $project->name }}</h1>
@@ -49,9 +49,17 @@
             @endforelse
         </div>
         <div class="col-md-4">
+            <div class="m-t-1">
+                <a href="{{ action('ProjectInstallationController@index', $project) }}" class="btn btn-primary">
+                    <i class="fa fa-play"></i> Spielen
+                </a>
+                <a href="{{ '#' }}" class="btn btn-danger"><i class="fa fa-fire-extinguisher"></i> Beobachten</a>
+            </div>
+
             <div class="card card-block m-t-1">
-                <h4 class="card-title">Modifikation installieren</h4>
-                <a href="#" class="btn btn-primary">Installieren</a>
+                <p class="card-title">Multiplayer
+                    <br/><span class="text-muted">Keine aktive Spiele. <a href="#" class="btn btn-sm btn-secondary">Erstellen</a></span>
+                </p>
             </div>
 
             @can('edit', $project)
