@@ -4,6 +4,7 @@ namespace EmergencyExplorer\Http\Controllers;
 
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use EmergencyExplorer\Util\ProjectActivityUtil;
+use EmergencyExplorer\Util\ProjectRepositoryUtil;
 use EmergencyExplorer\Util\ProjectUtil;
 use Illuminate\Http\Request;
 
@@ -68,6 +69,7 @@ class ProjectController extends Controller
     {
         $project = Project::create($request->only(['name', 'description', 'status', 'game_id', 'visible']));
         $project->users()->save($request->user(), ['role' => Project::PROJECT_ROLE_ADMIN]);
+        $project->repositories()->save(ProjectRepositoryUtil::newMainRepository($project));
 
         return redirect(ProjectUtil::getProjectAction($project));
     }
@@ -120,6 +122,8 @@ class ProjectController extends Controller
             MediaUtil::deleteMedia($media);
         });
         $project->members()->detach();
+        $project->releases()->delete();
+        $project->repositories()->delete();
         //delete some more here
         $project->delete();
 

@@ -2,6 +2,7 @@
 
 namespace EmergencyExplorer\Util;
 
+use EmergencyExplorer\Project;
 use EmergencyExplorer\ProjectRepository;
 
 class ProjectRepositoryUtil
@@ -26,5 +27,23 @@ class ProjectRepositoryUtil
     public static function getRepositoryTypes()
     {
         return [ProjectRepository::REPOSITORY_TYPE_BIN];
+    }
+
+    /**
+     * @param Project $project
+     *
+     * @return ProjectRepository
+     */
+    public static function newMainRepository(Project $project)
+    {
+        $repository = new ProjectRepository([
+            'repository_type' => ProjectRepository::REPOSITORY_TYPE_FLL,
+            'visible'         => 1,
+            'name'            => "$project->id-main",
+        ]);
+
+        //Todo: Spawn job to create repository directory
+
+        return $repository;
     }
 }

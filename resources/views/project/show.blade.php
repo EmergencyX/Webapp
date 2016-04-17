@@ -12,7 +12,12 @@
 
 
             <br>
+            <a href="{{ action('ReleaseInstallationController@index', $project) }}" class="btn btn-primary">
+                <i class="fa fa-play"></i> Spielen
+            </a>
+            <a href="{{ '#' }}" class="btn btn-danger"><i class="fa fa-fire-extinguisher"></i> Beobachten</a>
 
+            {{--
             <div class="card">
                 <div class="card-block">
                     <p class="card-title m-b-0">Neues Release veröffentlicht</p>
@@ -47,63 +52,32 @@
             @empty
                 <p>Keine Aktivitäten verfügbar.</p>
             @endforelse
+            --}}
         </div>
         <div class="col-md-4">
             <div class="m-t-1">
-                <a href="{{ action('ProjectInstallationController@index', $project) }}" class="btn btn-primary">
-                    <i class="fa fa-play"></i> Spielen
-                </a>
-                <a href="{{ '#' }}" class="btn btn-danger"><i class="fa fa-fire-extinguisher"></i> Beobachten</a>
+
             </div>
 
+            {{-- See you in a later version
             <div class="card card-block m-t-1">
                 <p class="card-title">Multiplayer
                     <br/><span class="text-muted">Keine aktive Spiele. <a href="#" class="btn btn-sm btn-secondary">Erstellen</a></span>
                 </p>
             </div>
+            --}}
 
             @can('edit', $project)
             <div class="list-group" style="margin-bottom:0.75rem">
                 <a href="{{ action('ProjectController@edit', $project->id) }}" class="list-group-item">{{ trans('project.edit') }}</a>
 
                 <a href="{{ action('ProjectController@createMedia', $project->id) }}" class="list-group-item">{{ trans('project.create_media') }}</a>
-                @if($project->repositories->count() > 0)
-                    <a href="{{ action('ProjectRepositoryController@index', $project->id) }}" class="list-group-item">{{ trans('project.create_release') }}</a>
-                @else
-                    <a href="{{ action('ProjectRepositoryController@create', $project) }}" class="list-group-item">{{ trans('project.create_repository') }}</a>
-                @endif
-                <a href="{{ action('ProjectRepositoryController@index', $project) }}" class="list-group-item">{{ trans('project.show_repositories') }}</a>
+
+                <a href="{{ action('ReleaseController@create', $project->id) }}" class="list-group-item">{{ trans('project.create_release') }}</a>
             </div>
             @endcan
 
             <ul class="list-group" style="margin-bottom:0.75rem">
-                <li class="list-group-item">
-                    <div class="clearfix">
-                        <p>
-                            Versionen
-                            @if($project->releases->count() > 4)
-                                <a class="pull-xs-right" href="#">
-                                    Alle <i class="fa fa-chevron-right"></i>
-                                </a>
-                            @endif
-                            @if($project->releases->isEmpty())
-                                <br/><span class="text-muted">L10n Keine Versionen</span>
-                            @endif
-                        </p>
-                    </div>
-                    <ul class="list-inline">
-                        @foreach($project->releases->sortByDesc('updated_at')->take(2) as $release)
-                            <li class="list-inline-item">
-                                @if($release->beta)
-                                    <span class="label label-primary">Beta</span>
-                                @endif
-                                <a href="{{ action('ReleaseController@show', [$project->id, $release->id]) }}">
-                                    {{ $release->name }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </li>
                 <li class="list-group-item">
                     <div class="clearfix">
                         <p>
@@ -149,7 +123,7 @@
                     </div>
                 </li>
             </ul>
-
+            {{--
             <div class="card card-block">
                 <p class="card-text">
                     Repositories
@@ -167,7 +141,7 @@
                     @endforeach
                 </ul>
             </div>
-
+            --}}
             @can('edit', $project)
             <div class="card card-block">
                 <p class="card-text">
@@ -176,61 +150,6 @@
                 <a href="{{ action('ProjectController@delete', $project->id) }}" class="btn btn-danger">{{ trans('project.delete') }}</a>
             </div>
             @endcan
-
-
         </div>
     </div>
-
-    <h3>Mitglieder</h3>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Role</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($project->members as $member)
-            <tr>
-                <th scope="row">{{ $member->id }}</th>
-                <td><a href="{{ \EmergencyExplorer\Util\UserUtil::getUserAction($member) }}">{{ $member->name }}</a>
-                </td>
-                <td>{{ trans('project.role.' . $member->pivot->role) }}</td>
-            </tr>
-        @endforeach     
-        </tbody>
-    </table>
-    <h3>Releases</h3>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Erstellt</th>
-            <th>Download</th>
-        </tr>
-        </thead>
-        <tbody>
-              @foreach($project->releases as $release)
-            <tr>
-                <th scope="row">{{ $release->id }}</th>
-                <td>{{ $release->name }}</td>
-                <td>{{ $release->created_at }}</td>
-                <td>
-                    <a href="{{ \EmergencyExplorer\Util\ReleaseUtil::getDownloadLink($release) }}" class="btn btn-secondary">Download</a>
-                </td>
-            </tr>
-               @endforeach
-        </tbody>
-    </table>
-    <h3>Bilder</h3>
-    @foreach($project->media as $media)
-        <figure class="figure">
-            <img class="figure-img img-fluid img-rounded" src="{{ $media->getThumbnail() }}" alt="{{ $media->name }}">
-            <figcaption class="figure-caption"><strong>{{ $media->name }}</strong>{{ $media->description }}
-                <a href="{{ action('MediaController@delete', $media->id) }}" class="text-danger">Löschen</a>
-            </figcaption>
-        </figure>
-    @endforeach
 @endsection
