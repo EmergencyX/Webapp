@@ -27,14 +27,13 @@ class ReleaseController extends Controller
      * Show the form for creating a new resource.
      *
      * @param $id
-     * @param $project_repository_id
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id, $project_repository_id)
+    public function create($id)
     {
-        $project    = Project::with(['game', 'game.versions'])->findOrFail($id);
-        $repository = ProjectRepository::findOrFail($project_repository_id);
+        $project    = Project::with(['game', 'game.versions', 'repositories', 'repositories.releases'])->findOrFail($id);
+        $repository = $project->repositories->first();
 
         return view('project.release.create', compact('project', 'repository'));
     }
@@ -54,6 +53,11 @@ class ReleaseController extends Controller
         $repository->releases()->save($release);
 
         return redirect(action('ReleaseController@show', [$project->id, $release->id]));
+    }
+
+    public function createFromUpload()
+    {
+        
     }
 
     /**

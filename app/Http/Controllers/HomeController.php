@@ -25,8 +25,14 @@ class HomeController extends Controller
     /**
      * @return View
      */
-    function index() {
-        $projects = Project::with('media')->orderBy('updated_at','desc')->limit(5)->get();
+    function index(Request $request) {
+        $private  = $request->user() ? $request->user()->projects->pluck('id') : [];
+        $projects = Project::with('media')
+            ->whereIn('id', $private)
+            ->orWhere('visible', 1)
+            ->orderBy('updated_at','desc')
+            ->limit(9)
+            ->get();
         
         return view('home.index', compact('projects'));
     }

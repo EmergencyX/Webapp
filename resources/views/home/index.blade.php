@@ -1,5 +1,5 @@
 @extends('layouts.app') @section('content')
-    <h2 class="h4 m-b-0 m-t-1 text-muted">BELIEBT</h2>
+    <h2 class="h4 m-b-0 m-t-1 text-muted">AKTUELLE PROJEKTE</h2>
     <div class="row">
         @foreach($projects as $project)
             <div class="col-md-4">

@@ -61,7 +61,7 @@ Route::group(['middleware' => ['web']], function () {
 
         Route::get('media/{id}/delete', 'MediaController@delete');
 
-        Route::get('mods/{id}/repositories/{project_repository_id}/release/create', 'ReleaseController@create');
+        Route::get('mods/{id}/create-release', 'ReleaseController@create');
 
         Route::get('mods/{project}/repositories', 'ProjectRepositoryController@index'); //Todo: Seo hier?
         Route::get('mods/{project}/repositories/{repository}', 'ProjectRepositoryController@show')->where('repository',

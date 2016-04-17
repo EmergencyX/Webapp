@@ -4,6 +4,7 @@ namespace EmergencyExplorer\Http\Controllers;
 
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use EmergencyExplorer\Util\ProjectActivityUtil;
+use EmergencyExplorer\Util\ProjectRepositoryUtil;
 use EmergencyExplorer\Util\ProjectUtil;
 use Illuminate\Http\Request;
 
@@ -33,9 +34,18 @@ class ProjectController extends Controller
         $this->projectActivityUtil = $projectActivityUtil;
     }
 
-    function index()
+    /**
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return mixed
+     */
+    function index(Request $request)
     {
-        $projects = Project::with(['game', 'media'])->get();
+        $private  = $request->user() ? $request->user()->projects->pluck('id') : [];
+        $projects = Project::with(['game', 'media'])
+            ->whereIn('id', $private)
+            ->orWhere('visible', 1)
+            ->get();
 
         return view('project.index', compact('projects'));
     }
@@ -51,7 +61,7 @@ class ProjectController extends Controller
         }
 
         $project->load('members', 'releases', 'game', 'media', 'repositories');
-        
+
         $activities = $this->projectActivityUtil->getRecentActivities($project, 5);
 
         return view('project.show', compact('project', 'activities'));
@@ -68,6 +78,7 @@ class ProjectController extends Controller
     {
         $project = Project::create($request->only(['name', 'description', 'status', 'game_id', 'visible']));
         $project->users()->save($request->user(), ['role' => Project::PROJECT_ROLE_ADMIN]);
+        $project->repositories()->save(ProjectRepositoryUtil::newMainRepository($project));
 
         return redirect(ProjectUtil::getProjectAction($project));
     }
@@ -120,6 +131,8 @@ class ProjectController extends Controller
             MediaUtil::deleteMedia($media);
         });
         $project->members()->detach();
+        $project->releases()->delete();
+        $project->repositories()->delete();
         //delete some more here
         $project->delete();
 
