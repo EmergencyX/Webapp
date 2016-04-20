@@ -3,6 +3,7 @@
 namespace EmergencyExplorer\Http\Controllers;
 
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
+use EmergencyExplorer\Repositories\Project as ProjectRepository;
 use EmergencyExplorer\Util\ProjectActivityUtil;
 use EmergencyExplorer\Util\ProjectRepositoryUtil;
 use EmergencyExplorer\Util\ProjectUtil;
@@ -20,7 +21,11 @@ class ProjectController extends Controller
     /**
      * @var ProjectActivityUtil
      */
-    protected $projectActivityUtil;
+    private $projectActivityUtil;
+    /**
+     * @var \EmergencyExplorer\Repositories\Project
+     */
+    private $projectRepository;
 
     /**
      * ProjectController constructor.
@@ -28,10 +33,12 @@ class ProjectController extends Controller
      * @param NavigationHelper $navigationHelper
      * @param ProjectActivityUtil $projectActivityUtil
      */
-    public function __construct(NavigationHelper $navigationHelper, ProjectActivityUtil $projectActivityUtil)
+    public function __construct(NavigationHelper $navigationHelper, ProjectActivityUtil $projectActivityUtil,
+        ProjectRepository $projectRepository)
     {
         $navigationHelper->setSection(NavigationHelper::PROJECTS);
         $this->projectActivityUtil = $projectActivityUtil;
+        $this->projectRepository = $projectRepository;
     }
 
     /**
@@ -41,11 +48,7 @@ class ProjectController extends Controller
      */
     function index(Request $request)
     {
-        $private  = $request->user() ? $request->user()->projects->pluck('id') : [];
-        $projects = Project::with(['game', 'media'])
-            ->whereIn('id', $private)
-            ->orWhere('visible', 1)
-            ->get();
+        $projects = $this->projectRepository->paginated($request->user());
 
         return view('project.index', compact('projects'));
     }

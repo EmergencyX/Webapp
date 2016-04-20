@@ -4,6 +4,8 @@ namespace EmergencyExplorer\Providers;
 
 use Carbon\Carbon;
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
+use Illuminate\Pagination\BootstrapFourPresenter;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Carbon::setLocale(config('app.locale'));
+
+        Paginator::presenter(function($paginator) {
+            return new BootstrapFourPresenter($paginator);
+        });
     }
 
     /**
