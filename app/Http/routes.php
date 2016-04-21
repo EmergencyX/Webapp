@@ -70,6 +70,8 @@ Route::group(['middleware' => ['web']], function () {
 
         Route::post('mods/{project}/repositories', 'ProjectRepositoryController@store');
 
+        Route::get('mods/{project}/toggle-follow', 'ProjectController@toggleFollow');
+
         Route::post('mods/{project}/repositories/{repository}/release', 'ReleaseController@store');
         Route::get('mods/{id}/releases', 'ReleaseController@index');
         Route::get('mods/{id}/releases/{release_id}', 'ReleaseController@show');

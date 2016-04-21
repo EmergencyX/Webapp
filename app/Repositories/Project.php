@@ -13,18 +13,10 @@ class Project
      *
      * @return Collection
      */
-    public function recentProjects(User $user)
+    public function recentProjects(User $user = null)
     {
-        $query = ProjectModel::with('media')
-            ->where('visible', 1)
-            ->orderBy('updated_at', 'desc')
-            ->limit(9);
-
-        if ($user) {
-            $query->orWhereHas('users', function ($query) use ($user) {
-                $query->where('project_user.user_id', $user->id);
-            });
-        }
+        $query = $this->visibleProjects($user);
+        $query->orderBy('updated_at', 'desc')->limit(9);
 
         return $query->get();
     }
@@ -34,7 +26,14 @@ class Project
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginated(User $user)
+    public function paginated(User $user = null)
+    {
+        $query = $this->visibleProjects($user);
+
+        return $query->paginate(25);
+    }
+
+    protected function visibleProjects(User $user = null)
     {
         $query = ProjectModel::with('media')->where('visible', 1);
 
@@ -44,6 +43,6 @@ class Project
             });
         }
 
-        return $query->paginate(25);
+        return $query;
     }
 }

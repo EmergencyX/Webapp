@@ -7,6 +7,7 @@ use EmergencyExplorer\Repositories\Project as ProjectRepository;
 use EmergencyExplorer\Util\ProjectActivityUtil;
 use EmergencyExplorer\Util\ProjectRepositoryUtil;
 use EmergencyExplorer\Util\ProjectUtil;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 
 use EmergencyExplorer\Http\Requests;
@@ -33,12 +34,14 @@ class ProjectController extends Controller
      * @param NavigationHelper $navigationHelper
      * @param ProjectActivityUtil $projectActivityUtil
      */
-    public function __construct(NavigationHelper $navigationHelper, ProjectActivityUtil $projectActivityUtil,
-        ProjectRepository $projectRepository)
-    {
+    public function __construct(
+        NavigationHelper $navigationHelper,
+        ProjectActivityUtil $projectActivityUtil,
+        ProjectRepository $projectRepository
+    ) {
         $navigationHelper->setSection(NavigationHelper::PROJECTS);
         $this->projectActivityUtil = $projectActivityUtil;
-        $this->projectRepository = $projectRepository;
+        $this->projectRepository   = $projectRepository;
     }
 
     /**
@@ -140,5 +143,31 @@ class ProjectController extends Controller
         $project->delete();
 
         return redirect()->action('HomeController@index');
+    }
+
+    public function toggleFollow(Request $request, Project $project)
+    {
+        if (! $project->relationLoaded('user')) {
+            $project->load('users');
+        }
+
+        if ($user = $project->users->where('id', $request->user()->id)->first()) {
+            if ($user->pivot->role != Project::PROJECT_ROLE_WATCHER) {
+                throw new \Exception('User is a member, not only a watcher. Leave the project instead.');
+            }
+            $project->users()->detach($user);
+            notification('stopped_following_project', ['meta' => ['project' => $project->id]]);
+
+            return back();
+        } else {
+            if(!$project->visible) {
+                throw new \Exception('This is a hidden project. You are either in or out.');
+            }
+
+            $project->users()->save($request->user(), ['role' => Project::PROJECT_ROLE_WATCHER]);
+            notification('following_project', ['meta' => ['project' => $project->id]]);
+
+            return back();
+        }
     }
 }

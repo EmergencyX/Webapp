@@ -31,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        require_once app_path('Util/Helper.php');
+
         app()->singleton(NavigationHelper::class, function() {
             return new NavigationHelper();
         });

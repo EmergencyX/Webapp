@@ -10,12 +10,17 @@
 
             <p>{{ $project->description }}</p>
 
-
             <br>
             <a href="{{ action('ReleaseInstallationController@index', $project) }}" class="btn btn-primary">
                 <i class="fa fa-play"></i> Spielen
             </a>
-            <a href="{{ '#' }}" class="btn btn-danger"><i class="fa fa-fire-extinguisher"></i> Beobachten</a>
+            <a href="{{ action('ProjectController@toggleFollow', $project) }}" class="btn btn-danger">
+                @if(Auth::user()->isFollowingProject($project))
+                    <i class="fa fa-fire-extinguisher"></i> Nicht mehr beobachten
+                @else
+                    <i class="fa fa-fire-extinguisher"></i> Beobachten
+                @endif
+            </a>
 
             {{--
             <div class="card">
