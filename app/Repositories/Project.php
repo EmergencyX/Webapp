@@ -3,17 +3,17 @@
 namespace EmergencyExplorer\Repositories;
 
 use EmergencyExplorer\Project as ProjectModel;
-use EmergencyExplorer\User;
+use EmergencyExplorer\User as UserModel;
 use Illuminate\Database\Eloquent\Collection;
 
 class Project
 {
     /**
-     * @param \EmergencyExplorer\User $user
+     * @param UserModel $user
      *
      * @return Collection
      */
-    public function recentProjects(User $user = null)
+    public function recentProjects(UserModel $user = null)
     {
         $query = $this->visibleProjects($user);
         $query->orderBy('updated_at', 'desc')->limit(9);
@@ -22,18 +22,23 @@ class Project
     }
 
     /**
-     * @param \EmergencyExplorer\User $user
+     * @param UserModel $user
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginated(User $user = null)
+    public function paginated(UserModel $user = null)
     {
         $query = $this->visibleProjects($user);
 
         return $query->paginate(25);
     }
 
-    protected function visibleProjects(User $user = null)
+    /**
+     * @param UserModel|null $user
+     *
+     * @return mixed
+     */
+    protected function visibleProjects(UserModel $user = null)
     {
         $query = ProjectModel::with('media')->where('visible', 1);
 
@@ -44,5 +49,18 @@ class Project
         }
 
         return $query;
+    }
+
+    /**
+     * Ensure project followers are removed when the project is marked as private
+     *
+     * @param ProjectModel $project
+     * @param bool $visible
+     */
+    public function updateVisibility(ProjectModel $project, bool $visible = true)
+    {
+        if (! $visible) {
+            $project->watchers()->detach();
+        }
     }
 }

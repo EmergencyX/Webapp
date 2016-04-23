@@ -62,7 +62,6 @@ class ProjectController extends Controller
         $slug    = ProjectUtil::getProjectSlug($project);
 
         if (urldecode($seo) != urldecode($slug)) {
-
             return redirect(ProjectUtil::getProjectAction($project));
         }
 
@@ -101,6 +100,11 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
         $project->update($request->only(['name', 'description', 'status', 'visible']));
+        if ($request->has('visible')) {
+            //we should fail if this is not given. Whatever...
+            $this->projectRepository->updateVisibility($project, $request->get('visible'));
+        }
+
         $project->save();
 
         return redirect(ProjectUtil::getProjectAction($project));
@@ -160,7 +164,7 @@ class ProjectController extends Controller
 
             return back();
         } else {
-            if(!$project->visible) {
+            if (! $project->visible) {
                 throw new \Exception('This is a hidden project. You are either in or out.');
             }
 

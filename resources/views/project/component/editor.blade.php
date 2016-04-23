@@ -23,7 +23,7 @@
     <fieldset>
     {!! Form::label('visible', trans('project.status')) !!}
     {!! Form::select('visible', 
-    ['1' => 'Öffentlich', '2' => 'Nur mit Einladung'],
+    ['1' => 'Öffentlich', '0' => 'Nur mit Einladung'],
     isset($project->visible) ? $project->visible : '1',
     ['class'=>'c-select form-control']) !!}
     <small class="text-muted">{{ trans('project.visibility_description') }}</small>

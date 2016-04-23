@@ -12,7 +12,14 @@ background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 );
 ">
                             <h4 class="card-title m-b-0">{{ $project->name }}</h4>
-                            <p class="card-text">{{ $project->description }}</p>
+                            <p class="card-text">{{ $project->description }}<br>
+                                <i class="fa fa-fire-extinguisher"></i> {{ $project->users()->count() }}
+                                <i class="m-l-2 fa fa-play" aria-hidden="true"></i> {{ random_int(30,40) }}
+                                {{--
+                                May we meet again
+                                <i class="m-l-2 fa fa-gamepad" aria-hidden="true"></i> {{ random_int(0,3) }}
+                                --}}
+                            </p>
                         </div>
                     </div>
                 </a>

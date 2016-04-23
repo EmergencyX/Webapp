@@ -6,7 +6,12 @@
     @endunless
     <div class="row">
         <div class="col-md-8">
-            <h1>{{ $project->name }}</h1>
+            <h1>
+                {{ $project->name }}
+                @if($project->visible == 0)
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                @endif
+            </h1>
 
             <p>{{ $project->description }}</p>
 
@@ -14,13 +19,15 @@
             <a href="{{ action('ReleaseInstallationController@index', $project) }}" class="btn btn-primary">
                 <i class="fa fa-play"></i> Spielen
             </a>
-            <a href="{{ action('ProjectController@toggleFollow', $project) }}" class="btn btn-danger">
-                @if(Auth::user()->isFollowingProject($project))
-                    <i class="fa fa-fire-extinguisher"></i> Nicht mehr beobachten
-                @else
-                    <i class="fa fa-fire-extinguisher"></i> Beobachten
-                @endif
-            </a>
+            @if (Auth::check())
+                <a href="{{ action('ProjectController@toggleFollow', $project) }}" class="btn btn-danger">
+                    @if (Auth::user()->isFollowingProject($project))
+                        <i class="fa fa-fire-extinguisher"></i> ({{ $project->users()->count() }}) Nicht mehr beobachten
+                    @else
+                        <i class="fa fa-fire-extinguisher"></i> ({{ $project->users()->count() }}) Beobachten
+                    @endif
+                </a>
+            @endif
 
             {{--
             <div class="card">
