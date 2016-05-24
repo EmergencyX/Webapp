@@ -25,6 +25,7 @@
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'HomeController@index');
+    Route::get('/download', 'HomeController@download');
 
     // Authentication routes...
     Route::get('auth/login', 'Auth\AuthController@getLogin');
@@ -75,6 +76,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('mods/{project}/repositories/{repository}/release', 'ReleaseController@store');
         Route::get('mods/{id}/releases', 'ReleaseController@index');
         Route::get('mods/{id}/releases/{release_id}', 'ReleaseController@show');
+        Route::get('mods/{project}/releases/{release}/destroy', 'ReleaseController@destroy');
+
 
         Route::get('mods/{project}/install', 'ReleaseInstallationController@index');
         Route::get('release/{release}/post-install', 'ReleaseInstallationController@postInstall');

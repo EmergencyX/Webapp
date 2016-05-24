@@ -30,9 +30,22 @@ class HomeController extends Controller
     /**
      * @return View
      */
-    function index(Request $request) {
+    public function index(Request $request)
+    {
         $projects = $this->projectRepository->recentProjects($request->user());
-        
+
         return view('home.index', compact('projects'));
+    }
+
+
+    public function download()
+    {
+        $view = view('home.download');
+
+        if ($projectId = session('want_to_play_project')) {
+            $view->with('project', $this->projectRepository->find($projectId));
+        }
+
+        return $view;
     }
 }

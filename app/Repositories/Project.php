@@ -4,10 +4,36 @@ namespace EmergencyExplorer\Repositories;
 
 use EmergencyExplorer\Project as ProjectModel;
 use EmergencyExplorer\User as UserModel;
+use EmergencyExplorer\Util\ProjectRepositoryUtil;
 use Illuminate\Database\Eloquent\Collection;
 
 class Project
 {
+    /**
+     * @var ProjectModel
+     */
+    protected $project;
+
+    /**
+     * Project constructor.
+     *
+     * @param \EmergencyExplorer\Project $project
+     */
+    public function __construct(ProjectModel $project)
+    {
+        $this->project = $project;
+    }
+
+    /**
+     * @param integer $projectId
+     *
+     * @return ProjectModel|null
+     */
+    public function find(integer $projectId)
+    {
+        return $this->project->findOrFail($projectId);
+    }
+
     /**
      * @param UserModel $user
      *
@@ -40,7 +66,7 @@ class Project
      */
     protected function visibleProjects(UserModel $user = null)
     {
-        $query = ProjectModel::with('media')->where('visible', 1);
+        $query = $this->project->with('media')->where('visible', 1);
 
         if ($user) {
             $query->orWhereHas('users', function ($query) use ($user) {
@@ -49,6 +75,19 @@ class Project
         }
 
         return $query;
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return ProjectModel
+     */
+    public function createProject(array $parameters)
+    {
+        $project = $this->project->create($parameters);
+        $project->repositories()->save(ProjectRepositoryUtil::newMainRepository($project));
+
+        return $project;
     }
 
     /**

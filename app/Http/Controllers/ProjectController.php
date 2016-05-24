@@ -2,15 +2,13 @@
 
 namespace EmergencyExplorer\Http\Controllers;
 
+use Illuminate\Http\Request;
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use EmergencyExplorer\Repositories\Project as ProjectRepository;
 use EmergencyExplorer\Util\ProjectActivityUtil;
 use EmergencyExplorer\Util\ProjectRepositoryUtil;
 use EmergencyExplorer\Util\ProjectUtil;
 use Illuminate\Auth\Access\Gate;
-use Illuminate\Http\Request;
-
-use EmergencyExplorer\Http\Requests;
 
 use EmergencyExplorer\Game;
 use EmergencyExplorer\Project;
@@ -22,17 +20,19 @@ class ProjectController extends Controller
     /**
      * @var ProjectActivityUtil
      */
-    private $projectActivityUtil;
+    protected $projectActivityUtil;
+
     /**
      * @var \EmergencyExplorer\Repositories\Project
      */
-    private $projectRepository;
+    protected $projectRepository;
 
     /**
      * ProjectController constructor.
      *
      * @param NavigationHelper $navigationHelper
      * @param ProjectActivityUtil $projectActivityUtil
+     * @param \EmergencyExplorer\Repositories\Project $projectRepository
      */
     public function __construct(
         NavigationHelper $navigationHelper,
@@ -81,9 +81,14 @@ class ProjectController extends Controller
 
     function store(Request $request)
     {
-        $project = Project::create($request->only(['name', 'description', 'status', 'game_id', 'visible']));
+        $project = $this->projectRepository->createProject($request->only([
+            'name',
+            'description',
+            'status',
+            'game_id',
+            'visible',
+        ]));
         $project->users()->save($request->user(), ['role' => Project::PROJECT_ROLE_ADMIN]);
-        $project->repositories()->save(ProjectRepositoryUtil::newMainRepository($project));
 
         return redirect(ProjectUtil::getProjectAction($project));
     }

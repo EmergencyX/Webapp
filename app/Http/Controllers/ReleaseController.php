@@ -2,9 +2,12 @@
 
 namespace EmergencyExplorer\Http\Controllers;
 
+use Gate;
+
 use EmergencyExplorer\Project;
 use EmergencyExplorer\ProjectRepository;
 use EmergencyExplorer\Release;
+use EmergencyExplorer\Util\ProjectUtil;
 use Illuminate\Http\Request;
 
 use EmergencyExplorer\Http\Requests;
@@ -32,7 +35,12 @@ class ReleaseController extends Controller
      */
     public function create($id)
     {
-        $project    = Project::with(['game', 'game.versions', 'repositories', 'repositories.releases'])->findOrFail($id);
+        $project = Project::with([
+            'game',
+            'game.versions',
+            'repositories',
+            'repositories.releases',
+        ])->findOrFail($id);
         $repository = $project->repositories->first();
 
         return view('project.release.create', compact('project', 'repository'));
@@ -42,7 +50,7 @@ class ReleaseController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param \EmergencyExplorer\Project $project
+     * @param Project $project
      * @param \EmergencyExplorer\ProjectRepository $repository
      *
      * @return \Illuminate\Http\Response
@@ -57,7 +65,7 @@ class ReleaseController extends Controller
 
     public function createFromUpload()
     {
-        
+
     }
 
     /**
@@ -101,15 +109,20 @@ class ReleaseController extends Controller
         //
     }
 
+
     /**
-     * Remove the specified resource from storage.
+     * @param Project $project
+     * @param Release $release
      *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Project $project, Release $release)
     {
-        //
+        if (Gate::allows('edit', $project)) {
+            $release->delete();
+        }
+
+        return redirect(ProjectUtil::getProjectAction($project));
     }
 }

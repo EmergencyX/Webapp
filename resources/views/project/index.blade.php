@@ -7,10 +7,9 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Id</th>
+            <th style="min-width: 128px;">Vorschau</th>
             <th>Name</th>
             <th>Game</th>
-            <th>Link</th>
         </tr>
         </thead>
         <tbody>
@@ -18,12 +17,18 @@
             <tr>
                 <th scope="row">
                     @if($project->media->count() > 0)
-                        <img src="{{  $project->media->first()->getThumbnail() }}" alt="{{ $project->name }}"/>
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <img class="embed-responsive-item" src="{{  $project->media->first()->getThumbnail() }}" alt="{{ $project->name }}"/>
+                        </div>
                     @endif
                 </th>
-                <td>{{ $project->name }}</td>
+                <td>
+                    <a href="{{ \EmergencyExplorer\Util\ProjectUtil::getProjectAction($project) }}" class="h4">
+                        {{ $project->name }}
+                    </a>
+                    <p>{{ $project->description }}</p>
+                </td>
                 <td>{{ $project->game->name }}</td>
-                <td><a href="{{ \EmergencyExplorer\Util\ProjectUtil::getProjectAction($project) }}">Link</a></td>
             </tr>
         @endforeach
         </tbody>

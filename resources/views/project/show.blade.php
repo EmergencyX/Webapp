@@ -16,15 +16,18 @@
             <p>{{ $project->description }}</p>
 
             <br>
-            <a href="{{ action('ReleaseInstallationController@index', $project) }}" class="btn btn-primary">
-                <i class="fa fa-play"></i> Spielen
+            <a href="{{ action('ReleaseInstallationController@index', $project) }}"
+                    class="btn btn-primary @if($project->releases->isEmpty()) disabled @endif">
+                <i class="fa fa-play"></i> {{ trans('project.play') }}
             </a>
             @if (Auth::check())
                 <a href="{{ action('ProjectController@toggleFollow', $project) }}" class="btn btn-danger">
                     @if (Auth::user()->isFollowingProject($project))
-                        <i class="fa fa-fire-extinguisher"></i> ({{ $project->users()->count() }}) Nicht mehr beobachten
+                        <i class="fa fa-fire-extinguisher"></i> {{ $project->users()->count() }}
+                        {{ trans('project.stop_following') }}
                     @else
-                        <i class="fa fa-fire-extinguisher"></i> ({{ $project->users()->count() }}) Beobachten
+                        <i class="fa fa-fire-extinguisher"></i> {{ $project->users()->count() }}
+                        {{ trans('project.start_following') }}
                     @endif
                 </a>
             @endif
@@ -80,13 +83,13 @@
             --}}
 
             @can('edit', $project)
-            <div class="list-group" style="margin-bottom:0.75rem">
-                <a href="{{ action('ProjectController@edit', $project->id) }}" class="list-group-item">{{ trans('project.edit') }}</a>
+                <div class="list-group" style="margin-bottom:0.75rem">
+                    <a href="{{ action('ProjectController@edit', $project->id) }}" class="list-group-item">{{ trans('project.edit') }}</a>
 
-                <a href="{{ action('ProjectController@createMedia', $project->id) }}" class="list-group-item">{{ trans('project.create_media') }}</a>
+                    <a href="{{ action('ProjectController@createMedia', $project->id) }}" class="list-group-item">{{ trans('project.create_media') }}</a>
 
-                <a href="{{ action('ReleaseController@create', $project->id) }}" class="list-group-item">{{ trans('project.create_release') }}</a>
-            </div>
+                    <a href="{{ action('ReleaseController@index', $project->id) }}" class="list-group-item">{{ trans('project.releases') }}</a>
+                </div>
             @endcan
 
             <ul class="list-group" style="margin-bottom:0.75rem">
@@ -155,12 +158,12 @@
             </div>
             --}}
             @can('edit', $project)
-            <div class="card card-block">
-                <p class="card-text">
-                    Projekt löschen
-                </p>
-                <a href="{{ action('ProjectController@delete', $project->id) }}" class="btn btn-danger">{{ trans('project.delete') }}</a>
-            </div>
+                <div class="card card-block">
+                    <p class="card-text">
+                        Projekt löschen
+                    </p>
+                    <a href="{{ action('ProjectController@delete', $project->id) }}" class="btn btn-danger">{{ trans('project.delete') }}</a>
+                </div>
             @endcan
         </div>
     </div>
