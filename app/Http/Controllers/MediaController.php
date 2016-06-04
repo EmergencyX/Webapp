@@ -18,4 +18,9 @@ class MediaController extends Controller
         MediaUtil::deleteMedia($media);
         return back();
     }
+
+    public function store()
+    {
+        
+    }
 }
