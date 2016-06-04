@@ -6,6 +6,7 @@ use EmergencyExplorer\Media;
 
 use EmergencyExplorer\User;
 use Gate;
+use Auth;
 use Thumbnail; //Todo: Use DIJ instead of facade
 use Illuminate\Http\UploadedFile;
 
@@ -19,11 +20,16 @@ class MediaUtil
      */
     public static function createMedia(array $mediaInfo, UploadedFile $file)
     {
+        ///** @var Media\EmergencyUploadImage $testEmUpload */
+        //$testEmUpload = app(Media\EmergencyUploadImage::class);
+        //$testEmUpload->uploadImage($file, Auth::user());
+        //return;
+
         $media = Media::create($mediaInfo);
         $file->move(storage_path('app'), $media->id . '.' . $file->getClientOriginalExtension());
 
         $filePath = storage_path('app/' . $media->id . '.' . $file->getClientOriginalExtension());
-        $imagine = Thumbnail::open($filePath);
+        $imagine  = Thumbnail::open($filePath);
         $imagine->thumbnail(new \Imagine\Image\Box(128, 128), \Imagine\Image\ImageInterface::THUMBNAIL_OUTBOUND)
             ->save(public_path('storage/' . $media->id . '-xs.jpg'));
         $imagine->thumbnail(new \Imagine\Image\Box(720, 256), \Imagine\Image\ImageInterface::THUMBNAIL_OUTBOUND)

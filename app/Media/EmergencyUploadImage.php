@@ -4,15 +4,24 @@ namespace EmergencyExplorer\Media;
 
 use EmergencyExplorer\Media as MediaModel;
 use EmergencyExplorer\User as UserModel;
+use EmergencyExplorer\Util\EmergencyUploadApi;
 use Illuminate\Http\UploadedFile;
 
 class EmergencyUploadImage implements Image
 {
     /**
-     * EmergencyUploadImage constructor.
+     * @var \EmergencyExplorer\Util\EmergencyUploadApi
      */
-    public function __construct()
+    protected $uploadApi;
+
+    /**
+     * EmergencyUploadImage constructor.
+     *
+     * @param \EmergencyExplorer\Util\EmergencyUploadApi $uploadApi
+     */
+    public function __construct(EmergencyUploadApi $uploadApi)
     {
+        $this->uploadApi = $uploadApi;
     }
 
     /**
@@ -23,7 +32,7 @@ class EmergencyUploadImage implements Image
      */
     public function uploadImage(UploadedFile $file, UserModel $user)
     {
-        // TODO: Implement uploadImage() method.
+        $this->uploadApi->uploadImage($file, []);
     }
 
     public function deleteImage(MediaModel $media)
