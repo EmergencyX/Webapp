@@ -47,7 +47,7 @@ class EmergencyUploadApi
         $this->apiKey = env('EM_UPLOAD_API_KEY');
     }
 
-    public function uploadImage(UploadedFile $file, array $options)
+    public function createImage(string $filepath, array $options)
     {
         //Todo: As we can not set a title, we should try to set the filename
 
@@ -59,7 +59,7 @@ class EmergencyUploadApi
                 ],
                 [
                     'name'     => 'source',
-                    'contents' => fopen($file->getRealPath(), 'r'),
+                    'contents' => fopen($filepath, 'r'),
                 ],
             ],
             'headers'  => ['User-Agent' => 'EmergencyExplorer/0.0.1 EmergencyUploadApi/1'],

@@ -23,14 +23,13 @@
     <fieldset>
     {!! Form::label('provider', trans('media.provider')) !!}
     {!! Form::select('provider', 
-    ['1' => 'EmergencyX', '2' => 'Emergency Forum Image Upload'],
-    '1',
+    ['local' => 'EmergencyX', 'em-upload' => 'Emergency Forum Image Upload'],
+    'local',
     ['class' => 'c-select form-control']
     ) !!}
     <small class="text-muted">{{ trans('media.provider') }}</small>
     </fieldset>
 </div>
-
 </div>
     
 {!! Form::file('media') !!}

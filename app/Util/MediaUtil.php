@@ -12,52 +12,6 @@ use Illuminate\Http\UploadedFile;
 
 class MediaUtil
 {
-    /**
-     * @param array $mediaInfo
-     * @param UploadedFile $file
-     *
-     * @return Media
-     */
-    public static function createMedia(array $mediaInfo, UploadedFile $file)
-    {
-        ///** @var Media\EmergencyUploadImage $testEmUpload */
-        //$testEmUpload = app(Media\EmergencyUploadImage::class);
-        //$testEmUpload->uploadImage($file, Auth::user());
-        //return;
-
-        $media = Media::create($mediaInfo);
-        $filename = $media->id . '.' . $file->getClientOriginalExtension();
-        
-        $file->move(storage_path('app'), $filename);
-        $filepath = storage_path('app/'. $filename);
-        
-        //Heads up! destroy() does not delete the image, as the previous save() might suggest.
-        //Instead the used image instance is destroyed and therefore memory freed.
-        Image::make($filepath)->fit(128, 128)->save(public_path('storage/' . $media->id . '-xs.jpg'))->destroy();
-        Image::make($filepath)->fit(320, 180)->save(public_path('storage/' . $media->id . '-sm.jpg'))->destroy();
-        Image::make($filepath)->fit(640, 360)->save(public_path('storage/' . $media->id . '-md.jpg'))->destroy();
-
-        $imageLg = Image::make($filepath);
-        if ($imageLg->height() > 1920 || $imageLg->width() > 1920) {
-            if ($imageLg->height() > $imageLg->width()) {
-                $imageLg->fit(1080, 1920, function ($constraint) {
-                    $constraint->upsize();
-                });
-            } else {
-                $imageLg->fit(1920, 1080, function ($constraint) {
-                    $constraint->upsize();
-                });
-            }
-            $imageLg->save(public_path('storage/' . $media->id . '-lg.jpg'));
-        }
-        $imageLg->destroy();
-        
-        logger()->info('Generated thumbnails for media', $media->toArray());
-
-        //unlink($filePath); //Todo: Keep the original file for later re-processing?
-        return $media;
-    }
-
 
     /**
      * @param \EmergencyExplorer\User $user
@@ -81,8 +35,11 @@ class MediaUtil
      */
     public static function getThumbnail(Media $media = null, $size = 'xs')
     {
+
         if ($media) {
-            return asset('storage/' . $media->id . '-' . $size . '.jpg');
+            return $media->getImageLink($size);
+
+            //return asset('storage/' . $media->id . '-' . $size . '.jpg');
         }
 
         return asset('storage/26-' . $size . '.jpg');

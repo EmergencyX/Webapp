@@ -32,11 +32,16 @@ class EmergencyUploadImage implements Image
      */
     public function uploadImage(UploadedFile $file, UserModel $user)
     {
-        $this->uploadApi->uploadImage($file, []);
     }
 
     public function deleteImage(MediaModel $media)
     {
         // TODO: Implement deleteImage() method.
+    }
+
+
+    public function shouldQueue()
+    {
+        return true;
     }
 }

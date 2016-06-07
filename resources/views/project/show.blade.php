@@ -132,7 +132,7 @@
                     <div class="row">
                         @foreach($project->media->sortByDesc('updated_at')->take(4) as $media)
                             <div class="col-md-3 col-xs-3">
-                                <img class="figure-img img-fluid img-rounded" src="{{ $media->getThumbnail() }}" alt="{{ $media->name }}">
+                                <img class="figure-img img-fluid img-rounded" src="{{ $media->getImageLink() }}" alt="{{ $media->name }}">
                             </div>
                         @endforeach
                     </div>
