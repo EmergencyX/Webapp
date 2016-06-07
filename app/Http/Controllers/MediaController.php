@@ -21,16 +21,15 @@ class MediaController extends Controller
 
     public function store()
     {
-<<<<<<< HEAD
         $providers = [
             1 => Media\LocalImage::class,
             2 => Media\EmergencyUploadImage::class
         ];
 
+        /** @var Media\Image $provider */
+        //$provider = $providers[1];
+        //$provider->uploadImage($file, $user);
+
         //Todo: Get the provider value and pass the image to upload
-        //Gnerell
-=======
-        
->>>>>>> origin/master
     }
 }

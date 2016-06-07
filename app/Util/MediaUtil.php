@@ -7,11 +7,7 @@ use EmergencyExplorer\Media;
 use EmergencyExplorer\User;
 use Gate;
 use Auth;
-<<<<<<< HEAD
 use Image; //Todo: Use DIJ instead of facade
-=======
-use Thumbnail; //Todo: Use DIJ instead of facade
->>>>>>> origin/master
 use Illuminate\Http\UploadedFile;
 
 class MediaUtil
@@ -41,7 +37,6 @@ class MediaUtil
         Image::make($filepath)->fit(320, 180)->save(public_path('storage/' . $media->id . '-sm.jpg'))->destroy();
         Image::make($filepath)->fit(640, 360)->save(public_path('storage/' . $media->id . '-md.jpg'))->destroy();
 
-<<<<<<< HEAD
         $imageLg = Image::make($filepath);
         if ($imageLg->height() > 1920 || $imageLg->width() > 1920) {
             if ($imageLg->height() > $imageLg->width()) {
@@ -57,15 +52,6 @@ class MediaUtil
         }
         $imageLg->destroy();
         
-=======
-        $filePath = storage_path('app/' . $media->id . '.' . $file->getClientOriginalExtension());
-        $imagine  = Thumbnail::open($filePath);
-        $imagine->thumbnail(new \Imagine\Image\Box(128, 128), \Imagine\Image\ImageInterface::THUMBNAIL_OUTBOUND)
-            ->save(public_path('storage/' . $media->id . '-xs.jpg'));
-        $imagine->thumbnail(new \Imagine\Image\Box(720, 256), \Imagine\Image\ImageInterface::THUMBNAIL_OUTBOUND)
-            ->save(public_path('storage/' . $media->id . '-md.jpg'));
-        $imagine->resize($imagine->getSize()->widen(1920))->save(public_path('storage/' . $media->id . '-lg.jpg'));
->>>>>>> origin/master
         logger()->info('Generated thumbnails for media', $media->toArray());
 
         //unlink($filePath); //Todo: Keep the original file for later re-processing?
