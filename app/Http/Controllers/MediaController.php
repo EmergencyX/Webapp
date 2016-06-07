@@ -18,4 +18,15 @@ class MediaController extends Controller
         MediaUtil::deleteMedia($media);
         return back();
     }
+
+    public function store()
+    {
+        $providers = [
+            1 => Media\LocalImage::class,
+            2 => Media\EmergencyUploadImage::class
+        ];
+
+        //Todo: Get the provider value and pass the image to upload
+        //Gnerell
+    }
 }

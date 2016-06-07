@@ -14,8 +14,8 @@ class ProjectPolicy
     /**
      * Check if user may add a new user
      *
-     * @param \EmergencyExplorer\User $user
-     * @param \EmergencyExplorer\Project $project
+     * @param User $user
+     * @param Project $project
      *
      * @return bool
      */
@@ -38,8 +38,8 @@ class ProjectPolicy
     /**
      * Check if user may delete project
      *
-     * @param \EmergencyExplorer\User $user
-     * @param \EmergencyExplorer\Project $project
+     * @param User $user
+     * @param Project $project
      *
      * @return bool
      */

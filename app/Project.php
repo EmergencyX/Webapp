@@ -42,7 +42,14 @@ class Project extends Model
 
     function members()
     {
-        return $this->users()->whereIn('project_user.role', [self::PROJECT_ROLE_MEMBER, self::PROJECT_ROLE_ADMIN]);
+        $memberRoles = [self::PROJECT_ROLE_MEMBER, self::PROJECT_ROLE_ADMIN];
+        return $this->users()->whereIn('project_user.role', $memberRoles);
+    }
+
+    function usersWithoutWatchers()
+    {
+        $withoutWatchers = [self::PROJECT_ROLE_TESTER, self::PROJECT_ROLE_MEMBER, self::PROJECT_ROLE_ADMIN];
+        return $this->users()->whereIn('project_user.role', $withoutWatchers);
     }
 
     function media()

@@ -21,5 +21,12 @@ return [
     'create_repository' => 'Repository hinzufügen',
     'show_repositories' => 'Repositories anzeigen',
 
-    
+    'stop_following'  => 'Nicht folgen',
+    'start_following' => 'Folgen',
+
+    'play'                       => 'Spielen',
+    'releases'                   => 'Versionen verwalten',
+
+    //We still handle this quite gracefully
+    'hint_cool_urls_dont_change' => 'Achtung: Wenn du diesen Wert änderst, wird die URL geändert.',
 ];

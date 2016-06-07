@@ -30,7 +30,7 @@
             </label>
 
             <fieldset class="form-group">
-                <label for="game_version_id">Spielversion</label>
+                <label for="game_version_id">Spielversion von {{ $project->game->name }}</label>
                 <select class="c-select form-control" id="game_version_id" name="game_version_id">
                     @foreach($project->game->versions as $gameVersion)
                         <option value="{{ $gameVersion->id }}">{{ $gameVersion->semver }}</option>
