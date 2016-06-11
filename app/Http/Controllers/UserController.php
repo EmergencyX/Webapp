@@ -66,7 +66,13 @@ class UserController extends Controller
         if ($request->hasFile('media')) {
             $file = $request->file('media');
             abort_unless($file->isValid(), 400);
-            MediaUtil::createUserMedia($user, $file);
+
+            $user = $request->user();
+            $project = Project::findOrFail($id);
+            if ($request->hasFile('media') && $file->isValid()) {
+                $imageData = ['sizes' => ['xs', 'sm'], 'provider' => 'local', 'visible' => 1];
+                $this->mediaRepository->createImage($file, $imageData, $user, $project);
+            }
         }
         
         return redirect(UserUtil::getUserAction($user));

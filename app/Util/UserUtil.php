@@ -33,4 +33,9 @@ class UserUtil
     {
         return action('UserController@show', ['id' => $user->id, 'seo' => self::getUserSlug($user)]);
     }
+    
+    public function getProfilePicture(User $user)
+    {
+        //return app(EmergencyExplorer\Repositories\Media)->
+    }
 }

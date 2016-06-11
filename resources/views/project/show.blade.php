@@ -2,7 +2,7 @@
 
 @section('content')
     @unless($project->media->isEmpty())
-        <img class="figure-img img-fluid" src="{{ $project->media->first()->getThumbnail('md') }}" style="width:100%;max-height:300px;object-fit: cover;" alt="{{ $project->name }}">
+        <img class="figure-img img-fluid" src="{{ $project->media->first()->getImageLink('lg') }}" style="width:100%;max-height:300px;object-fit: cover;" alt="{{ $project->name }}">
     @endunless
     <div class="row">
         <div class="col-md-8">

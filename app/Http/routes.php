@@ -40,6 +40,14 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('users/{id}', 'UserController@show')->where('id', '[0-9]+');
     Route::get('users/{id}-{seo}', 'UserController@show')->where(['id' => '[0-9]+', 'seo' => '.*']);
 
+    Route::get('test-qu', function() {
+       //$this->dispatch(new \EmergencyExplorer\Jobs\CreateImage('some paht', ['some'=>'data'], \EmergencyExplorer\User::find(4)));
+       
+       \Queue::pushOn('fuu', 'title', ['data'=>'here']);
+       return "dispatched";
+    });
+
+
     Route::group(['middleware' => ['auth']], function () {
         Route::get('notifications', 'NotificationController@index');
         Route::post('invitation/update', 'InvitationController@update');

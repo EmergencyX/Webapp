@@ -20,14 +20,14 @@ class Media
      * @param ProjectModel $project
      * @param UserModel $user
      */
-    public function createImage(UploadedFile $file, array $imageData, ProjectModel $project, UserModel $user)
+    public function createImage(UploadedFile $file, array $imageData, UserModel $user, ProjectModel $project = null)
     {
         //Use the file hash instead?
-        $filename = sha1($file->getRealPath() . time() . $project->id . $user->id . json_encode($imageData)) . '.' . $file->getClientOriginalExtension();
+        $filename = sha1($file->getRealPath() . time() . $user->id . json_encode($imageData)) . '.' . $file->getClientOriginalExtension();
 
         $file = $file->move(storage_path('app'), $filename);
 
-        $job = new CreateImageJob($project, $user, $file->getRealPath(), $imageData);
+        $job = new CreateImageJob($file->getRealPath(), $imageData, $user, $project);
 
         if ($this->getImageProvider($imageData['provider'])->shouldQueue()) {
             $this->dispatch($job);
@@ -54,5 +54,11 @@ class Media
         }
 
         return app(MediaModel\LocalImage::class);
+    }
+    
+    public function getProfilImageFor(UserModel $user)
+    {
+        //MediaModel::where()
+        return;
     }
 }

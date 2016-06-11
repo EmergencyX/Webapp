@@ -144,7 +144,7 @@ class ProjectController extends Controller
                 $request->only('name', 'description', 'provider'),
                 ['sizes' => ['xs', 'sm', 'md', 'lg']]
             );
-            $this->mediaRepository->createImage($file, $imageData, $project, $user);
+            $this->mediaRepository->createImage($file, $imageData, $user, $project);
         }
 
         return redirect(ProjectUtil::getProjectAction($project));

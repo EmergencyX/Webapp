@@ -46,7 +46,7 @@ class CreateImage extends Job implements ShouldQueue
      * @param string $filename
      * @param array $imageData
      */
-    public function __construct(ProjectModel $project, UserModel $user, string $filename, array $imageData)
+    public function __construct(string $filename, array $imageData, UserModel $user, ProjectModel $project = null)
     {
         $this->user = $user;
         $this->project = $project;
@@ -94,6 +94,13 @@ class CreateImage extends Job implements ShouldQueue
                 ['extra' => json_encode($created)]
             )
         );
-        $this->project->media()->save($media, ['user_id' => $this->user->id]);
+        
+        if(! is_null($project)) {
+            $this->project->media()->save($media, ['user_id' => $this->user->id]);
+        } else {
+            if ($this->imageData['category']) {
+                $media->meta = json_encode(['category' => 'profile-picture']);
+            }
+        }
     }
 }
