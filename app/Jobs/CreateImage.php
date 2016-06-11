@@ -2,7 +2,7 @@
 
 namespace EmergencyExplorer\Jobs;
 
-use EmergencyExplorer\Media\LocalImage;
+use EmergencyExplorer\Util\Media\LocalImage;
 use EmergencyExplorer\Repositories\Media as MediaRepository;
 use EmergencyExplorer\Repositories\Media;
 use Illuminate\Queue\SerializesModels;
@@ -13,7 +13,7 @@ use EmergencyExplorer\User as UserModel;
 use EmergencyExplorer\Project as ProjectModel;
 use EmergencyExplorer\Media as MediaModel;
 use EmergencyExplorer\Jobs\Job;
-use EmergencyExplorer\Media\Image as ImageProvider;
+use EmergencyExplorer\Util\Media\Image as ImageProvider;
 
 class CreateImage extends Job implements ShouldQueue
 {

@@ -66,4 +66,14 @@ class Project extends Model
     {
         return $this->hasManyThrough(Release::class, ProjectRepository::class);
     }
+
+    public function links()
+    {
+        return $this->belongsToMany(Link::class)->withPivot('type');
+    }
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
 }

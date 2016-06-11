@@ -42,15 +42,14 @@
                     </p>
                 </div>
             </div>
-
+--}}
             @forelse($activities as $activity)
                 <div class="card">
                     <div class="card-block">
-                        <p class="card-title m-b-0">{{ trans('activity.' .$activity['topic'], $activity['meta']) }}</p>
-                        @if(isset($activity['meta']['description']))
-                            <p class="card-text">{{ $activity['meta']['description']}}</p>
-                        @endif
+                        <p class="card-title m-b-0">{{ $activity->name }}</p>
+                        <p class="card-text">{!! $activity->description !!}</p>
 
+                        {{--
                         @if(isset($activity['meta']['url']))
                             <div class="row">
                                 <div class="col-md-3">
@@ -58,16 +57,16 @@
                                 </div>
                             </div>
                         @endif
-
+                        --}}
                         <p class="card-text">
-                            <small class="text-muted">{{ $activity['timestamp']->diffForHumans() }}</small>
+                            <small class="text-muted">{{ $activity->created_at->diffForHumans() }}</small>
                         </p>
                     </div>
                 </div>
             @empty
                 <p>Keine Aktivitäten verfügbar.</p>
             @endforelse
-            --}}
+
         </div>
         <div class="col-md-4">
             <div class="m-t-1">

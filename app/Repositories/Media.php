@@ -6,7 +6,9 @@ use EmergencyExplorer\Jobs\CreateImage as CreateImageJob;
 use EmergencyExplorer\Project as ProjectModel;
 use EmergencyExplorer\Media as MediaModel;
 use EmergencyExplorer\User as UserModel;
-use EmergencyExplorer\Media\Image as ImageProvider;
+use EmergencyExplorer\Util\Media\EmergencyUploadImage;
+use EmergencyExplorer\Util\Media\Image as ImageProvider;
+use EmergencyExplorer\Util\Media\LocalImage;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -44,8 +46,8 @@ class Media
     public function getImageProvider(string $providerId)
     {
         $imageProviders = [
-            MediaModel\LocalImage::IDENTIFIER => app(MediaModel\LocalImage::class),
-            'em-upload'                       => MediaModel\EmergencyUploadImage::class,
+            LocalImage::IDENTIFIER => app(LocalImage::class),
+            'em-upload'            => EmergencyUploadImage::class,
         ];
 
 
@@ -53,7 +55,7 @@ class Media
             return $imageProviders[$providerId];
         }
 
-        return app(MediaModel\LocalImage::class);
+        return app(LocalImage::class);
     }
     
     public function getProfilImageFor(UserModel $user)

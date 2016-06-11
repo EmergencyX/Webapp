@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use EmergencyExplorer\Repositories\Project as ProjectRepository;
 use EmergencyExplorer\Repositories\Media as MediaRepository;
+use EmergencyExplorer\Repositories\Activity as ActivityRepository;
 use EmergencyExplorer\Util\ProjectActivityUtil;
 use EmergencyExplorer\Util\ProjectRepositoryUtil;
 use EmergencyExplorer\Util\ProjectUtil;
@@ -34,23 +35,31 @@ class ProjectController extends Controller
     protected $mediaRepository;
 
     /**
+     * @var ActivityRepository
+     */
+    protected $activityRepository;
+
+    /**
      * ProjectController constructor.
      *
      * @param NavigationHelper $navigationHelper
      * @param ProjectActivityUtil $projectActivityUtil
      * @param ProjectRepository $projectRepository
      * @param MediaRepository $mediaRepository
+     * @param ActivityRepository $activityRepository
      */
     public function __construct(
         NavigationHelper $navigationHelper,
         ProjectActivityUtil $projectActivityUtil,
         ProjectRepository $projectRepository,
-        MediaRepository $mediaRepository
+        MediaRepository $mediaRepository,
+        ActivityRepository $activityRepository
     ) {
         $navigationHelper->setSection(NavigationHelper::PROJECTS);
         $this->projectActivityUtil = $projectActivityUtil;
         $this->projectRepository = $projectRepository;
         $this->mediaRepository = $mediaRepository;
+        $this->activityRepository = $activityRepository;
     }
 
     /**
@@ -76,7 +85,7 @@ class ProjectController extends Controller
 
         $project->load('members', 'releases', 'game', 'media', 'repositories');
 
-        $activities = $this->projectActivityUtil->getRecentActivities($project, 5);
+        $activities = $this->activityRepository->getRecentActivities($project, 5);
 
         return view('project.show', compact('project', 'activities'));
     }

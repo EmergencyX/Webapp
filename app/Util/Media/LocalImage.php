@@ -1,12 +1,10 @@
 <?php
 
-namespace EmergencyExplorer\Media;
+namespace EmergencyExplorer\Util\Media;
 
 use EmergencyExplorer\Media as MediaModel;
 use EmergencyExplorer\User as UserModel;
 use Illuminate\Http\UploadedFile;
-use Imagine\Image\AbstractImagine;
-use Imagine\Image\ImageInterface;
 
 class LocalImage implements Image
 {

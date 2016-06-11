@@ -44,7 +44,6 @@ class User extends Authenticatable
         return asset('storage/user-' . $this->id . '.jpg');
     }
 
-
     function isFollowingProject($project) {
         return $project->users->contains($this);
     }
