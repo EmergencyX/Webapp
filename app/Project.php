@@ -69,7 +69,12 @@ class Project extends Model
 
     public function links()
     {
-        return $this->belongsToMany(Link::class)->withPivot('type');
+        return $this->hasMany(Link::class);
+    }
+
+    public function supportLinks()
+    {
+        return $this->links()->where('type', 'support');
     }
 
     public function activities()

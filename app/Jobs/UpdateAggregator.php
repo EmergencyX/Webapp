@@ -2,14 +2,15 @@
 
 namespace EmergencyExplorer\Jobs;
 
-use EmergencyExplorer\Jobs\Job;
 use EmergencyExplorer\Link;
+use EmergencyExplorer\Project;
 use EmergencyExplorer\Repositories\Activity as ActivityRepository;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use EmergencyExplorer\Util\Activity\ActivityAggregator;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
-class UpdateRemoteActivity extends Job implements ShouldQueue
+class UpdateAggregator extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
     /**
@@ -18,13 +19,20 @@ class UpdateRemoteActivity extends Job implements ShouldQueue
     protected $link;
 
     /**
+     * @var Project
+     */
+    protected $project;
+
+    /**
      * Create a new job instance.
      *
+     * @param Project $project
      * @param Link $link
      */
-    public function __construct(Link $link)
+    public function __construct(Project $project, Link $link)
     {
         $this->link = $link;
+        $this->project = $project;
     }
 
     /**
@@ -34,9 +42,10 @@ class UpdateRemoteActivity extends Job implements ShouldQueue
      */
     public function handle(ActivityRepository $activityRepository)
     {
+        /** @var ActivityAggregator $activityAggregator */
         foreach ($activityRepository->getActivityAggregators() as $activityAggregator) {
-            if ($activityAggregator->canFetchFromThread($this->link->url))  {
-                $activityAggregator->updateActivitiesFromThread($this->link->url);
+            if ($activityAggregator->canFetchFromThread($this->link->url)) {
+                $activityAggregator->updateActivitiesForProject($this->project, $this->link->url, 0, 50);
             }
         }
     }

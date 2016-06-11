@@ -83,7 +83,7 @@ class ProjectController extends Controller
             return redirect(ProjectUtil::getProjectAction($project));
         }
 
-        $project->load('members', 'releases', 'game', 'media', 'repositories');
+        $project->load('members', 'releases', 'game', 'media', 'repositories', 'supportLinks');
 
         $activities = $this->activityRepository->getRecentActivities($project, 5);
 

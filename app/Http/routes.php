@@ -88,6 +88,14 @@ Route::group(['middleware' => ['web']], function () {
 
 
         Route::get('mods/{project}/install', 'ReleaseInstallationController@index');
+
+
+        Route::get('mods/{project}/links/edit', 'LinkController@edit');
+        Route::get('mods/{project}/links/{link}/delete', 'LinkController@delete');
+        Route::patch('mods/{project}/links', 'LinkController@update');
+        Route::post('mods/{project}/links', 'LinkController@store');
+
+
         Route::get('release/{release}/post-install', 'ReleaseInstallationController@postInstall');
         Route::get('release/{release}/post-uninstall', 'ReleaseInstallationController@postUninstall');
         Route::get('release/{release}/post-cancel', 'ReleaseInstallationController@postCancel');

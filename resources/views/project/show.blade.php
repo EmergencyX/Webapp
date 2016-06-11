@@ -46,7 +46,7 @@
             @forelse($activities as $activity)
                 <div class="card">
                     <div class="card-block">
-                        <p class="card-title m-b-0">{{ $activity->name }}</p>
+                        <h4 class="card-title m-b-0 strong">{{ $activity->name }}</h4>
                         <p class="card-text">{!! $activity->description !!}</p>
 
                         {{--
@@ -137,6 +137,7 @@
                     </div>
                 </li>
             </ul>
+
             {{--
             <div class="card card-block">
                 <p class="card-text">
@@ -156,14 +157,17 @@
                 </ul>
             </div>
             --}}
-            @can('edit', $project)
-                <div class="card card-block">
-                    <p class="card-text">
-                        Projekt löschen
-                    </p>
-                    <a href="{{ action('ProjectController@delete', $project->id) }}" class="btn btn-danger">{{ trans('project.delete') }}</a>
+
+                <div class="list-group">
+                    @foreach($project->supportLinks as $link)
+                        <a href="{{ $link->url }}" class="list-group-item">{{ $link->name }}
+                            <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    @endforeach
+                    @can('edit', $project)
+                        <a href="{{ action('LinkController@edit', $project) }}" class="list-group-item">Links bearbeiten</a>
+                    @endcan
                 </div>
-            @endcan
+
         </div>
     </div>
 @endsection
