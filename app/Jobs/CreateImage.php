@@ -95,7 +95,7 @@ class CreateImage extends Job implements ShouldQueue
             )
         );
         
-        if(! is_null($project)) {
+        if(! is_null($this->project)) {
             $this->project->media()->save($media, ['user_id' => $this->user->id]);
         } else {
             if ($this->imageData['category']) {

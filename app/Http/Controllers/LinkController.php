@@ -45,11 +45,16 @@ class LinkController extends Controller
         $input = $request->get('links');
 
         foreach ($input as $id => $newLink) {
+            /** @var Link $oldLink */
             $oldLink = $links->find($id);
             $oldLink->name = $newLink['name'];
             $oldLink->type = $newLink['type'];
             $oldLink->url = $newLink['url'];
             $oldLink->save();
+
+            if ($oldLink->type === 'aggregator') {
+                $this->dispatch(new UpdateAggregator($project, $oldLink));
+            }
         }
 
         return redirect(action('LinkController@edit', $project));

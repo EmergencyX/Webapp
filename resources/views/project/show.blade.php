@@ -46,7 +46,9 @@
             @forelse($activities as $activity)
                 <div class="card">
                     <div class="card-block">
-                        <h4 class="card-title m-b-0 strong">{{ $activity->name }}</h4>
+                        <h4 class="card-title m-b-0 strong">
+                            <a href="{{ $activity->url }}">{{ $activity->name }}</a>
+                        </h4>
                         <p class="card-text">{!! $activity->description !!}</p>
 
                         {{--
