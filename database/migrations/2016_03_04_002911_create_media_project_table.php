@@ -16,6 +16,7 @@ class CreateMediaProjectTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('media_id')->unsigned();
             $table->integer('project_id')->unsigned();
+            $table->integer('user_id')->unsigned();
         });
     }
 

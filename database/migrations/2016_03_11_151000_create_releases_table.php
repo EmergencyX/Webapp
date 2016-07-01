@@ -15,9 +15,11 @@ class CreateReleasesTable extends Migration
         Schema::create('releases', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('project_repository_id')->unsigned();
-            $table->tinyInteger('release_type');
+            $table->integer('game_version_id')->unsigned();
             $table->string('name');
-            $table->string('extra');
+            $table->json('meta')->nullable();
+            $table->boolean('beta')->default(false);
+            $table->boolean('visible')->default(false);
             $table->timestamps();
         });
     }

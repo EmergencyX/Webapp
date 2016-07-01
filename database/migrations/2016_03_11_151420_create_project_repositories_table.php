@@ -16,8 +16,9 @@ class CreateProjectRepositoriesTable extends Migration
             $table->increments('id');
             $table->integer('project_id')->unsigned();
             $table->tinyInteger('repository_type')->unsigned();
+            $table->boolean('visible')->default(false);
+            $table->json('meta')->nullable();
             $table->string('name');
-            $table->string('extra');
             $table->timestamps();
         });
     }

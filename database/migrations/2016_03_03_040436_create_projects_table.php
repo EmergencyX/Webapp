@@ -14,9 +14,11 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id')->unsigned();
+            $table->integer('game_id')->unsigned();
             $table->string('name');
             $table->text('description');
-            $table->integer('game_id')->unsigned();
+            $table->tinyInteger('status');
+            $table->boolean('visible')->default(true);
             $table->timestamps();
         });
     }
