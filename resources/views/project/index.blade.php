@@ -18,7 +18,7 @@
                 <th scope="row">
                     @if($project->media->count() > 0)
                         <div class="embed-responsive embed-responsive-16by9">
-                            <img class="embed-responsive-item" src="{{  $project->media->first()->getThumbnail() }}" alt="{{ $project->name }}"/>
+                            <img class="embed-responsive-item" src="{{  $project->media->first()->getImageLink('sm') }}" alt="{{ $project->name }}"/>
                         </div>
                     @endif
                 </th>

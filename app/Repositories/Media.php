@@ -58,7 +58,7 @@ class Media
         return app(LocalImage::class);
     }
     
-    public function getProfilImageFor(UserModel $user)
+    public function getProfileImageFor(UserModel $user)
     {
         //MediaModel::where()
         return;

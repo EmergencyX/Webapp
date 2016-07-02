@@ -2,7 +2,7 @@
 
 namespace EmergencyExplorer;
 
-use EmergencyExplorer\Media\LocalImage;
+use EmergencyExplorer\Util\Media\LocalImage;
 use Illuminate\Database\Eloquent\Model;
 
 class Media extends Model
@@ -11,7 +11,6 @@ class Media extends Model
         'name',
         'description',
         'meta',
-        'extra',
     ];
 
     function projects()
@@ -31,7 +30,7 @@ class Media extends Model
 
     function getImageLink($size = 'xs')
     {
-        $imageData = json_decode($this->extra, true);
+        $imageData = json_decode($this->meta, true);
         if (isset($imageData[$size])) {
             /** @var Repositories\Media $repository */
             $repository = app(Repositories\Media::class);

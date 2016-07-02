@@ -40,7 +40,7 @@ class LocalImage implements Image
      */
     public function getImageLink(MediaModel $media, string $size = 'xs')
     {
-        $imageData = json_decode($media->extra, true);
+        $imageData = json_decode($media->meta, true);
 
         return asset('storage/' . $imageData[$size]['token'] . '-' . $size . '.jpg');
     }
