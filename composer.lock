@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "33259cd099397088ef1ca05c20a5a82a",
-    "content-hash": "aa66e644340cf139890d28799248f7d0",
+    "hash": "2312285f78f0e77a575b7c73d7a0c4ac",
+    "content-hash": "c20e8c194838172ff4d63f5967dd0195",
     "packages": [
         {
             "name": "99designs/http-signatures",
@@ -358,58 +358,6 @@
                 "stream"
             ],
             "time": "2016-06-29 10:52:26"
-        },
-        {
-            "name": "get-stream/stream-laravel",
-            "version": "2.2.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GetStream/stream-laravel.git",
-                "reference": "f218c87d4dd082dc6ac2fb3698cf86e62ff2bde8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GetStream/stream-laravel/zipball/f218c87d4dd082dc6ac2fb3698cf86e62ff2bde8",
-                "reference": "f218c87d4dd082dc6ac2fb3698cf86e62ff2bde8",
-                "shasum": ""
-            },
-            "require": {
-                "get-stream/stream": "~2.2",
-                "illuminate/database": ">=4.2",
-                "illuminate/support": ">=4.2",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9",
-                "phpunit/phpunit": "~4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "GetStream\\StreamLaravel\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Tommaso Barbugli",
-                    "email": "tbarbugli@gmail.com"
-                }
-            ],
-            "description": "Build newsfeeds and activity feeds on Laravel using getstream.io",
-            "homepage": "https://getstream.io/",
-            "keywords": [
-                "activity",
-                "activity feed",
-                "aggregated feed",
-                "getstream",
-                "newsfeed",
-                "notification feed"
-            ],
-            "time": "2016-07-06 09:17:15"
         },
         {
             "name": "guzzlehttp/guzzle",

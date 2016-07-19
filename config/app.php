@@ -159,7 +159,6 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-	GetStream\StreamLaravel\StreamLaravelServiceProvider::class,
     ],
 
     /*

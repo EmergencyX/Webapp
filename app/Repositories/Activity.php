@@ -31,6 +31,7 @@ class Activity
 
     public function getRecentActivities(Project $project, int $limit = 4)
     {
-        return $project->activities()->orderBy('created_at', 'desc')->limit($limit)->get();
+        $fuu = app(\EmergencyExplorer\Util\Activity\Project::class);
+        return $fuu->getActivities($project);
     }
 }
