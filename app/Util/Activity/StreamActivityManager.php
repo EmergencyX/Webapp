@@ -3,15 +3,26 @@
 namespace EmergencyExplorer\Util\Activity;
 
 use GetStream\Stream\Client;
+use Illuminate\Cache\Repository as Cache;
 
 class StreamActivityManager
 {
+    /**
+     * @var Client
+     */
     protected $client;
 
-    public function __construct()
+    /**
+     * @var Cache
+     */
+    protected $cache;
+
+    public function __construct(Cache $cache)
     {
         $this->client = new Client(env('STREAM_API_KEY'), env('STREAM_API_SECRET'));
         $this->client->setLocation('eu-central');
+
+        $this->cache = $cache;
     }
 
     /**
@@ -32,4 +43,26 @@ class StreamActivityManager
     {
         return $this->client->feed($feed, $feedId);
     }
+
+    /**
+     * @param string $key
+     * @param callable $func
+     *
+     * @return mixed
+     */
+    public function cached(string $key, callable $func)
+    {
+        return $this->cache->remember($key, 1, $func);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function flushCache(string $key)
+    {
+        return $this->cache->forget($key);
+    }
+
 }

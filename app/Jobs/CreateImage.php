@@ -2,6 +2,7 @@
 
 namespace EmergencyExplorer\Jobs;
 
+use EmergencyExplorer\Util\Activity\Project as ProjectActivityManager;
 use EmergencyExplorer\Util\Media\LocalImage;
 use EmergencyExplorer\Repositories\Media as MediaRepository;
 use EmergencyExplorer\Repositories\Media;
@@ -94,9 +95,12 @@ class CreateImage extends Job implements ShouldQueue
                 ['extra' => json_encode($created)]
             )
         );
-        
-        if(! is_null($this->project)) {
-            $this->project->media()->save($media, ['user_id' => $this->user->id]);
+
+        if (! is_null($this->project)) {
+            $this->project->media()->save($media, ['user_id' => $this->user->getKey()]);
+            /** @var ProjectActivityManager $projectActivityManager */
+            $projectActivityManager = app(ProjectActivityManager::class);
+            $projectActivityManager->mediaUploadedActivity($this->user, $this->project, $media);
         } else {
             if ($this->imageData['category']) {
                 $media->meta = json_encode(['category' => 'profile-picture']);

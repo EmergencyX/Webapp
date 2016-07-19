@@ -99,16 +99,25 @@ class ProjectController extends Controller
 
     function store(Request $request)
     {
-        $project = $this->projectRepository->createProject($request->only([
-            'name',
-            'description',
-            'status',
-            'game_id',
-            'visible',
-        ]));
-        $project->users()->save($request->user(), ['role' => Project::PROJECT_ROLE_ADMIN]);
+        try {
+            $project = $this->projectRepository->createProject($request->only([
+                'name',
+                'description',
+                'status',
+                'game_id',
+                'visible',
+            ]));
+            $project->users()->save($request->user(), ['role' => Project::PROJECT_ROLE_ADMIN]);
 
-        return redirect(ProjectUtil::getProjectAction($project));
+            /** @var \EmergencyExplorer\Util\Activity\Project $projectActivityManager */
+            $projectActivityManager = app(\EmergencyExplorer\Util\Activity\Project::class);
+            $projectActivityManager->projectCreatedActivity($request->user(), $project);
+
+            return redirect(ProjectUtil::getProjectAction($project));
+        } catch (\Exception $e) {
+            //Should wrap a transaction here
+            return 'Somebody please wrap this thing into a transaction asap';
+        }
     }
 
     function edit($id)
