@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLanguagesTable extends Migration
+class CreateProjectProfileProject extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class CreateLanguagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('languages', function (Blueprint $table) {
+        Schema::create('project_profile_project', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('short', 2);
-            $table->string('display');
+            $table->integer('project_profile_id')->unsigned();
+            $table->integer('project_id')->unsigned();
         });
     }
 
@@ -26,6 +26,6 @@ class CreateLanguagesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('languages');
+        Schema::drop('project_profile_project');
     }
 }
