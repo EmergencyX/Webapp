@@ -23,6 +23,13 @@
 |
 */
 
+Route::get('/get-test-token', function () {
+    /** @var EmergencyExplorer\Util\Activity\StreamActivityManager $projectActivityManager */
+    $projectActivityManager = app(EmergencyExplorer\Util\Activity\StreamActivityManager::class);
+
+    return $projectActivityManager->getFeed('notification', 1)->getReadonlyToken();
+});
+
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'HomeController@index');
     Route::get('/download', 'HomeController@download');
