@@ -47,11 +47,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('users/{id}', 'UserController@show')->where('id', '[0-9]+');
     Route::get('users/{id}-{seo}', 'UserController@show')->where(['id' => '[0-9]+', 'seo' => '.*']);
 
-    Route::get('test-qu', function() {
-       //$this->dispatch(new \EmergencyExplorer\Jobs\CreateImage('some paht', ['some'=>'data'], \EmergencyExplorer\User::find(4)));
-       
-       \Queue::pushOn('fuu', 'title', ['data'=>'here']);
-       return "dispatched";
+    Route::get('test-qu', function () {
+        //$this->dispatch(new \EmergencyExplorer\Jobs\CreateImage('some paht', ['some'=>'data'], \EmergencyExplorer\User::find(4)));
+
+        \Queue::pushOn('fuu', 'title', ['data' => 'here']);
+
+        return "dispatched";
     });
 
 
@@ -108,8 +109,14 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('release/{release}/post-cancel', 'ReleaseInstallationController@postCancel');
         Route::get('release/{release}/post-play', 'ReleaseInstallationController@postPlay');
 
-
         get('multiplayer/{appointment}', 'AppointmentController@show');
         get('multiplayer', 'AppointmentController@index');
+        get('multiplayer/create', 'AppointmentController@create');
+        post('multiplayer', 'AppointmentController@store');
+        get('multiplayer/{appointment}/edit', 'AppointmentController@edit');
+        patch('multiplayer/{appointment}', 'AppointmentController@update');
+        delete('multiplayer/{appointment}', 'AppointmentController@remove');
+
+        post('multiplayer/{appointment}/join', 'AppointmentController@join');
     });
 });
