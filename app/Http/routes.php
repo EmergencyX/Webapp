@@ -107,5 +107,9 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('release/{release}/post-uninstall', 'ReleaseInstallationController@postUninstall');
         Route::get('release/{release}/post-cancel', 'ReleaseInstallationController@postCancel');
         Route::get('release/{release}/post-play', 'ReleaseInstallationController@postPlay');
+
+
+        get('multiplayer/{appointment}', 'AppointmentController@show');
+        get('multiplayer', 'AppointmentController@index');
     });
 });
