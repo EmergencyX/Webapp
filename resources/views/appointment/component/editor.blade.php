@@ -23,8 +23,8 @@
             </fieldset>
 
             <fieldset class="col-md-4">
-                {!! Form::label('profile', trans('appointment.project')) !!}
-                {!! Form::select('profile',
+                {!! Form::label('project', trans('appointment.project')) !!}
+                {!! Form::select('project',
                 ['Testmodifikation'],
                 0,
                 ['class'=>'c-select form-control']) !!}
