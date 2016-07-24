@@ -109,14 +109,14 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('release/{release}/post-cancel', 'ReleaseInstallationController@postCancel');
         Route::get('release/{release}/post-play', 'ReleaseInstallationController@postPlay');
 
-        get('multiplayer/{appointment}', 'AppointmentController@show');
-        get('multiplayer', 'AppointmentController@index');
-        get('multiplayer/create', 'AppointmentController@create');
-        post('multiplayer', 'AppointmentController@store');
-        get('multiplayer/{appointment}/edit', 'AppointmentController@edit');
-        patch('multiplayer/{appointment}', 'AppointmentController@update');
-        delete('multiplayer/{appointment}', 'AppointmentController@remove');
+        Route::get('multiplayer/{appointment}', 'AppointmentController@show');
+        Route::get('multiplayer', 'AppointmentController@index');
+        Route::get('multiplayer/create', 'AppointmentController@create');
+        Route::post('multiplayer', 'AppointmentController@store');
+        Route::get('multiplayer/{appointment}/edit', 'AppointmentController@edit');
+        Route::patch('multiplayer/{appointment}', 'AppointmentController@update');
+        Route::delete('multiplayer/{appointment}', 'AppointmentController@remove');
 
-        post('multiplayer/{appointment}/join', 'AppointmentController@join');
+        Route::post('multiplayer/{appointment}/join', 'AppointmentController@join');
     });
 });
