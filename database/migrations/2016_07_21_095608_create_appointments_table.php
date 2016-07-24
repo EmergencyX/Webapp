@@ -16,8 +16,8 @@ class CreateAppointmentsTable extends Migration
             $table->increments('id');
             $table->integer('game_version_id')->unsigned();
             $table->integer('profile_id')->unsigned();
-            $table->string('name');
-            $table->string('chat')->nullable();
+            $table->string('name')->nullable();
+            $table->string('voicechat')->nullable();
             $table->string('description')->nullable();
             $table->boolean('visible')->default(false);
             $table->dateTime('date_at');	

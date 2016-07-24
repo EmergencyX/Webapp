@@ -2,6 +2,7 @@
 
 namespace EmergencyExplorer\Http\Controllers;
 
+use EmergencyExplorer\Appointment;
 use EmergencyExplorer\Profile;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,11 @@ class AppointmentController extends Controller
 
     public function store(Request $request)
     {
-        $profile = new Profile;
-        $profile->
+        $appointment            = new Appointment;
+        $appointment->content   = '[{"id":1,"enabled":true}]';
+        $appointment->name      = $request->get('name');
+        $appointment->voicechat = $request->get('voicechat');
+        $appointment->profile->;
+
     }
 }
