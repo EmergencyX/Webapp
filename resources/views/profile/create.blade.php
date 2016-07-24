@@ -4,6 +4,6 @@
     <h1>{{ trans('profile.create_header') }}</h1>
 
     {!! Form::open(['action'=>'ProfileController@store', 'method'=>'post']) !!}
-        @include('profile.component.editor', compact('games', 'projects'))
+        @include('profile.component.editor', compact('gameVersions', 'profiles'))
     {!! Form::close() !!}
 @endsection
