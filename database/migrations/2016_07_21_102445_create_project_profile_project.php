@@ -12,9 +12,9 @@ class CreateProjectProfileProject extends Migration
      */
     public function up()
     {
-        Schema::create('project_profile_project', function (Blueprint $table) {
+        Schema::create('profile_project', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('project_profile_id')->unsigned();
+            $table->integer('profile_id')->unsigned();
             $table->integer('project_id')->unsigned();
         });
     }
@@ -26,6 +26,6 @@ class CreateProjectProfileProject extends Migration
      */
     public function down()
     {
-        Schema::drop('project_profile_project');
+        Schema::drop('profile_project');
     }
 }

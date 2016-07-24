@@ -15,7 +15,7 @@ class CreateAppointmentsTable extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('game_version_id')->unsigned();
-            $table->integer('project_profile_id')->unsigned();
+            $table->integer('profile_id')->unsigned();
             $table->string('name');
             $table->string('chat')->nullable();
             $table->string('description')->nullable();
