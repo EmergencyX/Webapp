@@ -109,9 +109,9 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('release/{release}/post-cancel', 'ReleaseInstallationController@postCancel');
         Route::get('release/{release}/post-play', 'ReleaseInstallationController@postPlay');
 
-        Route::get('multiplayer/{appointment}', 'AppointmentController@show');
         Route::get('multiplayer', 'AppointmentController@index');
         Route::get('multiplayer/create', 'AppointmentController@create');
+        Route::get('multiplayer/{appointment}', 'AppointmentController@show');
         Route::post('multiplayer', 'AppointmentController@store');
         Route::get('multiplayer/{appointment}/edit', 'AppointmentController@edit');
         Route::patch('multiplayer/{appointment}', 'AppointmentController@update');

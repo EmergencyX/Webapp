@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
 {
-    function user() {
-        return $this->belongsTo(User::class);
+    function gameVersion() {
+        return $this->belongsTo(GameVersion::class);
     }
     
     function profile() {
