@@ -30,6 +30,10 @@ Route::get('/get-test-token', function () {
     return $projectActivityManager->getFeed('notification', 1)->getReadonlyToken();
 });
 
+Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
+    Route::get('mods/recent', 'Api\ProjectController@recent');
+});
+
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'HomeController@index');
     Route::get('/download', 'HomeController@download');

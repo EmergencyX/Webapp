@@ -2,6 +2,7 @@
 
 namespace EmergencyExplorer\Http\Controllers\Api;
 
+use EmergencyExplorer\Project;
 use EmergencyExplorer\Repositories\Project as ProjectRepository;
 use Illuminate\Http\Request;
 
@@ -28,8 +29,22 @@ class ProjectController extends Controller
 
     public function recent(Request $request)
     {
-        Response::json('')
+        $projects = $this->projectRepository->recentProjects($request->user());
 
-         $this->projectRepository->recentProjects($request->user());
+        return \Response::json($projects);
+    }
+
+    public function show(Project $project)
+    {
+        $this->authorize($project);
+
+        return \Response::json($project);
+    }
+
+    public function create(Request $request)
+    {
+        $this->authorize(Project::class);
+
+        return \Response::json($request->all());
     }
 }

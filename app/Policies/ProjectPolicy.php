@@ -11,6 +11,11 @@ class ProjectPolicy
 {
     use HandlesAuthorization;
 
+    public function create()
+    {
+        return true;
+    }
+
     /**
      * Check if user may add a new user
      *
