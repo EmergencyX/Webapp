@@ -14,7 +14,8 @@
         "predis/predis": "^1.0",
         "guzzlehttp/guzzle": "^6.2",
         "intervention/image": "^2.3",
-        "get-stream/stream": "^2.2"
+        "get-stream/stream": "^2.2",
+        "barryvdh/laravel-ide-helper": "^2.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

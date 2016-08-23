@@ -6,8 +6,15 @@ module.exports = {
         filename: './public/app.js'
     },
     devtool: 'source-map',
+    resolve: {
+        extensions: ['', '.js', '.vue'],
+    },
     module: {
         loaders: [
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -16,7 +23,8 @@ module.exports = {
                     babelrc: false,
                     presets: ['es2015']
                 }
-            }
+            },
+
         ]
     }
 };

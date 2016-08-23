@@ -23,14 +23,14 @@
 |
 */
 
-if (App::environment('production')) {
+if (!App::environment('production')) {
 
-    Route::get('/', function() {
+    Route::get('/red', function() {
        return redirect('/multiplayer/emergency-4', 301);
     });
-    Route::get('/multiplayer/{gameSlug}', 'ServerBrowserController@index');
+    Route::get('/multiplayer/browser/{gameSlug}', 'MultiplayerController@index');
 
-    return;
+    //return;
 }
 
 

@@ -7,8 +7,6 @@ use EmergencyExplorer\Repositories\Project as ProjectRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
-use EmergencyExplorer\Http\Requests;
-
 class HomeController extends Controller
 {
     /**
@@ -28,6 +26,7 @@ class HomeController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return View
      */
     public function index(Request $request)

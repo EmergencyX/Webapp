@@ -9,3 +9,4 @@ _ide_helper.php
 
 /.codetasty
 .idea/
+.phpstorm.meta.php
