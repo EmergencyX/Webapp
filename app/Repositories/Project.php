@@ -66,7 +66,7 @@ class Project
      */
     protected function visibleProjects(UserModel $user = null)
     {
-        $query = $this->project->with('media')->where('visible', 1);
+        $query = $this->project->with(['media', 'releases'])->where('visible', 1);
 
         if ($user) {
             $query->orWhereHas('users', function ($query) use ($user) {

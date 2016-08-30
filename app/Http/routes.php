@@ -23,6 +23,18 @@
 |
 */
 
+if (!App::environment('production')) {
+
+    Route::get('/red', function() {
+       return redirect('/multiplayer/emergency-4', 301);
+    });
+    Route::get('/multiplayer/browser/{gameSlug}', 'MultiplayerController@index');
+
+    //return;
+}
+
+
+
 Route::get('/get-test-token', function () {
     /** @var EmergencyExplorer\Util\Activity\StreamActivityManager $projectActivityManager */
     $projectActivityManager = app(EmergencyExplorer\Util\Activity\StreamActivityManager::class);

@@ -27,6 +27,7 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot($router);
+        require app_path('Http/bindings.php');
     }
 
     /**
