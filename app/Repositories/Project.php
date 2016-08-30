@@ -43,7 +43,7 @@ class Project
     {
         $query = $this->visibleProjects($user);
         $query->orderBy('updated_at', 'desc')->limit(9);
-
+        $query->with(['users']);
         return $query->get();
     }
 
