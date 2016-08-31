@@ -23,16 +23,15 @@
 |
 */
 
-if (!App::environment('production')) {
+if (! App::environment('production')) {
 
-    Route::get('/red', function() {
-       return redirect('/multiplayer/emergency-4', 301);
+    Route::get('/red', function () {
+        return redirect('/multiplayer/emergency-4', 301);
     });
     Route::get('/multiplayer/browser/{gameSlug}', 'MultiplayerController@index');
 
     //return;
 }
-
 
 
 Route::get('/get-test-token', function () {
@@ -42,14 +41,11 @@ Route::get('/get-test-token', function () {
     return $projectActivityManager->getFeed('notification', 1)->getReadonlyToken();
 });
 
-Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
-   // Route::get('mods/recent', 'Api\ProjectController@recent');
-   // Route::post('auth/login', 'Auth\AuthController@postLogin');
-
-
-    Route::group(['middleware' => 'auth:api'], function() {
-        Route::get('show/{project}', 'Api\ProjectController@show');
-    });
+Route::group(['prefix' => 'api', 'middleware' => ['api', 'auth:api']], function () {
+    // Route::get('mods/recent', 'Api\ProjectController@recent');
+    // Route::post('auth/login', 'Auth\AuthController@postLogin');
+    Route::get('projects/{project}', 'Api\ProjectController@show');
+    Route::get('users/{user}', 'Api\ProjectController@show');
 });
 
 Route::group(['middleware' => ['web']], function () {

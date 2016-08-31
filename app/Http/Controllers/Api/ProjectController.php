@@ -17,9 +17,6 @@ class ProjectController extends Controller
      */
     private $projectRepository;
 
-    protected $guard = 'token';
-
-
     /**
      * ProjectController constructor.
      *
@@ -39,9 +36,8 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
-        //$this->authorize($project);
-
-        return \Response::json($project);
+        $this->authorize($project);
+        return var_dump($project);
     }
 
     public function create(Request $request)
