@@ -51,4 +51,9 @@ class User extends Authenticatable
     function isFollowingProject($project) {
         return $project->users->contains($this);
     }
+
+    public function findForPassport(string $name)
+    {
+        return $this->where('name', $name)->first();
+    }
 }
