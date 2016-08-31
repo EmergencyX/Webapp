@@ -24,12 +24,12 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="{{ \EmergencyExplorer\Util\UserUtil::getUserAction(auth()->user()) }}">Profil</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ action('Auth\AuthController@logout') }}">{{ trans('auth.logout') }}</a>
+                            <a class="dropdown-item" href="{{ action('Auth\LoginController@logout') }}">{{ trans('auth.logout') }}</a>
                         </div>
                     </li>
                 @else
                     <li class="nav-item {{ $navigation->isLogin() }}">
-                        <a class="nav-link" href="{{ action('Auth\AuthController@getLogin') }}">{{ trans('auth.join_the_force') }}</a>
+                        <a class="nav-link" href="{{ action('Auth\LoginController@showLoginForm') }}">{{ trans('auth.join_the_force') }}</a>
                     </li>
                 @endif
             </ul>

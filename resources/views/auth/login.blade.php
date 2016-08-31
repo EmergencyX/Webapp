@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>{{ trans('auth.join_the_force') }}</h1>
-{!! Form::open(['action' => 'Auth\AuthController@postLogin']) !!}
+{!! Form::open(['action' => 'Auth\LoginController@login']) !!}
     {!! Form::token() !!}
     <fieldset class="form-group">
         <label for="name">{{ trans('auth.name') }}</label>

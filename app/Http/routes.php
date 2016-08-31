@@ -43,8 +43,8 @@ Route::get('/get-test-token', function () {
 });
 
 Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
-    Route::get('mods/recent', 'Api\ProjectController@recent');
-    Route::post('auth/login', 'Auth\AuthController@postLogin');
+   // Route::get('mods/recent', 'Api\ProjectController@recent');
+   // Route::post('auth/login', 'Auth\AuthController@postLogin');
 
 
     Route::group(['middleware' => 'auth:api'], function() {
@@ -57,9 +57,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/download', 'HomeController@download');
 
     // Authentication routes...
-    Route::get('auth/login', 'Auth\AuthController@getLogin');
-    Route::post('auth/login', 'Auth\AuthController@postLogin');
-    Route::get('auth/logout', 'Auth\AuthController@logout');
+    Route::get('auth/login', 'Auth\LoginController@showLoginForm');
+    Route::post('auth/login', 'Auth\LoginController@login');
+    Route::post('auth/logout', 'Auth\LoginController@logout');
 
     Route::get('mods', 'ProjectController@index');
     Route::get('mods/{id}', 'ProjectController@show')->where('id', '[0-9]+');
