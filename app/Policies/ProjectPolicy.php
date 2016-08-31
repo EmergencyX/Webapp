@@ -52,4 +52,9 @@ class ProjectPolicy
     {
         return $this->edit($user, $project);
     }
+
+    public function show(User $user, Project $project)
+    {
+        return true;
+    }
 }

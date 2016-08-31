@@ -17,7 +17,7 @@ class CreateGameVersionsTable extends Migration
             $table->integer('game_id')->unsigned();
             $table->string('semver', 32);
             $table->smallInteger('sequence')->default(0);
-            $table->json('meta')->nullable();
+            $table->string('meta')->nullable();
         });
     }
 

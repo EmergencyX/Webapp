@@ -14,7 +14,6 @@
         "predis/predis": "^1.0",
         "guzzlehttp/guzzle": "^6.2",
         "intervention/image": "^2.3",
-        "get-stream/stream": "^2.2",
         "barryvdh/laravel-ide-helper": "^2.2"
     },
     "require-dev": {
@@ -56,6 +55,6 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "stable"
     }
 }

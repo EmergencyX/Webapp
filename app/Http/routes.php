@@ -44,6 +44,12 @@ Route::get('/get-test-token', function () {
 
 Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
     Route::get('mods/recent', 'Api\ProjectController@recent');
+    Route::post('auth/login', 'Auth\AuthController@postLogin');
+
+
+    Route::group(['middleware' => 'auth:api'], function() {
+        Route::get('show/{project}', 'Api\ProjectController@show');
+    });
 });
 
 Route::group(['middleware' => ['web']], function () {
