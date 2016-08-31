@@ -19,9 +19,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Carbon::setLocale(config('app.locale'));
 
-        Paginator::presenter(function($paginator) {
+        /*Paginator::presenter(function($paginator) {
             return new BootstrapFourPresenter($paginator);
-        });
+        });*/
     }
 
     /**

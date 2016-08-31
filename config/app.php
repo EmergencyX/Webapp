@@ -155,6 +155,7 @@ return [
         EmergencyExplorer\Providers\AuthServiceProvider::class,
         EmergencyExplorer\Providers\EventServiceProvider::class,
         EmergencyExplorer\Providers\RouteServiceProvider::class,
+        EmergencyExplorer\Providers\BroadcastServiceProvider::class,
 
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
