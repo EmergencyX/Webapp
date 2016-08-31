@@ -78,6 +78,8 @@ class Handler extends ExceptionHandler
     {
         if ($e instanceof AuthorizationException) {
             $e = new AuthenticationException($e->getMessage(), $e);
+        } else {
+            $e = parent::prepareException($e);
         }
 
         return $e;
