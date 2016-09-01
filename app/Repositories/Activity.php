@@ -2,7 +2,7 @@
 
 namespace EmergencyExplorer\Repositories;
 
-use EmergencyExplorer\Project;
+use EmergencyExplorer\Project as ProjectModel;
 use EmergencyExplorer\Util\Activity\EmergencyForumActivityAggregator;
 
 class Activity
@@ -29,7 +29,7 @@ class Activity
         ];
     }
 
-    public function getRecentActivities(Project $project, int $limit = 4)
+    public function getRecentActivities(ProjectModel $project, int $limit = 4)
     {
         $fuu = app(\EmergencyExplorer\Util\Activity\Project::class);
         return $fuu->getActivities($project);
