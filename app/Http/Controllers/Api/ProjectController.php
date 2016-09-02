@@ -39,8 +39,8 @@ class ProjectController extends Controller
     {
         $user = request()->user('api');
         abort_unless($user instanceof User, 401);
-        abort_unless($user->tokenCan('show-project'), 401);
         abort_unless($user->can('show', $project), 401);
+        abort_unless($user->tokenCan('show-project'), 401);
 
         return \Response::json($project);
     }

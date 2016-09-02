@@ -41,11 +41,15 @@ Route::get('/get-test-token', function () {
     return $projectActivityManager->getFeed('notification', 1)->getReadonlyToken();
 });
 
-Route::group(['prefix' => 'api', 'middleware' => ['api', 'auth:api']], function () {
-    // Route::get('mods/recent', 'Api\ProjectController@recent');
+Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
+    Route::get('mods/recent', 'Api\ProjectController@recent');
     // Route::post('auth/login', 'Auth\AuthController@postLogin');
-    Route::get('projects/{project}', 'Api\ProjectController@show');
-    Route::get('users/{user}', 'Api\ProjectController@show');
+
+    Route::group(['middleware' => 'auth:api'], function() {
+        Route::get('projects/{project}', 'Api\ProjectController@show');
+        Route::get('users/{user}', 'Api\ProjectController@show');
+    });
+
 });
 
 Route::group(['middleware' => ['web']], function () {
