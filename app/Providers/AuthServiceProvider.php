@@ -39,6 +39,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies($gate);
 
+
+        Passport::tokensCan([
+            'show-project' => 'Projekte ansehen',
+        ]);
+
         Passport::routes();
     }
 }

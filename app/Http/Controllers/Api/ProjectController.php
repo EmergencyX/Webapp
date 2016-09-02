@@ -4,6 +4,7 @@ namespace EmergencyExplorer\Http\Controllers\Api;
 
 use EmergencyExplorer\Project;
 use EmergencyExplorer\Repositories\Project as ProjectRepository;
+use EmergencyExplorer\User;
 use Illuminate\Http\Request;
 
 use EmergencyExplorer\Http\Requests;
@@ -36,8 +37,12 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
-        $this->authorize($project);
-        return var_dump($project);
+        $user = request()->user('api');
+        abort_unless($user instanceof User, 401);
+        abort_unless($user->tokenCan('show-project'), 401);
+        abort_unless($user->can('show', $project), 401);
+
+        return \Response::json($project);
     }
 
     public function create(Request $request)

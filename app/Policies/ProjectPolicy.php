@@ -55,6 +55,10 @@ class ProjectPolicy
 
     public function show(User $user, Project $project)
     {
-        return true;
+        if ($project->visible) {
+            return true;
+        }
+
+        return $project->usersWithoutWatchers->contains($user);
     }
 }
