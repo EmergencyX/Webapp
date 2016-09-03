@@ -44,6 +44,7 @@ class Project
         $query = $this->visibleProjects($user);
         $query->orderBy('updated_at', 'desc')->limit(9);
         $query->with(['users']);
+
         return $query->get();
     }
 
@@ -84,10 +85,7 @@ class Project
      */
     public function createProject(array $parameters)
     {
-        $project = $this->project->create($parameters);
-        $project->repositories()->save(ProjectRepositoryUtil::newMainRepository($project));
-
-        return $project;
+        return $this->project->create($parameters);
     }
 
     /**

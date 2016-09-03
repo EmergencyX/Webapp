@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Release extends Model
 {
-    protected $fillable = ['name', 'visible', 'beta', 'game_version_id'];
+    protected $fillable = ['name', 'visible', 'beta', 'game_version_id', 'provider'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function repository()
+    public function project()
     {
-        return $this->belongsTo(ProjectRepository::class);
+        return $this->belongsTo(Project::class);
     }
 
     /**
@@ -25,7 +25,7 @@ class Release extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users()
     {

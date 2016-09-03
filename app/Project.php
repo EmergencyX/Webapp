@@ -43,12 +43,14 @@ class Project extends Model
     function members()
     {
         $memberRoles = [self::PROJECT_ROLE_MEMBER, self::PROJECT_ROLE_ADMIN];
+
         return $this->users()->whereIn('project_user.role', $memberRoles);
     }
 
     function usersWithoutWatchers()
     {
         $withoutWatchers = [self::PROJECT_ROLE_TESTER, self::PROJECT_ROLE_MEMBER, self::PROJECT_ROLE_ADMIN];
+
         return $this->users()->whereIn('project_user.role', $withoutWatchers);
     }
 
@@ -64,7 +66,7 @@ class Project extends Model
 
     function releases()
     {
-        return $this->hasManyThrough(Release::class, ProjectRepository::class);
+        return $this->hasMany(Release::class);
     }
 
     public function links()
