@@ -3,12 +3,15 @@
 namespace EmergencyExplorer\Repositories;
 
 use EmergencyExplorer\Project as ProjectModel;
+use EmergencyExplorer\Project;
 use EmergencyExplorer\Release as ReleaseModel;
 use EmergencyExplorer\User as UserModel;
 use EmergencyExplorer\Util\ProjectRepositoryUtil;
 use EmergencyExplorer\Util\Release\LocalRelease;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
 
 class Release
 {
@@ -34,33 +37,45 @@ class Release
     }
 
     /**
+     * @param Project $project
      * @param array $attributes
-     * @param \Illuminate\Http\UploadedFile $file
+     *
+     * @param File $file
      *
      * @return ReleaseModel
      */
-    public function create(array $attributes, UploadedFile $file)
+    public function store(Project $project, array $attributes, File $file)
     {
         /** @var \EmergencyExplorer\Util\Release\Release $provider */
-        $provider = $this->providers[$attributes['provider']['name']];
-
-        $identifier = str_random(60);
-        $provider->publish($attributes['provider'], $identifier, $file);
+        $provider = $this->providers[$attributes['provider']];
+        $fileinfo = $provider->store($file);
+        //$provider->publish($project, $fileinfo);
 
         $modelAttributes = [
-            'provider' => json_encode([
-                'token'    => $identifier,
-                'provider' => $attributes['provider']['name'],
-            ]),
+            'provider' => [
+                'provider' => $attributes['provider'],
+                'fileinfo' => $fileinfo,
+            ],
 
             'name'    => $attributes['name'],
             'beta'    => $attributes['beta'],
             'visible' => $attributes['visible'],
-            //'project_id'            => $attributes['project_id'],
-            //'game_version_id'       => $attributes['game_version_id'],
-            //'project_repository_id' => null,
         ];
 
-        return $this->release->create($modelAttributes);
+        $release = $this->release->create($modelAttributes);
+        $project->releases()->save($release);
+
+        return $release;
+    }
+
+    /**
+     * @param ReleaseModel $release
+     */
+    public function remove(ReleaseModel $release)
+    {
+        /** @var \EmergencyExplorer\Util\Release\Release $provider */
+        $provider = $this->providers[$release->provider['provider']];
+        $provider->unpublish($release);
+        $release->delete();
     }
 }

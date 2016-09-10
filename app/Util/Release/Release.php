@@ -2,7 +2,10 @@
 
 namespace EmergencyExplorer\Util\Release;
 
+use EmergencyExplorer\Project as ProjectModel;
+use EmergencyExplorer\Release as ReleaseModel;
 use Illuminate\Http\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
 
 interface Release
 {
@@ -14,18 +17,24 @@ interface Release
     public function is(string $provider);
 
     /**
-     * @param array $config
-     * @param string $identifier
-     * @param \Illuminate\Http\UploadedFile $file
+     * @param File $file
      *
-     * @return string|false
+     * @return array
      */
-    public function publish(array $config, string $identifier, UploadedFile $file);
+    public function store(File $file);
 
     /**
-     * @param string $identifier
+     * @param ProjectModel $project
+     * @param $file
+     *
+     * @return ReleaseModel
+     */
+    public function publish(ProjectModel $project, array $file = null);
+
+    /**
+     * @param \EmergencyExplorer\Release $release
      *
      * @return boolean
      */
-    public function unpublish(array $config, string $identifier);
+    public function unpublish(ReleaseModel $release);
 }

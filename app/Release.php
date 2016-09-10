@@ -8,6 +8,10 @@ class Release extends Model
 {
     protected $fillable = ['name', 'visible', 'beta', 'game_version_id', 'provider'];
 
+    protected $casts = [
+        'provider' => 'array',
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

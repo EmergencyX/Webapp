@@ -45,9 +45,13 @@ Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
     Route::get('mods/recent', 'Api\ProjectController@recent');
     // Route::post('auth/login', 'Auth\AuthController@postLogin');
 
-    Route::group(['middleware' => 'auth:api'], function() {
+    Route::group([/*'middleware' => 'auth:api'*/], function () {
         Route::get('projects/{project}', 'Api\ProjectController@show');
         Route::get('users/{user}', 'Api\ProjectController@show');
+
+        Route::get('project/{project}/release', 'Api\ReleaseController@index');
+        Route::post('project/{project}/release', 'Api\ReleaseController@store');
+        Route::delete('release/{release}', 'Api\ReleaseController@remove');
     });
 
 });

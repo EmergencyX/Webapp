@@ -2,18 +2,32 @@
 
 namespace EmergencyExplorer\Http\Controllers;
 
+use EmergencyExplorer\Repositories\Release as ReleaseRepository;
+use EmergencyExplorer\Util\Release\Release as ReleaseUtil;
 use Gate;
 
 use EmergencyExplorer\Project;
-use EmergencyExplorer\ProjectRepository;
 use EmergencyExplorer\Release;
 use EmergencyExplorer\Util\ProjectUtil;
 use Illuminate\Http\Request;
 
-use EmergencyExplorer\Http\Requests;
-
 class ReleaseController extends Controller
 {
+    /**
+     * @var \EmergencyExplorer\Repositories\Release
+     */
+    protected $releaseRepository;
+
+    /**
+     * ReleaseController constructor.
+     *
+     * @param ReleaseRepository $releaseRepository
+     */
+    public function __construct(ReleaseRepository $releaseRepository)
+    {
+        $this->releaseRepository = $releaseRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +49,7 @@ class ReleaseController extends Controller
      */
     public function create($id)
     {
-        $project = Project::with([
+        $project    = Project::with([
             'game',
             'game.versions',
             'repositories',
@@ -51,22 +65,19 @@ class ReleaseController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param Project $project
-     * @param \EmergencyExplorer\ProjectRepository $repository
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Project $project, ProjectRepository $repository)
+    public function store(Request $request, Project $project)
     {
-        $release = new Release($request->only(['name', 'beta', 'visible', 'game_version_id']));
-        $repository->releases()->save($release);
+        $file       = $request->file;
+        $attributes = $request->only(['name', 'beta', 'visible', 'game_version_id', 'provider']);
 
-        return redirect(action('ReleaseController@show', [$project->id, $release->id]));
+        $release = $this->releaseRepository->store($project, $attributes, $file);
+
+        return redirect(action('ReleaseController@show', [$project->getKey(), $release->getKey()]));
     }
 
-    public function createFromUpload()
-    {
-
-    }
 
     /**
      * Display the specified resource.
