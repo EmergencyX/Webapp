@@ -12,9 +12,7 @@ new Vue(
         components: {
             ServerBrowser
         },
-        data: {
-            list:  [{name:"Test", players: "noBlubb", mod:"BFEMP"}]
-        }
+        data: window.data || {}
     }
 );
 

@@ -19,7 +19,8 @@
     "intervention/image": "^2.3",
     "barryvdh/laravel-ide-helper": "^2.2",
     "laravel/passport": "^1.0",
-    "get-stream/stream": "dev-master"
+    "get-stream/stream": "dev-master",
+    "sl4mmer/phpcent": "^1.0"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

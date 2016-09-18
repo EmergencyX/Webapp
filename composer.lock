@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e83b025095b223a0e44a9747dddbf578",
-    "content-hash": "4c6608ae4cf9817be2e7c487d7c17b8e",
+    "hash": "2a7edb1d69b182e3c9edf56247f24c86",
+    "content-hash": "342895d21a4e7586d0b0d36e9fd95d27",
     "packages": [
         {
             "name": "99designs/http-signatures",
@@ -1981,6 +1981,41 @@
                 "uuid"
             ],
             "time": "2016-08-02 18:39:32"
+        },
+        {
+            "name": "sl4mmer/phpcent",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/centrifugal/phpcent.git",
+                "reference": "96b9e3be9b89b125a469f220ba3fb272198cb399"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/centrifugal/phpcent/zipball/96b9e3be9b89b125a469f220ba3fb272198cb399",
+                "reference": "96b9e3be9b89b125a469f220ba3fb272198cb399",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "phpcent": ".."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Php library to communicate with Centrifugo/Centrifuge)",
+            "homepage": "https://github.com/centrifugal/phpcent",
+            "keywords": [
+                "centrifugo"
+            ],
+            "time": "2016-02-29 13:53:36"
         },
         {
             "name": "swiftmailer/swiftmailer",
