@@ -5,51 +5,45 @@
             <th>Servername</th>
             <th>Spieler</th>
             <th>Mod</th>
+            <th>Land</th>
             <th>Plätze</th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="server in serverList">
-            <td>{{ server.name }}</td>
-            <td>{{ server.players }}</td>
-            <td>{{ server.mod }}</td>
-            <td>{{ server.player_count }} / {{ server.max_player_count }}</td>
+        <tr v-for="session in sessions">
+            <td>
+                <i v-show="session.password" class="fa fa-lock" aria-hidden="true"></i>
+                <i v-show="session.started" class="fa fa-play" aria-hidden="true"></i>
+
+                {{ session.name }}</td>
+            <td>{{ session.players }}</td>
+            <td>{{ session.mod }}</td>
+            <td>{{ session.nation }}</td>
+            <td>{{ session.numpl }} / {{ session.maxpl }}</td>
         </tr>
         </tbody>
     </table>
 </template>
 
 <script>
-import Centrifuge from 'centrifuge';
 
 let vm = {
-    props: ['servers'],
-    computed: {
-        serverList() {
-            return this.servers;
+    data() {
+        return {
+            sessions: []
         }
     },
-    methods: {
-        update(message) {
-
+    computed: {
+        serverList() {
+            return this.sessions;
+        }
+    },
+    events: {
+        masterserver_em4(sessions) {
+            this.sessions = sessions;
         }
     }
 };
-
-let centrifuge = new Centrifuge(window.data.centrifugo);
-/*let centrifuge = new Centrifuge({
-    url: 'http://fms.emergencyx.de:8000/connection',
-    user: "",
-    timestamp: "1474233843",
-    token: "85716be8538b30513fda43b76195a0a26c1a4a5beba523b0666128536ca6c68c"
-});*/
-
-centrifuge.subscribe("masterserver_em4", function(message) {
-    console.log(message);
-        //vm.update(message);
-});
-centrifuge.connect();
-
 
 export default vm;
 </script>

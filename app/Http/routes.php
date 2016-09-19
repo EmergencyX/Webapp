@@ -26,7 +26,7 @@
 if (! App::environment('production')) {
 
     Route::get('/red', function () {
-        return redirect('/multiplayer/emergency-4', 301);
+        return redirect('/multiplayer/browser/emergency-4', 301);
     });
     Route::get('/multiplayer/browser/{gameSlug}', 'MultiplayerController@index');
 
