@@ -26,24 +26,29 @@
 </template>
 
 <script>
+//Oben ist HTML mit Vuejs gemischt:
+//Das erlaubt es uns einfach hier "sessions" zu ändern und wir müssen
+//uns keine Gedanken machen, wie das im HTML umgesetzt wird
 
+//vm = ViewModel, Logik hinter dem "View" (oben) zusammenfassen
 let vm = {
     data() {
         return {
             sessions: []
         }
     },
-    computed: {
-        serverList() {
-            return this.sessions;
-        }
-    },
     events: {
+        //Event um auf neue Daten vom Masterserver zu reagieren
+        //Es wird eine vollständige Liste gesendet und wir
+        //überschreiben hier den Inhalt. Vue ändert dann
+        //das HTML, dass es wieder zu "sessions" passt
         masterserver_em4(sessions) {
             this.sessions = sessions;
         }
     }
 };
 
+//"Default" Instanz exportieren. Wird dann bei "Import" in app.js verwendet
+//Suche "ES6 Import"
 export default vm;
 </script>
