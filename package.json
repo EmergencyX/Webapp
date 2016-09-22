@@ -1,6 +1,13 @@
 {
   "private": true,
   "dependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.14.0",
     "centrifuge": "^1.3.7",
+    "vue": "^1.0.26",
+    "vue-html-loader": "^1.2.3",
+    "vue-loader": "^8.5.2",
+    "webpack": "^2.1.0-beta.25"
   }
 }

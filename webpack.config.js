@@ -7,7 +7,7 @@ module.exports = {
     },
     devtool: 'source-map',
     resolve: {
-        extensions: ['', '.js', '.vue'],
+        extensions: ['.js', '.vue'],
     },
     module: {
         loaders: [
@@ -21,7 +21,7 @@ module.exports = {
                 loader: 'babel',
                 query: {
                     babelrc: false,
-                    presets: ['es2015']
+                    presets: [['es2015', {modules: false}]]
                 }
             },
 
