@@ -2,18 +2,18 @@
 
 namespace EmergencyExplorer\Providers;
 
-use EmergencyExplorer\Policies\UserPolicy;
-use EmergencyExplorer\User;
+use Laravel\Passport\Passport;
+
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
-use Laravel\Passport\Passport;
+use EmergencyExplorer\Models\User;
+use EmergencyExplorer\Models\Project;
+use EmergencyExplorer\Models\Invitation;
 
-use EmergencyExplorer\Invitation;
-use EmergencyExplorer\Policies\InvitationPolicy;
-
-use EmergencyExplorer\Project;
+use EmergencyExplorer\Policies\UserPolicy;
 use EmergencyExplorer\Policies\ProjectPolicy;
+use EmergencyExplorer\Policies\InvitationPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -40,10 +40,10 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies($gate);
 
 
+        //Laravel Passport Setup
         Passport::tokensCan([
             'show-project' => 'Projekte ansehen',
         ]);
-
         Passport::routes();
     }
 }
