@@ -1,8 +1,7 @@
 <?php
 
-namespace EmergencyExplorer;
+namespace EmergencyExplorer\Models;
 
-use EmergencyExplorer\Util\Media\LocalImage;
 use Illuminate\Database\Eloquent\Model;
 
 class Media extends Model

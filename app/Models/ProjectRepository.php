@@ -1,7 +1,6 @@
 <?php
 
-namespace EmergencyExplorer;
-
+namespace EmergencyExplorer\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class ProjectRepository extends Model
