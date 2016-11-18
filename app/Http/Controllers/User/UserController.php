@@ -1,23 +1,20 @@
 <?php
 
-namespace EmergencyExplorer\Http\Controllers;
+namespace EmergencyExplorer\Http\Controllers\User;
 
+use EmergencyExplorer\Http\Controllers\Controller;
+use EmergencyExplorer\Http\Requests\Request;
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
-use EmergencyExplorer\Util\MediaUtil;
-use EmergencyExplorer\Util\UserUtil;
-use Illuminate\Http\Request;
-
-use EmergencyExplorer\Http\Requests;
-
-use EmergencyExplorer\User;
 use EmergencyExplorer\Project;
+use EmergencyExplorer\User;
+use EmergencyExplorer\Util\UserUtil;
 
 class UserController extends Controller
 {
     /**
      * UserController constructor.
      *
-     * @param \EmergencyExplorer\Http\View\Helper\NavigationHelper $navigationHelper
+     * @param NavigationHelper $navigationHelper
      */
     public function __construct(NavigationHelper $navigationHelper)
     {
@@ -63,6 +60,9 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
+        /*
+         *
+         * FIXME
         if ($request->hasFile('media')) {
             $file = $request->file('media');
             abort_unless($file->isValid(), 400);
@@ -73,8 +73,8 @@ class UserController extends Controller
                 $imageData = ['sizes' => ['xs', 'sm'], 'provider' => 'local', 'visible' => 1];
                 $this->mediaRepository->createImage($file, $imageData, $user, $project);
             }
-        }
-        
+        }*/
+
         return redirect(UserUtil::getUserAction($user));
     }
 }
