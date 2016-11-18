@@ -2,23 +2,13 @@
 
 namespace EmergencyExplorer\Policies;
 
-use EmergencyExplorer\Release;
-use EmergencyExplorer\User;
+use EmergencyExplorer\Models\Release;
+use EmergencyExplorer\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ReleasePolicy
 {
     use HandlesAuthorization;
-
-    /**
-     * Create a new policy instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
 
     /**
      * @param User $user

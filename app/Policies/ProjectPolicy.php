@@ -4,8 +4,8 @@ namespace EmergencyExplorer\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use EmergencyExplorer\User;
-use EmergencyExplorer\Project;
+use EmergencyExplorer\Models\User;
+use EmergencyExplorer\Models\Project;
 
 class ProjectPolicy
 {

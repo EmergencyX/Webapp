@@ -2,7 +2,7 @@
 
 namespace EmergencyExplorer\Policies;
 
-use EmergencyExplorer\User;
+use EmergencyExplorer\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
@@ -10,8 +10,8 @@ class UserPolicy
     use HandlesAuthorization;
 
     /**
-     * @param \EmergencyExplorer\User $caller
-     * @param \EmergencyExplorer\User $target
+     * @param $caller
+     * @param $target
      *
      * @return bool
      */
@@ -25,7 +25,7 @@ class UserPolicy
     }
 
     /**
-     * @param \EmergencyExplorer\User $user
+     * @param User $user
      *
      * @return bool
      */
