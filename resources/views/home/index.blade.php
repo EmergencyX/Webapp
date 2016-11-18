@@ -7,7 +7,7 @@
                     <div class="card card-inverse">
                         <div class="embed-responsive embed-responsive-16by9">
                             <img class="card-img embed-responsive-item img-fluid"
-                                    src="{{ \EmergencyExplorer\Util\MediaUtil::getThumbnail($project->media->first(), 'md') }}"
+                                    src="{{ \EmergencyExplorer\Util\View\MediaUtil::getThumbnail($project->media->first(), 'md') }}"
                                     alt="{{ $project->name }}">
                         </div>
                         <div class="card-img-overlay" style="top:initial;bottom:0;background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%);

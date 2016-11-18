@@ -2,7 +2,7 @@
 
 namespace EmergencyExplorer\Util;
 
-use EmergencyExplorer\User;
+use EmergencyExplorer\Models\User;
 
 class UserUtil
 {

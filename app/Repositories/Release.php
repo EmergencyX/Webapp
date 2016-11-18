@@ -2,10 +2,9 @@
 
 namespace EmergencyExplorer\Repositories;
 
-use EmergencyExplorer\Project as ProjectModel;
-use EmergencyExplorer\Project;
-use EmergencyExplorer\Release as ReleaseModel;
-use EmergencyExplorer\User as UserModel;
+use EmergencyExplorer\Models\Project as ProjectModel;
+use EmergencyExplorer\Models\Release as ReleaseModel;
+use EmergencyExplorer\Models\User as UserModel;
 use EmergencyExplorer\Util\ProjectRepositoryUtil;
 use EmergencyExplorer\Util\Release\LocalRelease;
 use Illuminate\Database\Eloquent\Collection;

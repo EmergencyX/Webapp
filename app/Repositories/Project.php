@@ -2,8 +2,8 @@
 
 namespace EmergencyExplorer\Repositories;
 
-use EmergencyExplorer\Project as ProjectModel;
-use EmergencyExplorer\User as UserModel;
+use EmergencyExplorer\Models\Project as ProjectModel;
+use EmergencyExplorer\Models\User as UserModel;
 use EmergencyExplorer\Util\ProjectRepositoryUtil;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -17,7 +17,7 @@ class Project
     /**
      * Project constructor.
      *
-     * @param \EmergencyExplorer\Project $project
+     * @param \EmergencyExplorer\Models\Project $project
      */
     public function __construct(ProjectModel $project)
     {
