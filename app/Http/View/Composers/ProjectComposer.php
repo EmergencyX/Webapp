@@ -2,24 +2,14 @@
 
 namespace EmergencyExplorer\Http\View\Composers;
 
-use EmergencyExplorer\Http\View\Helper\ProjectHelper;
+use EmergencyExplorer\Util\Project\ProjectUtil;
 use Illuminate\View\View;
 
 class ProjectComposer
 {
-    /**
-     * @var ProjectHelper
-     */
-    protected $projectHelper;
-
-    /**
-     * ProjectComposer constructor.
-     *
-     * @param ProjectHelper $projectHelper
-     */
-    public function __construct(ProjectHelper $projectHelper)
+    public function __construct(ProjectUtil $projectUtil)
     {
-        $this->projectHelper = $projectHelper;
+        $this->projectUtil = $projectUtil;
     }
 
     /**
@@ -31,6 +21,6 @@ class ProjectComposer
      */
     public function compose(View $view)
     {
-        $view->with('projectHelper', $this->projectHelper);
+        $view->with('projectUtil', $this->projectUtil);
     }
 }

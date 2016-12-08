@@ -11,7 +11,7 @@
             <a class="navbar-brand hidden-xs-down" href="{{ action('HomeController@index') }}">Emergency Explorer</a>
             <ul class="nav navbar-nav">
                 <li class="nav-item {{ $navigation->isProjects() }}">
-                    <a class="nav-link" href="{{ action('ProjectController@index') }}">{{ trans('app.modifications') }}</a>
+                    <a class="nav-link" href="{{ action('Project\ProjectController@index') }}">{{ trans('app.modifications') }}</a>
                 </li>
                 <li class="nav-item {{ $navigation->isUsers() }}">
                     <a class="nav-link" href="{{ action('UserController@index') }}">{{ trans('app.users') }}</a>

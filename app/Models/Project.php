@@ -67,19 +67,4 @@ class Project extends Model
     {
         return $this->hasMany(Release::class);
     }
-
-    public function links()
-    {
-        return $this->hasMany(Link::class);
-    }
-
-    public function supportLinks()
-    {
-        return $this->links()->where('type', 'support');
-    }
-
-    public function activities()
-    {
-        return $this->hasMany(Activity::class);
-    }
 }

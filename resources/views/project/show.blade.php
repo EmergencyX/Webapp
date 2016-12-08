@@ -43,31 +43,6 @@
                 </div>
             </div>
 --}}
-            @forelse($activities as $activity)
-                <div class="card">
-                    <div class="card-block">
-                        <h4 class="card-title m-b-0 strong">
-                            <a href="#">{{ trans(implode('.', ['activity', $activity['verb']]), array_only($activity, ['actor', 'object'])) }}</a>
-                        </h4>
-                        <p class="card-text">{{-- $activity->description --}}</p>
-
-                        {{--
-                        @if(isset($activity['meta']['url']))
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <img class="img-fluid img-rounded" src="{{ $activity['meta']['url'] }}">
-                                </div>
-                            </div>
-                        @endif
-                        --}}
-                        <p class="card-text">
-                            <small class="text-muted">{{ $activity['time'] }}</small>
-                        </p>
-                    </div>
-                </div>
-            @empty
-                <p>Keine Aktivitäten verfügbar.</p>
-            @endforelse
 
         </div>
         <div class="col-md-4">
@@ -160,6 +135,7 @@
             </div>
             --}}
 
+            {{--
             <div class="list-group">
                 @foreach($project->supportLinks as $link)
                     <a href="{{ $link->url }}" class="list-group-item">{{ $link->name }}
@@ -169,7 +145,7 @@
                     <a href="{{ action('LinkController@edit', $project) }}" class="list-group-item">Links bearbeiten</a>
                 @endcan
             </div>
-
+--}}
         </div>
     </div>
 @endsection

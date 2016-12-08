@@ -3,7 +3,7 @@
     <div class="row">
         @foreach($projects as $project)
             <div class="col-md-4">
-                <a href="{{ $projectHelper->url($project) }}">
+                <a href="{{ $projectUtil->url($project) }}">
                     <div class="card card-inverse">
                         <div class="embed-responsive embed-responsive-16by9">
                             <img class="card-img embed-responsive-item img-fluid"

@@ -23,23 +23,6 @@
 |
 */
 
-if (! App::environment('production')) {
-
-    Route::get('/red', function () {
-        return redirect('/multiplayer/browser/emergency-4', 301);
-    });
-    Route::get('/multiplayer/browser/{gameSlug}', 'MultiplayerController@index');
-
-    //return;
-}
-
-
-Route::get('/get-test-token', function () {
-    /** @var EmergencyExplorer\Util\Activity\StreamActivityManager $projectActivityManager */
-    $projectActivityManager = app(EmergencyExplorer\Util\Activity\StreamActivityManager::class);
-
-    return $projectActivityManager->getFeed('notification', 1)->getReadonlyToken();
-});
 
 Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
     Route::get('mods/recent', 'Api\ProjectController@recent');
@@ -57,7 +40,16 @@ Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
 });
 
 Route::group(['middleware' => ['web']], function () {
+    //UPGRADED
     Route::get('/', 'HomeController@index');
+
+    Route::get('mods', 'Project\ProjectController@index');
+    Route::get('mods/{project}', 'Project\ProjectController@show')->where('project', '[0-9]+');
+    Route::get('mods/{project}-{seo}', 'Project\ProjectController@show')->where(['project' => '[0-9]+', 'seo' => '.*']);
+
+
+    //END UPGRADED
+
     Route::get('/download', 'HomeController@download');
 
     // Authentication routes...
@@ -65,22 +57,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('auth/login', 'Auth\LoginController@login');
     Route::post('auth/logout', 'Auth\LoginController@logout');
 
-    Route::get('mods', 'ProjectController@index');
-    Route::get('mods/{id}', 'ProjectController@show')->where('id', '[0-9]+');
-    Route::get('mods/{id}-{seo}', 'ProjectController@show')->where(['id' => '[0-9]+', 'seo' => '.*']);
 
     Route::get('users', 'UserController@index');
     Route::get('users/{id}', 'UserController@show')->where('id', '[0-9]+');
     Route::get('users/{id}-{seo}', 'UserController@show')->where(['id' => '[0-9]+', 'seo' => '.*']);
-
-    Route::get('test-qu', function () {
-        //$this->dispatch(new \EmergencyExplorer\Jobs\CreateImage('some paht', ['some'=>'data'], \EmergencyExplorer\User::find(4)));
-
-        \Queue::pushOn('fuu', 'title', ['data' => 'here']);
-
-        return "dispatched";
-    });
-
 
     Route::group(['middleware' => ['auth']], function () {
         Route::get('notifications', 'NotificationController@index');

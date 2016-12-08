@@ -1,65 +1,44 @@
 <?php
 
-namespace EmergencyExplorer\Http\Controllers;
+namespace EmergencyExplorer\Http\Controllers\Project;
 
-use Illuminate\Http\Request;
+use EmergencyExplorer\Http\Controllers\Controller;
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use EmergencyExplorer\Repositories\Project as ProjectRepository;
-use EmergencyExplorer\Repositories\Media as MediaRepository;
-use EmergencyExplorer\Repositories\Activity as ActivityRepository;
-use EmergencyExplorer\Util\ProjectActivityUtil;
-use EmergencyExplorer\Util\ProjectRepositoryUtil;
-use EmergencyExplorer\Util\ProjectUtil;
+
+use EmergencyExplorer\Util\Project\ProjectUtil;
 use Illuminate\Auth\Access\Gate;
+use Illuminate\Http\Request;
 
-use EmergencyExplorer\Game;
-use EmergencyExplorer\Project;
-
-use EmergencyExplorer\Util\MediaUtil;
+use EmergencyExplorer\Models\Game;
+use EmergencyExplorer\Models\Project;
 
 class ProjectController extends Controller
 {
     /**
-     * @var ProjectActivityUtil
-     */
-    protected $projectActivityUtil;
-
-    /**
      * @var ProjectRepository
      */
     protected $projectRepository;
-
     /**
-     * @var MediaRepository
+     * @var ProjectUtil
      */
-    protected $mediaRepository;
-
-    /**
-     * @var ActivityRepository
-     */
-    protected $activityRepository;
+    private $projectUtil;
 
     /**
      * ProjectController constructor.
      *
      * @param NavigationHelper $navigationHelper
-     * @param ProjectActivityUtil $projectActivityUtil
+     * @param ProjectUtil $projectUtil
      * @param ProjectRepository $projectRepository
-     * @param MediaRepository $mediaRepository
-     * @param ActivityRepository $activityRepository
      */
     public function __construct(
         NavigationHelper $navigationHelper,
-        ProjectActivityUtil $projectActivityUtil,
-        ProjectRepository $projectRepository,
-        MediaRepository $mediaRepository,
-        ActivityRepository $activityRepository
+        ProjectUtil $projectUtil,
+        ProjectRepository $projectRepository
     ) {
         $navigationHelper->setSection(NavigationHelper::PROJECTS);
-        $this->projectActivityUtil = $projectActivityUtil;
+        $this->projectUtil       = $projectUtil;
         $this->projectRepository = $projectRepository;
-        $this->mediaRepository = $mediaRepository;
-        $this->activityRepository = $activityRepository;
     }
 
     /**
@@ -74,18 +53,17 @@ class ProjectController extends Controller
         return view('project.index', compact('projects'));
     }
 
-    function show($id, $seo = null)
+    function show(Project $project, $seo = null)
     {
-        $project = Project::findOrFail($id);
-        $slug = ProjectUtil::getProjectSlug($project);
+        $slug = $this->projectUtil->slug($project);
 
         if (urldecode($seo) != urldecode($slug)) {
-            return redirect(ProjectUtil::getProjectAction($project));
+
+            dd([urldecode($seo), urldecode($slug)]);
+            return redirect($this->projectUtil->url($project));
         }
 
-        $project->load('members', 'releases', 'game', 'media', 'repositories', 'supportLinks');
-
-        $activities = $this->activityRepository->getRecentActivities($project, 5);
+        $project->load('members', 'releases', 'game', 'repositories');
 
         return view('project.show', compact('project', 'activities'));
     }
@@ -123,7 +101,7 @@ class ProjectController extends Controller
     function edit($id)
     {
         $project = Project::findOrFail($id);
-        $games = Game::all()->pluck('name', 'id');
+        $games   = Game::all()->pluck('name', 'id');
 
         return view('project.edit', compact('project', 'games'));
     }
@@ -150,26 +128,11 @@ class ProjectController extends Controller
         return view('project.create_media', compact('project'));
     }
 
-    function storeMedia(Request $request, $id)
-    {
-        //Todo: Check permission
-        $user = $request->user();
-        $project = Project::findOrFail($id);
-        $file = $request->file('media');
-        if ($request->hasFile('media') && $file->isValid()) {
-            //$media = MediaUtil::createMedia(, $file);
-            $imageData = array_merge(
-                $request->only('name', 'description', 'provider'),
-                ['sizes' => ['xs', 'sm', 'md', 'lg']]
-            );
-            $this->mediaRepository->createImage($file, $imageData, $user, $project);
-        }
-
-        return redirect(ProjectUtil::getProjectAction($project));
-    }
-
-    public function delete(Request $request, $id)
-    {
+    public
+    function delete(
+        Request $request,
+        $id
+    ) {
         $project = Project::findOrFail($id);
         abort_if($request->user()->cannot('remove', $project), 403);
 
@@ -185,8 +148,11 @@ class ProjectController extends Controller
         return redirect()->action('HomeController@index');
     }
 
-    public function toggleFollow(Request $request, Project $project)
-    {
+    public
+    function toggleFollow(
+        Request $request,
+        Project $project
+    ) {
         if (! $project->relationLoaded('user')) {
             $project->load('users');
         }
