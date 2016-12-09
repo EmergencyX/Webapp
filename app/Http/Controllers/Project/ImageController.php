@@ -54,8 +54,7 @@ class ImageController extends Controller
         $image->type = Image::TYPE_IMAGE;
 
         $project->images()->save($image);
-
-
+        
         return redirect($this->projectUtil->url($project));
     }
 }

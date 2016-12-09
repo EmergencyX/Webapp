@@ -28,6 +28,9 @@ Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
     Route::get('mods/recent', 'Api\ProjectController@recent');
     // Route::post('auth/login', 'Auth\AuthController@postLogin');
 
+    Route::get('projects/{project}/images', 'Api\ImageController@index');
+    Route::post('projects/{project}/images', 'Api\ImageController@store');
+
     Route::group([/*'middleware' => 'auth:api'*/], function () {
         Route::get('projects/{project}', 'Api\ProjectController@show');
         Route::get('users/{user}', 'Api\ProjectController@show');

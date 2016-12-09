@@ -2,6 +2,8 @@
 
 namespace EmergencyExplorer\Providers;
 
+use EmergencyExplorer\Models\Image;
+use EmergencyExplorer\Policies\ImagePolicy;
 use Laravel\Passport\Passport;
 
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
@@ -25,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Invitation::class => InvitationPolicy::class,
         Project::class    => ProjectPolicy::class,
+        Image::class      => ImagePolicy::class,
         User::class       => UserPolicy::class,
     ];
 
