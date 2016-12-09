@@ -37,13 +37,15 @@ class LocalImageProcessor implements ImageProcessor
      * @param ImageModel $image
      * @param string $size
      *
+     * @param string $extension
+     *
      * @return string
      */
-    public function filename(ImageModel $image, string $size)
+    public function filename(ImageModel $image, string $size, string $extension = 'jpg')
     {
         $provider = json_decode($image->provider);
 
-        $token  = $provider->t . '_' . $size . '.jpg';
+        $token  = $provider->t . '_' . $size . '.' . $extension;
         $bucket = substr($token, 0, 2);
 
         return implode('/', [$bucket, $token]);
@@ -77,7 +79,9 @@ class LocalImageProcessor implements ImageProcessor
      */
     public function generateImage(ImageModel $image, string $size)
     {
-        $this->resizeInstance(public_path($this->filename($image, ImageModel::SIZE_OG)), $size)
+        $filename = public_path($this->filename($image, ImageModel::SIZE_OG, json_decode($image->provider)->f));
+
+        $this->resizeInstance($filename, $size)
             ->save(public_path($this->filename($image, $size)))
             ->destroy(); //destroys (memory) instance, not image
 
@@ -130,7 +134,11 @@ class LocalImageProcessor implements ImageProcessor
      */
     public function putOriginalImage(ImageModel $image, UploadedFile $file)
     {
-        $file->storeAs(public_path('storage/'), $this->filename($image, ImageModel::SIZE_OG));
+        $provider        = json_decode($image->provider);
+        $provider->f     = $file->extension();
+        $image->provider = json_encode($provider);
+
+        $file->storeAs(public_path('storage/'), $this->filename($image, ImageModel::SIZE_OG, $file->extension()));
 
         $this->generateImage($image, ImageModel::SIZE_XS);
         $this->generateImage($image, ImageModel::SIZE_SM);
