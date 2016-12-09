@@ -3,9 +3,12 @@
 namespace EmergencyExplorer\Util\Image\Processor;
 
 use EmergencyExplorer\Models\Image as ImageModel;
+use Illuminate\Http\UploadedFile;
 
 class LocalImageProcessor implements ImageProcessor
 {
+    const IDENTIFIER = 'loc';
+
     protected $storagePath;
 
     /**
@@ -115,5 +118,23 @@ class LocalImageProcessor implements ImageProcessor
         }
 
         return $image;
+    }
+
+    /**
+     * @param ImageModel $image
+     * @param UploadedFile $file
+     *
+     * Store initial upload
+     *
+     * @return void
+     */
+    public function putOriginalImage(ImageModel $image, UploadedFile $file)
+    {
+        $file->storeAs(public_path('storage/'), $this->filename($image, ImageModel::SIZE_OG));
+
+        $this->generateImage($image, ImageModel::SIZE_XS);
+        $this->generateImage($image, ImageModel::SIZE_SM);
+        $this->generateImage($image, ImageModel::SIZE_MD);
+        $this->generateImage($image, ImageModel::SIZE_LG);
     }
 }

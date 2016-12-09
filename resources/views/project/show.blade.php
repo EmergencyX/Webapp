@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    @unless($project->media->isEmpty())
-        <img class="figure-img img-fluid" src="{{ $project->media->first()->getImageLink('lg') }}" style="width:100%;max-height:300px;object-fit: cover;" alt="{{ $project->name }}">
-    @endunless
+    <img class="figure-img img-fluid" src="{{ $projectUtil->cover($project) }}" style="width:100%;max-height:300px;object-fit: cover;" alt="{{ $project->name }}">
+
     <div class="row">
         <div class="col-md-8">
             <h1>
@@ -22,6 +21,7 @@
             </a>
             @if (Auth::check())
                 <a href="{{ action('ProjectController@toggleFollow', $project) }}" class="btn btn-danger">
+                    {{--
                     @if (Auth::user()->isFollowingProject($project))
                         <i class="fa fa-fire-extinguisher"></i> {{ $project->users()->count() }}
                         {{ trans('project.stop_following') }}
@@ -29,6 +29,7 @@
                         <i class="fa fa-fire-extinguisher"></i> {{ $project->users()->count() }}
                         {{ trans('project.start_following') }}
                     @endif
+                    --}}
                 </a>
             @endif
 
@@ -58,11 +59,14 @@
             </div>
             --}}
 
-            @can('edit', $project)
+            <a href="{{ action('Project\ImageController@create', $project) }}" class="list-group-item">{{ trans('project.create_media') }}</a>
+
+
+        @can('edit', $project)
                 <div class="list-group" style="margin-bottom:0.75rem">
                     <a href="{{ action('ProjectController@edit', $project->id) }}" class="list-group-item">{{ trans('project.edit') }}</a>
 
-                    <a href="{{ action('ProjectController@createMedia', $project->id) }}" class="list-group-item">{{ trans('project.create_media') }}</a>
+                    <a href="{{ action('Project\ImageController@create', $project) }}" class="list-group-item">{{ trans('project.create_media') }}</a>
 
                     <a href="{{ action('ReleaseController@index', $project->id) }}" class="list-group-item">{{ trans('project.releases') }}</a>
                 </div>
@@ -86,7 +90,7 @@
                     <div class="row">
                         @foreach($project->members->take(4) as $user)
                             <div class="col-md-3 col-xs-3">
-                                <img class="figure-img img-fluid img-rounded" src="{{ $user->getThumbnail() }}" alt="{{ $user->name }}">
+                                <img class="figure-img img-fluid img-rounded" src="{{ 'todo' }}" alt="{{ $user->name }}">
                             </div>
                         @endforeach
                     </div>
@@ -95,6 +99,7 @@
                     <div class="clearfix">
                         <p>
                             Bilder
+                            {{--
                             @if($project->media->count() > 4)
                                 <a class="pull-xs-right" href="#">
                                     Alle <i class="fa fa-chevron-right"></i>
@@ -103,14 +108,17 @@
                             @if($project->media->isEmpty())
                                 <br/><span class="text-muted">L10n Keine Bilder</span>
                             @endif
+                            --}}
                         </p>
                     </div>
                     <div class="row">
+                        {{--
                         @foreach($project->media->sortByDesc('updated_at')->take(4) as $media)
                             <div class="col-md-3 col-xs-3">
                                 <img class="figure-img img-fluid img-rounded" src="{{ $media->getImageLink() }}" alt="{{ $media->name }}">
                             </div>
                         @endforeach
+                            --}}
                     </div>
                 </li>
             </ul>

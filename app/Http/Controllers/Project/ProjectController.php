@@ -60,12 +60,13 @@ class ProjectController extends Controller
         if (urldecode($seo) != urldecode($slug)) {
 
             dd([urldecode($seo), urldecode($slug)]);
+
             return redirect($this->projectUtil->url($project));
         }
 
-        $project->load('members', 'releases', 'game', 'repositories');
+        $project->load('members', 'releases', 'game');
 
-        return view('project.show', compact('project', 'activities'));
+        return view('project.show', compact('project'));
     }
 
     function create()

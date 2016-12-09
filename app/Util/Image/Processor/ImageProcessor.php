@@ -3,6 +3,7 @@
 namespace EmergencyExplorer\Util\Image\Processor;
 
 use EmergencyExplorer\Models\Image as ImageModel;
+use Illuminate\Http\UploadedFile;
 
 interface ImageProcessor
 {
@@ -35,4 +36,14 @@ interface ImageProcessor
      * @return mixed
      */
     public function generateImage(ImageModel $image, string $size);
+
+    /**
+     * @param ImageModel $image
+     * @param UploadedFile $file
+     *
+     * Store initial upload
+     *
+     * @return mixed
+     */
+    public function putOriginalImage(ImageModel $image, UploadedFile $file);
 }

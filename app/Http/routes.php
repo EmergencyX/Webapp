@@ -47,6 +47,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('mods/{project}', 'Project\ProjectController@show')->where('project', '[0-9]+');
     Route::get('mods/{project}-{seo}', 'Project\ProjectController@show')->where(['project' => '[0-9]+', 'seo' => '.*']);
 
+    Route::get('mods/{project}/bilder-hochladen', 'Project\ImageController@create');
+    Route::post('mods/{project}/bilder-hochladen', 'Project\ImageController@store');
+
 
     //END UPGRADED
 

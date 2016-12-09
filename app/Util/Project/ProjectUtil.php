@@ -5,6 +5,7 @@ namespace EmergencyExplorer\Util\Project;
 use EmergencyExplorer\Models\Image;
 use EmergencyExplorer\Models\Project;
 use EmergencyExplorer\Util\Image\ImageUtil;
+use Illuminate\Http\UploadedFile;
 
 class ProjectUtil
 {
