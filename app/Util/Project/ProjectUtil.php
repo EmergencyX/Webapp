@@ -59,6 +59,10 @@ class ProjectUtil
     {
         $image = $project->images()->where('type', Image::TYPE_IMAGE)->first();
 
+        if (! $image) {
+            return "https://placekitten.com/g/640/360";
+        }
+
         return $this->imageUtil->url($image, Image::SIZE_MD);
     }
 }
