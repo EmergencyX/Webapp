@@ -55,7 +55,8 @@ class ImageController extends Controller
 
         $project->images()->save($image);
 
-        return \Response::json($image->provider);
+        return \Response::make($image->provider, 200,
+            ['Content-Type' => 'application/json']);
     }
 
     public function index(Project $project)

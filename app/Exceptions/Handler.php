@@ -77,7 +77,7 @@ class Handler extends ExceptionHandler
     protected function prepareException(Exception $e)
     {
         if ($e instanceof AuthorizationException) {
-            $e = new AuthenticationException($e->getMessage(), $e);
+            $e = new AuthenticationException($e->getMessage());
         } else {
             $e = parent::prepareException($e);
         }
