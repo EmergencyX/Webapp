@@ -26,6 +26,10 @@ class ImageUtil
 
     public function url(Image $image, string $size = Image::SIZE_XS)
     {
+        if (! $image) {
+            return "https://placekitten.com/g/640/360";
+        }
+
         $provider = json_decode($image->provider)->p;
 
         return $this->providers[$provider]->getImageLink($image, $size);
