@@ -45,10 +45,7 @@ class LocalImageProcessor implements ImageProcessor
     {
         $provider = json_decode($image->provider);
 
-        $token  = $provider->t . '_' . $size . '.' . $extension;
-        $bucket = substr($token, 0, 2);
-
-        return implode('/', [$bucket, $token]);
+        return $provider->t . '_' . $size . '.' . $extension;
     }
 
     /**
@@ -61,14 +58,17 @@ class LocalImageProcessor implements ImageProcessor
      */
     public function deleteImage(ImageModel $image, string $size)
     {
-        $filename = public_path('storage/' . $this->filename($image, $size));
+        $filename = $this->filename($image, $size);
         dd($filename);
         unlink($filename);
     }
 
-    public function relativePath(ImageModel $image, string $size)
+    public function relativePath(ImageModel $image, string $size, string $extension = 'jpg', bool $withName = true)
     {
-        return 'storage/' . $this->filename($image, $size);
+        $filename = $this->filename($image, $size, $extension);
+        $bucket   = substr($filename, 0, 2);
+
+        return $withName ? 'storage/' . $bucket . '/' . $filename : 'storage/' . $bucket;
     }
 
     /**
@@ -137,6 +137,13 @@ class LocalImageProcessor implements ImageProcessor
         $provider        = json_decode($image->provider);
         $provider->f     = $file->extension();
         $image->provider = json_encode($provider);
+
+
+        $path = $this->relativePath($image, ImageModel::SIZE_OG);
+        $name = $this->filename($image, ImageModel::SIZE_OG, $file->extension());
+
+
+        $file->move($path, $name);
 
         $file->storeAs(public_path('storage/'), $this->filename($image, ImageModel::SIZE_OG, $file->extension()));
 
