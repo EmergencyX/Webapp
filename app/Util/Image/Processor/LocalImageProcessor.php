@@ -30,7 +30,7 @@ class LocalImageProcessor implements ImageProcessor
      */
     public function getImageLink(ImageModel $image, string $size = ImageModel::SIZE_MD)
     {
-        return asset($this->filename($image, $size));
+        return asset($this->relativePath($image, $size));
     }
 
     /**
@@ -79,10 +79,10 @@ class LocalImageProcessor implements ImageProcessor
      */
     public function generateImage(ImageModel $image, string $size)
     {
-        $filename = public_path($this->filename($image, ImageModel::SIZE_OG, json_decode($image->provider)->f));
+        $filename = public_path($this->relativePath($image, ImageModel::SIZE_OG, json_decode($image->provider)->f));
 
         $this->resizeInstance($filename, $size)
-            ->save(public_path($this->filename($image, $size)))
+            ->save(public_path($this->relativePath($image, $size)))
             ->destroy(); //destroys (memory) instance, not image
 
         return $image;
@@ -136,10 +136,11 @@ class LocalImageProcessor implements ImageProcessor
     {
         $provider        = json_decode($image->provider);
         $provider->f     = $file->extension();
+        $provider->p     = self::IDENTIFIER;
         $image->provider = json_encode($provider);
 
 
-        $path = $this->relativePath($image, ImageModel::SIZE_OG);
+        $path = public_path($this->relativePath($image, ImageModel::SIZE_OG, '', false));
         $name = $this->filename($image, ImageModel::SIZE_OG, $file->extension());
 
         $file->move($path, $name);

@@ -56,6 +56,6 @@ class ImageController extends Controller
         $project->images()->save($image);
 
 
-        return $this->projectUtil->url($project);
+        return redirect($this->projectUtil->url($project));
     }
 }
