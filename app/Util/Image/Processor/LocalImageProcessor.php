@@ -142,10 +142,7 @@ class LocalImageProcessor implements ImageProcessor
         $path = $this->relativePath($image, ImageModel::SIZE_OG);
         $name = $this->filename($image, ImageModel::SIZE_OG, $file->extension());
 
-
         $file->move($path, $name);
-
-        $file->storeAs(public_path('storage/'), $this->filename($image, ImageModel::SIZE_OG, $file->extension()));
 
         $this->generateImage($image, ImageModel::SIZE_XS);
         $this->generateImage($image, ImageModel::SIZE_SM);
