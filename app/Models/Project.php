@@ -1,6 +1,7 @@
 <?php
 
 namespace EmergencyExplorer\Models;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
@@ -53,9 +54,9 @@ class Project extends Model
         return $this->users()->whereIn('project_user.role', $withoutWatchers);
     }
 
-    function media()
+    function images()
     {
-        return $this->belongsToMany(Media::class)->withPivot('user_id');
+        return $this->morphMany(Image::class, 'owner')->where('type', Image::TYPE_IMAGE);
     }
 
     function repositories()

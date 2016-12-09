@@ -2,10 +2,27 @@
 
 namespace EmergencyExplorer\Util\Project;
 
+use EmergencyExplorer\Models\Image;
 use EmergencyExplorer\Models\Project;
+use EmergencyExplorer\Util\Image\ImageUtil;
 
 class ProjectUtil
 {
+    /**
+     * @var ImageUtil
+     */
+    protected $imageUtil;
+
+    /**
+     * ProjectUtil constructor.
+     *
+     * @param ImageUtil $imageUtil
+     */
+    public function __construct(ImageUtil $imageUtil)
+    {
+        $this->imageUtil = $imageUtil;
+    }
+
     /**
      * Get the project slug
      *
@@ -35,5 +52,12 @@ class ProjectUtil
     public function url(Project $project)
     {
         return action('Project\ProjectController@show', [$project, 'seo' => $this->slug($project)]);
+    }
+
+    public function cover(Project $project)
+    {
+        $image = $project->images()->where('type', Image::TYPE_IMAGE)->first();
+
+        return $this->imageUtil->url($image, Image::SIZE_MD);
     }
 }

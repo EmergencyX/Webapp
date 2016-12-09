@@ -1,6 +1,7 @@
 <?php
 
 namespace EmergencyExplorer\Models;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -15,7 +16,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'password',
+        'name',
+        'password',
     ];
 
     /**
@@ -24,30 +26,38 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
-    
-    function badges() {
+
+    function badges()
+    {
         return $this->belongsToMany(Badge::class)->withPivot('given_at');
     }
-    
-    function media() {
-        return $this->belongsToMany(Media::class);
-    }
-    
-    function projects() {
+
+    function projects()
+    {
         return $this->belongsToMany(Project::class)->withPivot('role');
     }
 
-    function installedReleases() {
+    function installedReleases()
+    {
         return $this->belongsToMany(Release::class)->withPivot('progress');
     }
 
-    function getThumbnail() {
-        return asset('storage/user-' . $this->id . '.jpg');
+    function avatar()
+    {
+        return $this->images()->where('type', Image::TYPE_AVATAR)->first();
     }
 
-    function isFollowingProject($project) {
+    function images()
+    {
+        $this->morphMany(Image::class, 'owner');
+    }
+
+
+    function isFollowingProject($project)
+    {
         return $project->users->contains($this);
     }
 
