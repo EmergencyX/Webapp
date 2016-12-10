@@ -43,7 +43,7 @@ class ImageUtil
     public function newImage(array $imageInfo)
     {
         $image           = new Image($imageInfo);
-        $image->provider = ['t' => md5(random_bytes(12))];
+        $image->provider = ['t' => md5(random_bytes(12) . (string)time())];
 
         return $image;
     }

@@ -18,6 +18,7 @@ class CreateReleasesTable extends Migration
             $table->integer('project_repository_id')->unsigned();
             $table->integer('game_version_id')->unsigned();
             $table->string('name');
+            $table->string('description');
             $table->string('provider');
             $table->boolean('beta')->default(false);
             $table->boolean('visible')->default(false);

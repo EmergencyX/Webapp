@@ -55,6 +55,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('mods/{project}/bilder-hochladen', 'Project\ImageController@create');
     Route::post('mods/{project}/bilder-hochladen', 'Project\ImageController@store');
 
+    Route::get('mods/{project}/datei-hochladen', 'Project\ReleaseController@create');
+    Route::post('mods/{project}/datei-hochladen', 'Project\ReleaseController@store');
 
     //END UPGRADED
 

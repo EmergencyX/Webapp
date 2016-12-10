@@ -60,6 +60,7 @@
             --}}
 
             <a href="{{ action('Project\ImageController@create', $project) }}" class="list-group-item">{{ trans('project.create_media') }}</a>
+            <a href="{{ action('Project\ReleaseController@create', $project) }}" class="list-group-item">{{ trans('project.releases') }}</a>
 
 
         @can('edit', $project)
