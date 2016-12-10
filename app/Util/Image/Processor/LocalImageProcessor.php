@@ -43,9 +43,7 @@ class LocalImageProcessor implements ImageProcessor
      */
     public function filename(ImageModel $image, string $size, string $extension = 'jpg')
     {
-        $provider = json_decode($image->provider);
-
-        return $provider->t . '_' . $size . '.' . $extension;
+        return $image->provider['t'] . '_' . $size . '.' . $extension;
     }
 
     /**
@@ -60,7 +58,7 @@ class LocalImageProcessor implements ImageProcessor
     {
         $filename = public_path(
             $size === ImageModel::SIZE_OG ?
-                $this->relativePath($image, $size, json_decode($image->provider)->f) :
+                $this->relativePath($image, $size, $image->provider['f']) :
                 $this->relativePath($image, $size)
         );
 
@@ -83,7 +81,7 @@ class LocalImageProcessor implements ImageProcessor
      */
     public function generateImage(ImageModel $image, string $size)
     {
-        $filename = public_path($this->relativePath($image, ImageModel::SIZE_OG, json_decode($image->provider)->f));
+        $filename = public_path($this->relativePath($image, ImageModel::SIZE_OG, $image->provider['f']));
 
         $this->resizeInstance($filename, $size)
             ->save(public_path($this->relativePath($image, $size)))
@@ -138,11 +136,8 @@ class LocalImageProcessor implements ImageProcessor
      */
     public function putOriginalImage(ImageModel $image, UploadedFile $file)
     {
-        $provider        = json_decode($image->provider);
-        $provider->f     = $file->extension();
-        $provider->p     = self::IDENTIFIER;
-        $image->provider = json_encode($provider);
-
+        $image->provider['f'] = $file->extension();
+        $image->provider['p'] = self::IDENTIFIER;
 
         $path = public_path($this->relativePath($image, ImageModel::SIZE_OG, '', false));
         $name = $this->filename($image, ImageModel::SIZE_OG, $file->extension());

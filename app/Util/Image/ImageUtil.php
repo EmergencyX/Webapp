@@ -29,9 +29,7 @@ class ImageUtil
             return "https://placekitten.com/g/640/360";
         }
 
-        $provider = json_decode($image->provider)->p;
-
-        return $this->providers[$provider]->getImageLink($image, $size);
+        return $this->providers[$image->provider['p']]->getImageLink($image, $size);
     }
 
     public function forProject(Project $project)
@@ -45,7 +43,7 @@ class ImageUtil
     public function newImage(array $imageInfo)
     {
         $image           = new Image($imageInfo);
-        $image->provider = json_encode(['t' => md5(random_bytes(12))]);
+        $image->provider = ['t' => md5(random_bytes(12))];
 
         return $image;
     }
@@ -70,7 +68,7 @@ class ImageUtil
 
     public function removeImage(Image $image)
     {
-        $processor = json_decode($image->provider)->p;
+        $processor = $image->provider['p'];
         $this->providers[$processor]->deleteImage($image, Image::SIZE_OG);
         $this->providers[$processor]->deleteImage($image, Image::SIZE_LG);
         $this->providers[$processor]->deleteImage($image, Image::SIZE_MD);

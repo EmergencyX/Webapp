@@ -8,7 +8,6 @@ class Image extends Model
 {
     const LOCAL = 'local';
 
-
     const TYPE_AVATAR = 1;
     const TYPE_IMAGE  = 2;
 
@@ -17,6 +16,10 @@ class Image extends Model
     const SIZE_MD = 'md';
     const SIZE_LG = 'lg';
     const SIZE_OG = 'og';
+
+    protected $casts = [
+        'provider' => 'array',
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo

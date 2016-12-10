@@ -49,7 +49,7 @@ class ImageController extends ApiController
 
         return \Response::make([
             'success' => true,
-            'data'    => array_merge(json_decode($image->provider, true), ['id' => $image->id]),
+            'data'    => array_merge($image->provider, ['id' => $image->id]),
         ]);
     }
 
@@ -60,7 +60,7 @@ class ImageController extends ApiController
         return \Response::json([
             'success' => true,
             'data'    => $project->images->map(function ($image) {
-                return array_merge(json_decode($image->provider, true), ['id' => $image->id]);
+                return array_merge($image->provider, ['id' => $image->id]);
             }),
         ]);
     }
