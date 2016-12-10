@@ -30,6 +30,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
 
     Route::get('projects/{project}/images', 'Api\ImageController@index');
     Route::post('projects/{project}/images', 'Api\ImageController@store');
+    Route::get('projects/{project}/images/{image}', 'Api\ImageController@show');
+    Route::delete('projects/{project}/images/{image}', 'Api\ImageController@remove');
 
     Route::group([/*'middleware' => 'auth:api'*/], function () {
         Route::get('projects/{project}', 'Api\ProjectController@show');

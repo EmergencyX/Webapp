@@ -6,7 +6,6 @@ use EmergencyExplorer\Models\Image;
 use EmergencyExplorer\Models\Project;
 use EmergencyExplorer\Util\Image\Processor\LocalImageProcessor;
 use Illuminate\Http\UploadedFile;
-use League\Flysystem\Adapter\Local;
 
 class ImageUtil
 {
@@ -67,5 +66,15 @@ class ImageUtil
         $this->providers[$processor]->putOriginalImage($image, $file);
 
         return $image;
+    }
+
+    public function removeImage(Image $image)
+    {
+        $processor = json_decode($image->provider)->p;
+        $this->providers[$processor]->deleteImage($image, Image::SIZE_OG);
+        $this->providers[$processor]->deleteImage($image, Image::SIZE_LG);
+        $this->providers[$processor]->deleteImage($image, Image::SIZE_MD);
+        $this->providers[$processor]->deleteImage($image, Image::SIZE_SM);
+        $this->providers[$processor]->deleteImage($image, Image::SIZE_XS);
     }
 }

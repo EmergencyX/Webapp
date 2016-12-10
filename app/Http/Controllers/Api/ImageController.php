@@ -8,9 +8,7 @@ use EmergencyExplorer\Models\User;
 use EmergencyExplorer\Util\Image\ImageUtil;
 use Illuminate\Http\Request;
 
-use EmergencyExplorer\Http\Controllers\Controller;
-
-class ImageController extends Controller
+class ImageController extends ApiController
 {
     /**
      * @var ImageUtil
@@ -35,15 +33,9 @@ class ImageController extends Controller
         return \Response::json($projects);
     }
 
-    public function show(Project $project)
+    public function show(Project $project, Image $image)
     {
-        /* $user = request()->user('api');
-         abort_unless($user instanceof User, 401);
-         abort_unless($user->can('show', $project), 401);
-         abort_unless($user->tokenCan('show-project'), 401);
-
-         return \Response::json($project);
-        */
+        return \Response::json(['success' => true]);
     }
 
     public function store(Project $project, Request $request)
@@ -55,15 +47,37 @@ class ImageController extends Controller
 
         $project->images()->save($image);
 
-        return \Response::make($image->provider, 200,
-            ['Content-Type' => 'application/json']);
+        return \Response::make([
+            'success' => true,
+            'data'    => array_merge(json_decode($image->provider, true), ['id' => $image->id]),
+        ]);
     }
 
     public function index(Project $project)
     {
         $project->load('images');
 
-        return \Response::make('[' . $project->images->pluck('provider')->implode(',') . ']', 200,
-            ['Content-Type' => 'application/json']);
+        return \Response::json([
+            'success' => true,
+            'data'    => $project->images->map(function ($image) {
+                return array_merge(json_decode($image->provider, true), ['id' => $image->id]);
+            }),
+        ]);
+    }
+
+    public function remove(Project $project, Image $image)
+    {
+        //Check if user may edit project
+        if ($image->owner->getKey() !== $project->getKey()) {
+            abort(403, 'Image does not belong to given project');
+        }
+
+        //$user = $this->getCaller();
+        //abort_unless($user->can('edit', $project), 401);
+        //abort_unless($user->tokenCan('edit-project'), 401);
+
+        $this->imageUtil->removeImage($image);
+
+        return \Response::json(['success' => $image->delete()]);
     }
 }

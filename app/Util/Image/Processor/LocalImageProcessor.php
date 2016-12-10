@@ -58,9 +58,13 @@ class LocalImageProcessor implements ImageProcessor
      */
     public function deleteImage(ImageModel $image, string $size)
     {
-        $filename = $this->filename($image, $size);
-        dd($filename);
-        unlink($filename);
+        $filename = public_path(
+            $size === ImageModel::SIZE_OG ?
+                $this->relativePath($image, $size, json_decode($image->provider)->f) :
+                $this->relativePath($image, $size)
+        );
+
+        return unlink($filename);
     }
 
     public function relativePath(ImageModel $image, string $size, string $extension = 'jpg', bool $withName = true)
@@ -145,6 +149,7 @@ class LocalImageProcessor implements ImageProcessor
 
         $file->move($path, $name);
 
+        //Todo: clean this up
         $this->generateImage($image, ImageModel::SIZE_XS);
         $this->generateImage($image, ImageModel::SIZE_SM);
         $this->generateImage($image, ImageModel::SIZE_MD);
