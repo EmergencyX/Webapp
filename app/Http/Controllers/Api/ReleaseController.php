@@ -36,7 +36,7 @@ class ReleaseController extends ApiController
     {
         $this->authorizeForUser($this->getCaller(), 'edit', $project);
 
-        $attributes = $request->only(['name', 'beta', 'visible', 'game_version_id', 'provider']);
+        $attributes = $request->only(['name', 'beta', 'visible', 'game_version_id']);
 
         $processor = $this->releaseUtil->getLocalProcessor();
         $release   = $processor->store($request->file('release'));

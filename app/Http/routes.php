@@ -28,13 +28,14 @@ Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
     Route::get('mods/recent', 'Api\ProjectController@recent');
     // Route::post('auth/login', 'Auth\AuthController@postLogin');
 
-    Route::get('projects/{project}/images', 'Api\ImageController@index');
-    Route::get('projects/{project}/images/{image}', 'Api\ImageController@show');
-
-    Route::get('projects/{project}', 'Api\ProjectController@show');
     Route::get('users/{user}', 'Api\ProjectController@show');
+    Route::get('projects/{project}', 'Api\ProjectController@show');
 
     Route::get('projects/{project}/releases', 'Api\ReleaseController@index');
+    Route::get('projects/{project}/releases/{release}', 'Api\ReleaseController@index');
+
+    Route::get('projects/{project}/images', 'Api\ImageController@index');
+    Route::get('projects/{project}/images/{image}', 'Api\ImageController@show');
 
     Route::group(['middleware' => 'auth:api'], function () {
         Route::post('projects/{project}/images', 'Api\ImageController@store');
