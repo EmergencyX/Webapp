@@ -55,6 +55,6 @@ class ReleaseController extends ApiController
 
         $this->releaseUtil->remove($release);
 
-        return response();
+        return response()->make();
     }
 }
