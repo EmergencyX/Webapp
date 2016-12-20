@@ -18,9 +18,7 @@ class ReleasePolicy
      */
     public function download(User $user, Release $release)
     {
-        if (! $release->relationLoaded('repository.project.usersWithoutWatchers')) {
-            $release->load('repository.project.usersWithoutWatchers');
-        }
+        $release->load('repository.project.usersWithoutWatchers');
 
         if ($release->repository->project->usersWithoutWatchers->contains($user)) {
             //User is tester or member -> always grant access
@@ -31,13 +29,12 @@ class ReleasePolicy
             //Check if everything is visible -> public
             return true;
         }
-        
+
         return false;
     }
 
     public function remove(User $user, Release $release)
     {
-
-        return false;
+        return $release->project->admins->contains($user);
     }
 }

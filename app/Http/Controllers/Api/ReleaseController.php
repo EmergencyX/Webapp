@@ -51,7 +51,8 @@ class ReleaseController extends ApiController
     public function remove(ProjectModel $project, Release $release)
     {
         abort_unless($project->id === $release->project_id, 403);
-        $this->authorizeForUser($this->getCaller(), 'remove', $release);
+        $this->authorizeForUser($this->getCaller(), 'edit', $project);
+
         $this->releaseUtil->remove($release);
 
         return response();

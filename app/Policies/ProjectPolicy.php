@@ -35,9 +35,7 @@ class ProjectPolicy
 
     public function edit(User $user, Project $project)
     {
-        $auth = $project->admins->contains($user);
-
-        return $auth;
+        return $project->admins->contains($user);
     }
 
     public function showReleases(User $user, Project $project)
