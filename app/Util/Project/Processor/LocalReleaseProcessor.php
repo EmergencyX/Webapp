@@ -63,7 +63,7 @@ class LocalReleaseProcessor implements ReleaseProcessor
      */
     public function publish(Release $release): bool
     {
-        // TODO: Implement publish() method.
+        return true;
     }
 
     /**
@@ -73,6 +73,6 @@ class LocalReleaseProcessor implements ReleaseProcessor
      */
     public function unpublish(Release $release): bool
     {
-        // TODO: Implement unpublish() method.
+        return true;
     }
 }

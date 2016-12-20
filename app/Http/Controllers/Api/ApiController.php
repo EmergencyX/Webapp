@@ -2,12 +2,7 @@
 
 namespace EmergencyExplorer\Http\Controllers\Api;
 
-use EmergencyExplorer\Models\Image;
-use EmergencyExplorer\Models\Project;
 use EmergencyExplorer\Models\User;
-use EmergencyExplorer\Util\Image\ImageUtil;
-use Illuminate\Http\Request;
-
 use EmergencyExplorer\Http\Controllers\Controller;
 
 class ApiController extends Controller
