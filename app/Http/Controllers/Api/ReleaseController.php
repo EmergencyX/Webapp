@@ -54,6 +54,7 @@ class ReleaseController extends ApiController
         $this->authorizeForUser($this->getCaller(), 'edit', $project);
 
         $this->releaseUtil->remove($release);
+        $release->delete();
 
         return response()->make();
     }
