@@ -37,13 +37,13 @@ class ReleaseController extends ApiController
     {
         $this->authorizeForUser($this->getCaller(), 'edit', $project);
 
-        $processor     = $this->releaseUtil->getLocalProcessor();
+        $processor = $this->releaseUtil->getLocalProcessor();
 
-        $release       = $processor->store($request->file('release'));
-        $release->name = $request->get('name', 'Unbenannt');
-        $release->beta = $request->get('beta', 0);
-        $release->name = $request->get('visible', 0);
-        $release->name = $request->get('game_version_id', 0);
+        $release                  = $processor->store($request->file('release'));
+        $release->name            = $request->get('name', 'Unbenannt');
+        $release->beta            = intval($request->get('beta', 0));
+        $release->visible         = intval($request->get('visible', 0));
+        $release->game_version_id = intval($request->get('game_version_id', 0));
 
         $project->releases()->save($release);
 
