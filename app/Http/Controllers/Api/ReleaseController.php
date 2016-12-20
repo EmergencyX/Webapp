@@ -2,6 +2,7 @@
 
 namespace EmergencyExplorer\Http\Controllers\Api;
 
+use EmergencyExplorer\Models\GameVersion;
 use EmergencyExplorer\Models\Project as ProjectModel;
 use EmergencyExplorer\Models\Release;
 use EmergencyExplorer\Util\Project\ReleaseUtil;
@@ -36,11 +37,14 @@ class ReleaseController extends ApiController
     {
         $this->authorizeForUser($this->getCaller(), 'edit', $project);
 
-        $attributes = $request->only(['name', 'beta', 'visible', 'game_version_id']);
+        $processor     = $this->releaseUtil->getLocalProcessor();
 
-        $processor = $this->releaseUtil->getLocalProcessor();
-        $release   = $processor->store($request->file('release'));
-        $release->update($attributes);
+        $release       = $processor->store($request->file('release'));
+        $release->name = $request->get('name', 'Unbenannt');
+        $release->beta = $request->get('beta', 0);
+        $release->name = $request->get('visible', 0);
+        $release->name = $request->get('game_version_id', 0);
+
         $project->releases()->save($release);
 
         return response()->json($release);
