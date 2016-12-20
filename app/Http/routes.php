@@ -37,9 +37,9 @@ Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
     Route::get('projects/{project}/releases', 'Api\ReleaseController@index');
 
     Route::group(['middleware' => 'auth:api'], function () {
-
         Route::post('projects/{project}/images', 'Api\ImageController@store');
-        //Route::post('projects/{project}/releases', 'Api\ReleaseController@store');
+        Route::post('projects/{project}/releases', 'Api\ReleaseController@store');
+
         Route::delete('projects/{project}/images/{image}', 'Api\ImageController@remove');
         Route::delete('projects/{project}/releases/{release}', 'Api\ReleaseController@remove');
     });

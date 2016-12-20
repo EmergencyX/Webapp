@@ -27,27 +27,43 @@ class ReleaseController extends ApiController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request $request
      * @param ProjectModel $project
      *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, ProjectModel $project)
     {
-        $file       = $request->release;
+        $this->authorizeForUser($this->getCaller(), 'edit', $project);
+
         $attributes = $request->only(['name', 'beta', 'visible', 'game_version_id', 'provider']);
 
-        $release = $this->releaseRepository->store($project, $attributes, $file);
+        $processor = $this->releaseUtil->getLocalProcessor();
+        $release   = $processor->store($request->file('release'));
+        $release->update($attributes);
+        $project->releases()->save($release);
 
-        return $release;
+        return response()->json($release);
     }
 
+    /**
+     * @param ProjectModel $project
+     *
+     * @return mixed
+     */
     public function index(ProjectModel $project)
     {
         $this->authorizeForUser($this->getCaller(), 'show-releases', $project);
+
         return $this->releaseUtil->forProject($project);
     }
 
+    /**
+     * @param ProjectModel $project
+     * @param Release $release
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function remove(ProjectModel $project, Release $release)
     {
         abort_unless($project->id === $release->project_id, 403);
