@@ -40,6 +40,15 @@ class ProjectPolicy
         return $auth;
     }
 
+    public function showReleases(User $user, Project $project)
+    {
+        if ($project->visible) {
+            return true;
+        }
+
+        return $project->usersWithoutWatchers->contains($user);
+    }
+
     /**
      * Check if user may delete project
      *

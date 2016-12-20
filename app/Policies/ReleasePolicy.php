@@ -34,4 +34,10 @@ class ReleasePolicy
         
         return false;
     }
+
+    public function remove(User $user, Release $release)
+    {
+
+        return false;
+    }
 }

@@ -16,7 +16,7 @@ class LocalReleaseProcessor implements ReleaseProcessor
      *
      * @return string
      */
-    public function url(Release $release) : string
+    public function url(Release $release): string
     {
         $filename = $release->provider['t'];
 
@@ -28,13 +28,15 @@ class LocalReleaseProcessor implements ReleaseProcessor
      *
      * @return Release
      */
-    public function store(File $file) : Release
+    public function store(File $file): Release
     {
         $release = new Release;
 
         $filename = md5(str_random(12) . (string)time()) . '.' . $file->guessExtension();
         $path     = public_path('storage/mods/' . substr($filename, 0, 2));
         $file->move($path, $filename);
+
+        chmod($path . '/' . $filename, 0644);
 
         $release->provider = ['t' => $filename, 'p' => self::IDENTIFIER];
 
@@ -46,7 +48,7 @@ class LocalReleaseProcessor implements ReleaseProcessor
      *
      * @return bool
      */
-    public function remove(Release $release) : bool
+    public function remove(Release $release): bool
     {
         $filename = $release->provider['t'];
         $path     = public_path('storage/mods/' . substr($filename, 0, 2) . '/' . $filename);
@@ -59,7 +61,7 @@ class LocalReleaseProcessor implements ReleaseProcessor
      *
      * @return bool
      */
-    public function publish(Release $release) : bool
+    public function publish(Release $release): bool
     {
         // TODO: Implement publish() method.
     }
@@ -69,7 +71,7 @@ class LocalReleaseProcessor implements ReleaseProcessor
      *
      * @return bool
      */
-    public function unpublish(Release $release) : bool
+    public function unpublish(Release $release): bool
     {
         // TODO: Implement unpublish() method.
     }

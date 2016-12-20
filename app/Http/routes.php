@@ -29,17 +29,19 @@ Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
     // Route::post('auth/login', 'Auth\AuthController@postLogin');
 
     Route::get('projects/{project}/images', 'Api\ImageController@index');
-    Route::post('projects/{project}/images', 'Api\ImageController@store');
     Route::get('projects/{project}/images/{image}', 'Api\ImageController@show');
-    Route::delete('projects/{project}/images/{image}', 'Api\ImageController@remove');
 
-    Route::group([/*'middleware' => 'auth:api'*/], function () {
-        Route::get('projects/{project}', 'Api\ProjectController@show');
-        Route::get('users/{user}', 'Api\ProjectController@show');
+    Route::get('projects/{project}', 'Api\ProjectController@show');
+    Route::get('users/{user}', 'Api\ProjectController@show');
 
-        Route::get('project/{project}/release', 'Api\ReleaseController@index');
-        Route::post('project/{project}/release', 'Api\ReleaseController@store');
-        Route::delete('release/{release}', 'Api\ReleaseController@remove');
+    Route::get('projects/{project}/releases', 'Api\ReleaseController@index');
+
+    Route::group(['middleware' => 'auth:api'], function () {
+
+        Route::post('projects/{project}/images', 'Api\ImageController@store');
+        //Route::post('projects/{project}/releases', 'Api\ReleaseController@store');
+        Route::delete('projects/{project}/images/{image}', 'Api\ImageController@remove');
+        Route::delete('projects/{project}/releases/{release}', 'Api\ReleaseController@remove');
     });
 
 });

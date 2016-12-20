@@ -2,26 +2,26 @@
 
 namespace EmergencyExplorer\Http\Controllers\Api;
 
-use EmergencyExplorer\Project as ProjectModel;
-use EmergencyExplorer\Release;
-use EmergencyExplorer\Repositories\Release as ReleaseRepository;
+use EmergencyExplorer\Models\Project as ProjectModel;
+use EmergencyExplorer\Models\Release;
+use EmergencyExplorer\Util\Project\ReleaseUtil;
 use Illuminate\Http\Request;
 
-use EmergencyExplorer\Http\Controllers\Controller;
-
-class ReleaseController extends Controller
+class ReleaseController extends ApiController
 {
     /**
-     * @var \EmergencyExplorer\Repositories\Release
+     * @var ReleaseUtil
      */
-    protected $releaseRepository;
+    protected $releaseUtil;
 
     /**
      * ReleaseController constructor.
+     *
+     * @param ReleaseUtil $releaseUtil
      */
-    public function __construct(ReleaseRepository $releaseRepository)
+    public function __construct(ReleaseUtil $releaseUtil)
     {
-        $this->releaseRepository = $releaseRepository;
+        $this->releaseUtil = $releaseUtil;
     }
 
     /**
@@ -44,22 +44,16 @@ class ReleaseController extends Controller
 
     public function index(ProjectModel $project)
     {
-        return $project->releases->map(function (Release $release) {
-            return [
-                'id'              => $release->getKey(),
-                'name'            => $release->name,
-                'beta'            => $release->beta,
-                'game_version_id' => $release->game_version_id,
-                'created_at'      => $release->created_at->toDateTimeString(),
-                'updated_at'      => $release->updated_at->toDateTimeString(),
-            ];
-        });
+        $this->authorizeForUser($this->getCaller(), 'show-releases', $project);
+        return $this->releaseUtil->forProject($project);
     }
 
-    public function remove(Release $release)
+    public function remove(ProjectModel $project, Release $release)
     {
-        $this->releaseRepository->remove($release);
+        abort_unless($project->id === $release->project_id, 403);
+        $this->authorizeForUser($this->getCaller(), 'remove', $release);
+        $this->releaseUtil->remove($release);
 
-        return response()->json(['status' => 'success']);
+        return response();
     }
 }

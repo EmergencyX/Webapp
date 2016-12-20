@@ -12,12 +12,13 @@ use EmergencyExplorer\Http\Controllers\Controller;
 
 class ApiController extends Controller
 {
-    public function getCaller() : User
+    /**
+     * @return User|null
+     */
+    public function getCaller()
     {
-        $user = request()->user('api');
-        abort_unless($user instanceof User, 401);
+        return request()->user('api');
 
-        return $user;
         /*abort_unless($user->can('show', $project), 401);
         abort_unless($user->tokenCan('show-project'), 401);
 
