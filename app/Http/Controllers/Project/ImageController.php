@@ -35,7 +35,8 @@ class ImageController extends Controller
 
     public function remove(Project $project, Image $image, Request $request)
     {
-        abort_unless($request->user()->can('edit', $project), 401);
+        $this->authorize('edit', $project);
+
         if ($image->owner->getKey() !== $project->getKey()) {
             abort(403, 'Image does not belong to given project');
         }
@@ -47,11 +48,15 @@ class ImageController extends Controller
 
     public function create(Project $project)
     {
+        $this->authorize('edit', $project);
+
         return view('project.create_image', compact('project'));
     }
 
     public function store(Project $project, Request $request)
     {
+        $this->authorize('edit', $project);
+
         $image       = $this->imageUtil->fromFile($request->file('image'), []);
         $image->type = Image::TYPE_IMAGE;
 

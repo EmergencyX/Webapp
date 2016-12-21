@@ -30,8 +30,7 @@ class LocalReleaseProcessor implements ReleaseProcessor
      */
     public function store(File $file): Release
     {
-        $release = new Release;
-
+        $release  = new Release;
         $filename = md5(str_random(12) . (string)time()) . '.' . $file->guessExtension();
         $path     = public_path('storage/mods/' . substr($filename, 0, 2));
         $file->move($path, $filename);

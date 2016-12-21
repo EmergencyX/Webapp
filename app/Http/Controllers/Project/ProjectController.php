@@ -22,7 +22,7 @@ class ProjectController extends Controller
     /**
      * @var ProjectUtil
      */
-    private $projectUtil;
+    protected $projectUtil;
 
     /**
      * ProjectController constructor.
@@ -55,6 +55,8 @@ class ProjectController extends Controller
 
     function show(Project $project, $seo = null)
     {
+        $this->authorize('show', $project);
+
         $slug = $this->projectUtil->slug($project);
 
         if (urldecode($seo) != urldecode($slug)) {
@@ -71,6 +73,8 @@ class ProjectController extends Controller
 
     function create()
     {
+        //$this->authorize('create', $project);
+
         $games = Game::all()->pluck('name', 'id');
 
         return view('project.create', compact('games'));
@@ -78,6 +82,8 @@ class ProjectController extends Controller
 
     function store(Request $request)
     {
+        //$this->authorize('create', $project);
+
         try {
             $project = $this->projectRepository->createProject($request->only([
                 'name',
@@ -99,17 +105,18 @@ class ProjectController extends Controller
         }
     }
 
-    function edit($id)
+    function edit(Project $project)
     {
-        $project = Project::findOrFail($id);
-        $games   = Game::all()->pluck('name', 'id');
+        $this->authorize('edit', $project);
+        $games = Game::all()->pluck('name', 'id');
 
         return view('project.edit', compact('project', 'games'));
     }
 
-    function update(Request $request, $id)
+    function update(Project $project, Request $request)
     {
-        $project = Project::findOrFail($id);
+        $this->authorize('edit', $project);
+
         $project->update($request->only(['name', 'description', 'status', 'visible']));
         if ($request->has('visible')) {
             //we should fail if this is not given. Whatever...
@@ -118,28 +125,17 @@ class ProjectController extends Controller
 
         $project->save();
 
-        return redirect(ProjectUtil::getProjectAction($project));
+        return redirect($this->projectUtil->url($project));
     }
 
-    function createMedia($id)
+    public function delete(Request $request, Project $project)
     {
-        //Todo: Check permission
-        $project = Project::findOrFail($id);
-
-        return view('project.create_media', compact('project'));
-    }
-
-    public
-    function delete(
-        Request $request,
-        $id
-    ) {
-        $project = Project::findOrFail($id);
-        abort_if($request->user()->cannot('remove', $project), 403);
+        $this->authorize('remove', $project);
 
         $project->media()->get()->each(function ($media) {
             MediaUtil::deleteMedia($media);
         });
+
         $project->members()->detach();
         $project->releases()->delete();
         $project->repositories()->delete();
@@ -149,32 +145,8 @@ class ProjectController extends Controller
         return redirect()->action('HomeController@index');
     }
 
-    public
-    function toggleFollow(
-        Request $request,
-        Project $project
-    ) {
-        if (! $project->relationLoaded('user')) {
-            $project->load('users');
-        }
-
-        if ($user = $project->users->where('id', $request->user()->id)->first()) {
-            if ($user->pivot->role != Project::PROJECT_ROLE_WATCHER) {
-                throw new \Exception('User is a member, not only a watcher. Leave the project instead.');
-            }
-            $project->users()->detach($user);
-            notification('stopped_following_project', ['meta' => ['project' => $project->id]]);
-
-            return back();
-        } else {
-            if (! $project->visible) {
-                throw new \Exception('This is a hidden project. You are either in or out.');
-            }
-
-            $project->users()->save($request->user(), ['role' => Project::PROJECT_ROLE_WATCHER]);
-            notification('following_project', ['meta' => ['project' => $project->id]]);
-
-            return back();
-        }
+    public function toggleFollow(Request $request, Project $project)
+    {
+        $this->projectUtil->toggleFollow($project, $request->user());
     }
 }

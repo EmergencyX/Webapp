@@ -35,19 +35,27 @@ class ReleaseController extends Controller
 
     public function create(ProjectModel $project)
     {
+        $this->authorize('edit', $project);
+
         return view('project.release.create', compact('project'));
     }
 
     public function download(ProjectModel $project)
     {
-
+        //$this->authorize('download', $project);
     }
 
     public function store(ProjectModel $project, Request $request)
     {
-        $processor     = $this->releaseUtil->getLocalProcessor();
-        $release       = $processor->store($request->file('release'));
-        $release->name = $request->get('name', '');
+        $this->authorize('edit', $project);
+
+        $processor = $this->releaseUtil->getLocalProcessor();
+
+        $release                  = $processor->store($request->file('release'));
+        $release->name            = $request->get('name', 'Unbenannt');
+        $release->beta            = intval($request->get('beta', 0));
+        $release->visible         = intval($request->get('visible', 0));
+        $release->game_version_id = intval($request->get('game_version_id', 0));
 
         $project->releases()->save($release);
 
@@ -56,6 +64,8 @@ class ReleaseController extends Controller
 
     public function remove(ProjectModel $project, Release $release)
     {
+        $this->authorize('edit', $project);
+
         $this->releaseUtil->getLocalProcessor()->remove($release);
     }
 }
