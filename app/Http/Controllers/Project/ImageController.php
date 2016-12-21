@@ -33,14 +33,16 @@ class ImageController extends Controller
         $this->projectUtil = $projectUtil;
     }
 
-    public function delete(Request $request, int $id)
+    public function remove(Project $project, Image $image, Request $request)
     {
-        $user = $request->user();
-        //Todo: Check auth
-        $media = Media::findOrFail($id);
-        MediaUtil::deleteMedia($media);
+        abort_unless($request->user()->can('edit', $project), 401);
+        if ($image->owner->getKey() !== $project->getKey()) {
+            abort(403, 'Image does not belong to given project');
+        }
 
-        return back();
+        $this->imageUtil->removeImage($image);
+
+        return redirect($this->projectUtil->url($project));
     }
 
     public function create(Project $project)
@@ -54,7 +56,7 @@ class ImageController extends Controller
         $image->type = Image::TYPE_IMAGE;
 
         $project->images()->save($image);
-        
+
         return redirect($this->projectUtil->url($project));
     }
 }

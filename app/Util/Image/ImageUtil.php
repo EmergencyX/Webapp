@@ -58,8 +58,7 @@ class ImageUtil
         UploadedFile $file,
         array $imageInfo,
         string $processor = LocalImageProcessor::IDENTIFIER
-    ) : Image
-    {
+    ): Image {
         $image = $this->newImage($imageInfo);
         $this->providers[$processor]->putOriginalImage($image, $file);
 
@@ -74,5 +73,9 @@ class ImageUtil
         $this->providers[$processor]->deleteImage($image, Image::SIZE_MD);
         $this->providers[$processor]->deleteImage($image, Image::SIZE_SM);
         $this->providers[$processor]->deleteImage($image, Image::SIZE_XS);
+
+        if (! $image->delete()) {
+            throw new \Exception('Could not delete image');
+        }
     }
 }

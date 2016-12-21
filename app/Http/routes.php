@@ -56,11 +56,18 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('mods/{project}-{seo}', 'Project\ProjectController@show')->where(['project' => '[0-9]+', 'seo' => '.*']);
 
     Route::get('mods/{project}/bilder-hochladen', 'Project\ImageController@create');
-    Route::post('mods/{project}/bilder-hochladen', 'Project\ImageController@store');
+    Route::get('mods/{project}/images', 'Project\ImageController@index');
+    Route::get('mods/{project}/images/{image}', 'Project\ImageController@show');
+
 
     Route::get('mods/{project}/datei-hochladen', 'Project\ReleaseController@create');
-    Route::post('mods/{project}/datei-hochladen', 'Project\ReleaseController@store');
 
+    Route::group(['middleware' => 'auth'], function () {
+        Route::post('mods/{project}/bilder-hochladen', 'Project\ImageController@store');
+        Route::post('mods/{project}/datei-hochladen', 'Project\ReleaseController@store');
+
+        Route::post('mods/{project}/images/{image}/remove', 'Project\ImageController@remove');
+    });
     //END UPGRADED
 
     Route::get('/download', 'HomeController@download');

@@ -35,7 +35,7 @@ class ImageController extends ApiController
 
     public function show(Project $project, Image $image)
     {
-        return \Response::json(['success' => true]);
+        return response()->json($image);
     }
 
     public function store(Project $project, Request $request)
@@ -47,37 +47,29 @@ class ImageController extends ApiController
 
         $project->images()->save($image);
 
-        return \Response::make([
-            'success' => true,
-            'data'    => array_merge($image->provider, ['id' => $image->id]),
-        ]);
+        return response()->json(array_merge($image->provider, ['id' => $image->id]));
     }
 
     public function index(Project $project)
     {
         $project->load('images');
 
-        return \Response::json([
-            'success' => true,
-            'data'    => $project->images->map(function ($image) {
-                return array_merge($image->provider, ['id' => $image->id]);
-            }),
-        ]);
+        return \Response::json($project->images->map(function ($image) {
+            return array_merge($image->provider, ['id' => $image->id]);
+        }));
     }
 
     public function remove(Project $project, Image $image)
     {
         //Check if user may edit project
+        $user = $this->getCaller();
+        abort_unless($user->can('edit', $project) || $user->tokenCan('edit-project'), 401);
         if ($image->owner->getKey() !== $project->getKey()) {
             abort(403, 'Image does not belong to given project');
         }
 
-        //$user = $this->getCaller();
-        //abort_unless($user->can('edit', $project), 401);
-        //abort_unless($user->tokenCan('edit-project'), 401);
-
         $this->imageUtil->removeImage($image);
 
-        return \Response::json(['success' => $image->delete()]);
+        return response()->make();
     }
 }
