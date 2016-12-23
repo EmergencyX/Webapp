@@ -18,7 +18,7 @@
                 <th scope="row">
                     @if(false)
                         <div class="embed-responsive embed-responsive-16by9">
-                            <img class="embed-responsive-item" src="{{  $project->media->first()->getImageLink('sm') }}" alt="{{ $project->name }}"/>
+                            <img class="embed-responsive-item" src="{{  $projectUtil->cover($project) }}" alt="{{ $project->name }}"/>
                         </div>
                     @endif
                 </th>
