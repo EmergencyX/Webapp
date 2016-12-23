@@ -95,27 +95,23 @@
                 <li class="list-group-item">
                     <div class="clearfix">
                         <p>
-                            Bilder
-                            {{--
-                            @if($project->media->count() > 4)
+                            {{ trans('images.title') }}
+                            @if($project->images->count() > 4)
                                 <a class="pull-xs-right" href="#">
-                                    Alle <i class="fa fa-chevron-right"></i>
+                                    {{ trans('images.all') }} <i class="fa fa-chevron-right"></i>
                                 </a>
                             @endif
-                            @if($project->media->isEmpty())
-                                <br/><span class="text-muted">L10n Keine Bilder</span>
+                            @if($project->images->isEmpty())
+                                <br/><span class="text-muted">{{ trans('images.none') }}</span>
                             @endif
-                            --}}
                         </p>
                     </div>
                     <div class="row">
-                        {{--
-                        @foreach($project->media->sortByDesc('updated_at')->take(4) as $media)
+                        @foreach($project->images->sortByDesc('updated_at')->take(4) as $image)
                             <div class="col-md-3 col-xs-3">
-                                <img class="figure-img img-fluid img-rounded" src="{{ $media->getImageLink() }}" alt="{{ $media->name }}">
+                                <img class="figure-img img-fluid img-rounded" src="{{ $imageUtil->url($image) }}" alt="{{ $image->name }}">
                             </div>
                         @endforeach
-                            --}}
                     </div>
                 </li>
             </ul>

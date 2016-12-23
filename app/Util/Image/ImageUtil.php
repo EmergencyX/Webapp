@@ -23,7 +23,7 @@ class ImageUtil
     }
 
 
-    public function url(Image $image, string $size = Image::SIZE_XS)
+    public function url(Image $image = null, string $size = Image::SIZE_XS)
     {
         if (! $image) {
             return "https://placekitten.com/g/640/360";
