@@ -50,8 +50,8 @@ class UserUtil
         return action('User\UserController@show', [$user, 'seo' => $this->slug($user)]);
     }
     
-    public function avatar(User $user)
+    public function avatar(User $user, string $size = Image::SIZE_SM)
     {
-        return $this->imageUtil->url($user->avatar(), Image::SIZE_SM);
+        return $this->imageUtil->url($user->avatar(), $size);
     }
 }

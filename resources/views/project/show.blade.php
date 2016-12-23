@@ -87,7 +87,9 @@
                     <div class="row">
                         @foreach($project->members->take(4) as $user)
                             <div class="col-md-3 col-xs-3">
-                                <img class="figure-img img-fluid img-rounded" src="{{ 'todo' }}" alt="{{ $user->name }}">
+                                <a href="{{ $userUtil->url($user) }}">
+                                    <img class="figure-img img-fluid img-rounded" src="{{ $userUtil->avatar($user, 'xs') }}" alt="{{ $user->name }}">
+                                </a>
                             </div>
                         @endforeach
                     </div>
