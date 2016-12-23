@@ -2,16 +2,32 @@
 
 namespace EmergencyExplorer\Util;
 
+use EmergencyExplorer\Models\Image;
 use EmergencyExplorer\Models\User;
+use EmergencyExplorer\Util\Image\ImageUtil;
 
 class UserUtil
 {
+    /**
+     * @var ImageUtil
+     */
+    protected $imageUtil;
+
+    /**
+     * UserUtil constructor.
+     * @param ImageUtil $imageUtil
+     */
+    public function __construct(ImageUtil $imageUtil)
+    {
+        $this->imageUtil = $imageUtil;
+    }
+
     /**
      * @param User $user
      *
      * @return string
      */
-    public static function getUserSlug(User $user)
+    public function slug(User $user)
     {
         $slug = str_slug($user->name);
 
@@ -29,13 +45,13 @@ class UserUtil
      *
      * @return string
      */
-    public static function getUserAction(User $user)
+    public function url(User $user)
     {
-        return action('UserController@show', ['id' => $user->id, 'seo' => self::getUserSlug($user)]);
+        return action('User\UserController@show', [$user, 'seo' => $this->slug($user)]);
     }
     
-    public function getProfilePicture(User $user)
+    public function avatar(User $user)
     {
-        //return app(EmergencyExplorer\Repositories\Media)->
+        return $this->imageUtil->url($user->avatar(), Image::SIZE_SM);
     }
 }

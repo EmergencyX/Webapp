@@ -22,7 +22,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ auth()->user()->name }}</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{-- \EmergencyExplorer\Util\UserUtil::getUserAction(auth()->user()) --}}">Profil</a>
+                            <a class="dropdown-item" href="{{ $userUtil->url(auth()->user())  }}">Profil</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ action('Auth\LoginController@logout') }}">{{ trans('auth.logout') }}</a>
                         </div>

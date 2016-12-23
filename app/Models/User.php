@@ -47,12 +47,12 @@ class User extends Authenticatable
 
     function avatar()
     {
-        return $this->images()->where('type', Image::TYPE_AVATAR)->first();
+        return $this->images()->first();
     }
 
     function images()
     {
-        $this->morphMany(Image::class, 'owner');
+        return $this->morphMany(Image::class, 'owner')->where('type', Image::TYPE_AVATAR);
     }
 
 

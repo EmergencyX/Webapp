@@ -13,7 +13,7 @@
         <tr>
             <th scope="row">{{ $user->id }}</th>
             <td>{{ $user->name }}</td>
-            <td><a class="btn btn-secondary" href="{{ action('UserController@show', ['id'=>$user->id, 'seo'=>str_slug($user->name)]) }}">Profil ansehen</a></td>
+            <td><a class="btn btn-secondary" href="{{ $userUtil->url($user) }}">Profil ansehen</a></td>
         </tr>
         @endforeach
     </tbody>

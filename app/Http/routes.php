@@ -68,6 +68,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('mods/{project}/images', 'Project\ImageController@index');
     //Route::get('mods/{project}/images/{image}', 'Project\ImageController@show');
 
+    Route::get('users/{user}', 'User\UserController@show')->where('user', '[0-9]+');
+    Route::get('users/{user}-{seo}', 'User\UserController@show')->where(['user' => '[0-9]+', 'seo' => '.*']);
+    Route::get('users/{user}/edit', 'User\UserController@edit');
+    Route::patch('users/{user}', 'User\UserController@update');
+
+
     Route::group(['middleware' => 'auth'], function () {
         Route::get('mods/{project}/images/create', 'Project\ImageController@create');
         Route::post('mods/{project}/images', 'Project\ImageController@store');

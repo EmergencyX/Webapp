@@ -5,6 +5,7 @@ namespace EmergencyExplorer\Providers;
 use Carbon\Carbon;
 use EmergencyExplorer\Http\View\Composers\ImageComposer;
 use EmergencyExplorer\Http\View\Composers\ProjectComposer;
+use EmergencyExplorer\Http\View\Composers\UserComposer;
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use Illuminate\Pagination\BootstrapFourPresenter;
 use Illuminate\Pagination\Paginator;
@@ -42,5 +43,6 @@ class AppServiceProvider extends ServiceProvider
 
         \View::composer('*', ProjectComposer::class);
         \View::composer('*', ImageComposer::class);
+        \View::composer('*', UserComposer::class);
     }
 }
