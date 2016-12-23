@@ -35,7 +35,7 @@ interface ImageProcessor
      *
      * @return mixed
      */
-    public function generateImage(ImageModel $image, string $size);
+    public function generateImage(ImageModel &$image, string $size);
 
     /**
      * @param ImageModel $image
@@ -45,5 +45,5 @@ interface ImageProcessor
      *
      * @return mixed
      */
-    public function putOriginalImage(ImageModel $image, UploadedFile $file);
+    public function putOriginalImage(ImageModel &$image, UploadedFile $file);
 }

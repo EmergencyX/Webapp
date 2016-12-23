@@ -79,7 +79,7 @@ class LocalImageProcessor implements ImageProcessor
      *
      * @return ImageModel
      */
-    public function generateImage(ImageModel $image, string $size)
+    public function generateImage(ImageModel &$image, string $size)
     {
         $filename = public_path($this->relativePath($image, ImageModel::SIZE_OG, $image->provider['f']));
 
@@ -134,7 +134,7 @@ class LocalImageProcessor implements ImageProcessor
      *
      * @return void
      */
-    public function putOriginalImage(ImageModel $image, UploadedFile $file)
+    public function putOriginalImage(ImageModel &$image, UploadedFile $file)
     {
         $image->provider['f'] = $file->extension();
         $image->provider['p'] = self::IDENTIFIER;
