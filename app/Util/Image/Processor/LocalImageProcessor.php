@@ -136,8 +136,7 @@ class LocalImageProcessor implements ImageProcessor
      */
     public function putOriginalImage(ImageModel &$image, UploadedFile $file)
     {
-        $image->provider['f'] = $file->extension();
-        $image->provider['p'] = self::IDENTIFIER;
+        $image->provider = array_merge($image->provider, ['f' => $file->extension(), 'p' => self::IDENTIFIER]);
 
         $path = public_path($this->relativePath($image, ImageModel::SIZE_OG, '', false));
         $name = $this->filename($image, ImageModel::SIZE_OG, $file->extension());
