@@ -38,6 +38,11 @@ Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
     Route::get('projects/{project}/images/{image}', 'Api\ImageController@show');
 
     Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('projects/create', 'Api\ProjectController@create'); //Todo
+        Route::post('projects', 'Api\ProjectController@store'); //Todo
+        Route::patch('projects/{project}', 'Api\ProjectController@update'); //Todo
+        Route::delete('projects/{project}', 'Api\ProjectController@delete'); //Todo
+
         Route::post('projects/{project}/images', 'Api\ImageController@store');
         Route::post('projects/{project}/releases', 'Api\ReleaseController@store');
 
@@ -55,29 +60,40 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('mods/{project}', 'Project\ProjectController@show')->where('project', '[0-9]+');
     Route::get('mods/{project}-{seo}', 'Project\ProjectController@show')->where(['project' => '[0-9]+', 'seo' => '.*']);
 
-    Route::get('mods/{project}/bilder-hochladen', 'Project\ImageController@create');
+    Route::get('mods/create', 'Project\ProjectController@create'); //Todo
+    Route::post('mods', 'Project\ProjectController@store'); //Todo
+    Route::patch('mods/{project}', 'Project\ProjectController@update'); //Todo
+    Route::delete('mods/{project}', 'Project\ProjectController@delete'); //Todo
+
     Route::get('mods/{project}/images', 'Project\ImageController@index');
-    Route::get('mods/{project}/images/{image}', 'Project\ImageController@show');
-
-
-    Route::get('mods/{project}/datei-hochladen', 'Project\ReleaseController@create');
+    //Route::get('mods/{project}/images/{image}', 'Project\ImageController@show');
 
     Route::group(['middleware' => 'auth'], function () {
-        Route::post('mods/{project}/bilder-hochladen', 'Project\ImageController@store');
-        Route::post('mods/{project}/datei-hochladen', 'Project\ReleaseController@store');
+        Route::get('mods/{project}/images/create', 'Project\ImageController@create');
+        Route::post('mods/{project}/images', 'Project\ImageController@store');
+        Route::get('mods/{project}/toggle-follow', 'Project\ProjectController@toggleFollow');
+        Route::get('mods/{project}/edit', 'Project\ProjectController@edit');
+
+        Route::get('mods/{project}/release/create', 'Project\ReleaseController@create');
+        Route::post('mods/{project}/releases', 'Project\ReleaseController@store');
+        Route::get('mods/{project}/releases/{release}', 'Project\ReleaseController@show');
+        Route::get('mods/{project}/releases', 'Project\ReleaseController@index');
+        Route::get('mods/{project}/releases/{release}/remove', 'Project\ReleaseController@remove');
+        Route::get('mods/{project}/releases/{release}/download', 'Project\ReleaseController@download');
+
 
         Route::post('mods/{project}/images/{image}/remove', 'Project\ImageController@remove');
     });
     //END UPGRADED
 
-    Route::get('/download', 'HomeController@download');
+    //Route::get('/download', 'HomeController@download');
 
     // Authentication routes...
     Route::get('auth/login', 'Auth\LoginController@showLoginForm');
     Route::post('auth/login', 'Auth\LoginController@login');
     Route::post('auth/logout', 'Auth\LoginController@logout');
 
-
+/*
     Route::get('users', 'UserController@index');
     Route::get('users/{id}', 'UserController@show')->where('id', '[0-9]+');
     Route::get('users/{id}-{seo}', 'UserController@show')->where(['id' => '[0-9]+', 'seo' => '.*']);
@@ -145,4 +161,5 @@ Route::group(['middleware' => ['web']], function () {
 
         Route::post('multiplayer/{appointment}/join', 'AppointmentController@join');
     });
+*/
 });

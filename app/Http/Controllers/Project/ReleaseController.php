@@ -40,9 +40,10 @@ class ReleaseController extends Controller
         return view('project.release.create', compact('project'));
     }
 
-    public function download(ProjectModel $project)
+    public function download(ProjectModel $project, Release $release)
     {
         //$this->authorize('download', $project);
+        return redirect($this->releaseUtil->url($release));
     }
 
     public function store(ProjectModel $project, Request $request)
@@ -67,5 +68,23 @@ class ReleaseController extends Controller
         $this->authorize('edit', $project);
 
         $this->releaseUtil->getLocalProcessor()->remove($release);
+
+        return redirect()->action('Project\ReleaseController@index', [$project]);
+    }
+
+    public function show(ProjectModel $project, Release $release)
+    {
+        $this->authorize('show', $project);
+
+        return var_dump($release);
+    }
+
+    public function index(ProjectModel $project)
+    {
+        $this->authorize('show', $project);
+
+        $releases = $project->releases;
+
+        return view('project.release.index', compact('project', 'releases'));
     }
 }

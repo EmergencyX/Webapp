@@ -15,12 +15,12 @@
             <p>{{ $project->description }}</p>
 
             <br>
-            <a href="{{ action('ReleaseInstallationController@index', $project) }}"
+            <a href="{{-- action('ReleaseInstallationController@index', $project) --}}"
                     class="btn btn-primary @if($project->releases->isEmpty()) disabled @endif">
                 <i class="fa fa-play"></i> {{ trans('project.play') }}
             </a>
             @if (Auth::check())
-                <a href="{{ action('ProjectController@toggleFollow', $project) }}" class="btn btn-danger">
+                <a href="{{ action('Project\ProjectController@toggleFollow', $project) }}" class="btn btn-danger">
                     {{--
                     @if (Auth::user()->isFollowingProject($project))
                         <i class="fa fa-fire-extinguisher"></i> {{ $project->users()->count() }}
@@ -59,17 +59,13 @@
             </div>
             --}}
 
-            <a href="{{ action('Project\ImageController@create', $project) }}" class="list-group-item">{{ trans('project.create_media') }}</a>
-            <a href="{{ action('Project\ReleaseController@create', $project) }}" class="list-group-item">{{ trans('project.releases') }}</a>
-
-
         @can('edit', $project)
                 <div class="list-group" style="margin-bottom:0.75rem">
-                    <a href="{{ action('ProjectController@edit', $project->id) }}" class="list-group-item">{{ trans('project.edit') }}</a>
+                    <a href="{{ action('Project\ProjectController@edit', $project) }}" class="list-group-item">{{ trans('project.edit') }}</a>
 
                     <a href="{{ action('Project\ImageController@create', $project) }}" class="list-group-item">{{ trans('project.create_media') }}</a>
 
-                    <a href="{{ action('ReleaseController@index', $project->id) }}" class="list-group-item">{{ trans('project.releases') }}</a>
+                    <a href="{{ action('Project\ReleaseController@index', $project) }}" class="list-group-item">{{ trans('project.releases') }}</a>
                 </div>
             @endcan
 

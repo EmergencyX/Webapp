@@ -11,7 +11,7 @@ class ProjectPolicy
 {
     use HandlesAuthorization;
 
-    public function create()
+    public function create(User $user)
     {
         return true;
     }
@@ -26,11 +26,7 @@ class ProjectPolicy
      */
     public function addUser(User $user, Project $project)
     {
-        if (! $project->relationLoaded('admins')) {
-            $project->load('admins');
-        }
-
-        return $project->admins->contains($user);
+        return $this->edit($user, $project);
     }
 
     public function edit(User $user, Project $project)

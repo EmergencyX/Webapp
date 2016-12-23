@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>{{ trans('project.all_projects') }}
-        <a class="btn btn-primary pull-xs-right" href="{{ action('ProjectController@create') }}">{{ trans('project.create') }}</a>
+        <a class="btn btn-primary pull-xs-right" href="{{ action('Project\ProjectController@create') }}">{{ trans('project.create') }}</a>
     </h1>
     <table class="table table-striped">
         <thead>
@@ -16,14 +16,14 @@
         @foreach($projects as $project)
             <tr>
                 <th scope="row">
-                    @if($project->media->count() > 0)
+                    @if(false)
                         <div class="embed-responsive embed-responsive-16by9">
                             <img class="embed-responsive-item" src="{{  $project->media->first()->getImageLink('sm') }}" alt="{{ $project->name }}"/>
                         </div>
                     @endif
                 </th>
                 <td>
-                    <a href="{{ \EmergencyExplorer\Util\ProjectUtil::getProjectAction($project) }}" class="h4">
+                    <a href="{{ $projectUtil->url($project) }}" class="h4">
                         {{ $project->name }}
                     </a>
                     <p>{{ $project->description }}</p>

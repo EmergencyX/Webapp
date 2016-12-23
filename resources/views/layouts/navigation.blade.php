@@ -14,7 +14,7 @@
                     <a class="nav-link" href="{{ action('Project\ProjectController@index') }}">{{ trans('app.modifications') }}</a>
                 </li>
                 <li class="nav-item {{ $navigation->isUsers() }}">
-                    <a class="nav-link" href="{{ action('UserController@index') }}">{{ trans('app.users') }}</a>
+                    <a class="nav-link" href="{{-- action('UserController@index') --}}">{{ trans('app.users') }}</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav pull-xs-right">
@@ -22,7 +22,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ auth()->user()->name }}</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ \EmergencyExplorer\Util\UserUtil::getUserAction(auth()->user()) }}">Profil</a>
+                            <a class="dropdown-item" href="{{-- \EmergencyExplorer\Util\UserUtil::getUserAction(auth()->user()) --}}">Profil</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ action('Auth\LoginController@logout') }}">{{ trans('auth.logout') }}</a>
                         </div>

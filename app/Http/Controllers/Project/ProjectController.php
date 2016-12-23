@@ -7,7 +7,6 @@ use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use EmergencyExplorer\Repositories\Project as ProjectRepository;
 
 use EmergencyExplorer\Util\Project\ProjectUtil;
-use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 
 use EmergencyExplorer\Models\Game;
@@ -73,7 +72,7 @@ class ProjectController extends Controller
 
     function create()
     {
-        //$this->authorize('create', $project);
+        $this->authorize('create', Project::class);
 
         $games = Game::all()->pluck('name', 'id');
 
@@ -82,7 +81,7 @@ class ProjectController extends Controller
 
     function store(Request $request)
     {
-        //$this->authorize('create', $project);
+        $this->authorize('create', Project::class);
 
         try {
             $project = $this->projectRepository->createProject($request->only([
@@ -94,11 +93,7 @@ class ProjectController extends Controller
             ]));
             $project->users()->save($request->user(), ['role' => Project::PROJECT_ROLE_ADMIN]);
 
-            /** @var \EmergencyExplorer\Util\Activity\Project $projectActivityManager */
-            $projectActivityManager = app(\EmergencyExplorer\Util\Activity\Project::class);
-            $projectActivityManager->projectCreatedActivity($request->user(), $project);
-
-            return redirect(ProjectUtil::getProjectAction($project));
+             return redirect($this->projectUtil->url($project));
         } catch (\Exception $e) {
             //Should wrap a transaction here
             return 'Somebody please wrap this thing into a transaction asap';

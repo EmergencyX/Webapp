@@ -51,8 +51,9 @@ class LocalReleaseProcessor implements ReleaseProcessor
     {
         $filename = $release->provider['t'];
         $path     = public_path('storage/mods/' . substr($filename, 0, 2) . '/' . $filename);
+        @unlink($path);
 
-        return unlink($path);
+        return $release->delete();
     }
 
     /**
