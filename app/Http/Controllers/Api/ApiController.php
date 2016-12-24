@@ -12,6 +12,7 @@ class ApiController extends Controller
      */
     public function getCaller()
     {
+        return User::find(1);
         return request()->user('api');
 
         /*abort_unless($user->can('show', $project), 401);

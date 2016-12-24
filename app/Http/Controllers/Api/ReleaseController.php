@@ -4,6 +4,7 @@ namespace EmergencyExplorer\Http\Controllers\Api;
 
 use EmergencyExplorer\Models\GameVersion;
 use EmergencyExplorer\Models\Project as ProjectModel;
+use EmergencyExplorer\Models\Project;
 use EmergencyExplorer\Models\Release;
 use EmergencyExplorer\Util\Project\ReleaseUtil;
 use Illuminate\Http\Request;
@@ -60,6 +61,13 @@ class ReleaseController extends ApiController
         $this->authorizeForUser($this->getCaller(), 'show-releases', $project);
 
         return $this->releaseUtil->forProject($project);
+    }
+
+    public function show(ProjectModel $project, Release $release)
+    {
+        $this->authorizeForUser($this->getCaller(), 'show', $project);
+
+        return \Response::json(['download_url' => $this->releaseUtil->url($release)]);
     }
 
     /**

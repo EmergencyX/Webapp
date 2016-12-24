@@ -2,16 +2,11 @@
 
 namespace EmergencyExplorer\Http\Controllers\Api;
 
-use EmergencyExplorer\Project;
+use EmergencyExplorer\Models\Project;
 use EmergencyExplorer\Repositories\Project as ProjectRepository;
-use EmergencyExplorer\User;
 use Illuminate\Http\Request;
 
-use EmergencyExplorer\Http\Requests;
-use EmergencyExplorer\Http\Controllers\Controller;
-use Illuminate\Http\Response;
-
-class ProjectController extends Controller
+class ProjectController extends ApiController
 {
     /**
      * @var \EmergencyExplorer\ProjectRepository
@@ -37,10 +32,7 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
-        $user = request()->user('api');
-        abort_unless($user instanceof User, 401);
-        abort_unless($user->can('show', $project), 401);
-        abort_unless($user->tokenCan('show-project'), 401);
+        $this->authorizeForUser($this->getCaller(), 'show', $project);
 
         return \Response::json($project);
     }
