@@ -45,7 +45,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-
         //Laravel Passport Setup
         Passport::tokensCan([
             'show-project' => 'Projekte ansehen',

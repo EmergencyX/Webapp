@@ -15,8 +15,8 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
+        AuthenticationException::class,
+        AuthorizationException::class,
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
@@ -54,7 +54,7 @@ class Handler extends ExceptionHandler
      * Convert an authentication exception into an unauthenticated response.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \Illuminate\Auth\AuthenticationException $exception
+     * @param  AuthenticationException $exception
      *
      * @return \Illuminate\Http\Response
      */
@@ -64,7 +64,7 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated. ' . $exception->getMessage()], 401);
         }
 
-        return redirect()->guest('login');
+        return redirect()->guest(action('Auth\LoginController@showLoginForm'));
     }
 
     /**

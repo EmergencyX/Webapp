@@ -1,6 +1,6 @@
 <?php
 namespace EmergencyExplorer\Http\Controllers\Auth;
-use EmergencyExplorer\User;
+use EmergencyExplorer\Models\User;
 use Validator;
 use EmergencyExplorer\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
