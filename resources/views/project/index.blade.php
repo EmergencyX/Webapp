@@ -16,11 +16,7 @@
         @foreach($projects as $project)
             <tr>
                 <th scope="row">
-                    @if(false)
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <img class="embed-responsive-item" src="{{  $projectUtil->cover($project) }}" alt="{{ $project->name }}"/>
-                        </div>
-                    @endif
+                    <img class="figure-img img-fluid" src="{{ $projectUtil->cover($project, 'sm') }}" alt="{{ $project->name }}">
                 </th>
                 <td>
                     <a href="{{ $projectUtil->url($project) }}" class="h4">
