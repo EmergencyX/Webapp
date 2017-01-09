@@ -13,7 +13,10 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+	'join_the_force' => 'Sign in',
+	'logout'         => 'Sign out',
+	'name'           => 'Username',
+	'password'       => 'Password',
+	'remember_me'    => 'Remain signed in',
 
 ];
