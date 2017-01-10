@@ -26,7 +26,7 @@ class ImageUtil
     public function url(Image $image = null, string $size = Image::SIZE_XS)
     {
         if (! $image) {
-            return "https://placekitten.com/g/640/360";
+            return asset("storage/default/emergency-5_$size.jpg");
         }
 
         return $this->providers[$image->provider['p']]->getImageLink($image, $size);
