@@ -6,6 +6,7 @@ use EmergencyExplorer\Models\Image;
 use EmergencyExplorer\Models\Release;
 use EmergencyExplorer\Policies\ImagePolicy;
 use EmergencyExplorer\Policies\ReleasePolicy;
+use EmergencyExplorer\Util\TokenUtil;
 use Laravel\Passport\Passport;
 
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
@@ -46,9 +47,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //Laravel Passport Setup
-        Passport::tokensCan([
-            'show-project' => 'Projekte ansehen',
-        ]);
+        Passport::tokensCan(TokenUtil::getTokens());
         Passport::routes();
     }
 }

@@ -33,6 +33,7 @@ class ImageController extends ApiController
      */
     public function show(Project $project, Image $image)
     {
+        abort_unless($this->getCaller()->tokenCan('access-images'), 401);
         $this->authorizeForUser($this->getCaller(), 'show', $image);
 
         return \Response::json($image);
@@ -46,6 +47,7 @@ class ImageController extends ApiController
      */
     public function store(Project $project, Request $request)
     {
+        abort_unless($this->getCaller()->tokenCan('access-images'), 401);
         $this->authorizeForUser($this->getCaller(), Image::class);
 
         $image       = $this->imageUtil->fromFile($request->file('image'), []);
@@ -63,6 +65,7 @@ class ImageController extends ApiController
      */
     public function index(Project $project)
     {
+        abort_unless($this->getCaller()->tokenCan('access-images'), 401);
         $this->authorizeForUser($this->getCaller(), 'show', $project);
 
         $project->load('images');
@@ -80,6 +83,7 @@ class ImageController extends ApiController
      */
     public function remove(Project $project, Image $image)
     {
+        abort_unless($this->getCaller()->tokenCan('access-images'), 401);
         $this->authorizeForUser($this->getCaller(), $image);
 
         if ($image->owner->getKey() !== $project->getKey()) {
