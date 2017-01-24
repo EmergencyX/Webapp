@@ -37,7 +37,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['bindings']], function () {
     Route::get('projects/{project}/images', 'Api\ImageController@index');
     Route::get('projects/{project}/images/{image}', 'Api\ImageController@show');
 
-    //Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['middleware' => 'auth:api'], function () {
         //Route::get('projects/create', 'Api\ProjectController@create'); //Todo
         //Route::post('projects', 'Api\ProjectController@store'); //Todo
         //Route::patch('projects/{project}', 'Api\ProjectController@update'); //Todo
@@ -48,9 +48,9 @@ Route::group(['prefix' => 'api', 'middleware' => ['bindings']], function () {
 
         Route::delete('projects/{project}/images/{image}', 'Api\ImageController@remove');
         Route::delete('projects/{project}/releases/{release}', 'Api\ReleaseController@remove');
-    //});
-
+    });
 });
+
 
 Route::group(['middleware' => ['web']], function () {
     //UPGRADED
@@ -99,73 +99,73 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('auth/login', 'Auth\LoginController@login');
     Route::post('auth/logout', 'Auth\LoginController@logout');
 
-/*
-    Route::get('users', 'UserController@index');
-    Route::get('users/{id}', 'UserController@show')->where('id', '[0-9]+');
-    Route::get('users/{id}-{seo}', 'UserController@show')->where(['id' => '[0-9]+', 'seo' => '.*']);
+    /*
+        Route::get('users', 'UserController@index');
+        Route::get('users/{id}', 'UserController@show')->where('id', '[0-9]+');
+        Route::get('users/{id}-{seo}', 'UserController@show')->where(['id' => '[0-9]+', 'seo' => '.*']);
 
-    Route::group(['middleware' => ['auth']], function () {
-        Route::get('notifications', 'NotificationController@index');
-        Route::post('invitation/update', 'InvitationController@update');
+        Route::group(['middleware' => ['auth']], function () {
+            Route::get('notifications', 'NotificationController@index');
+            Route::post('invitation/update', 'InvitationController@update');
 
-        Route::delete('invitation/reset', 'InvitationController@resetRejected');
+            Route::delete('invitation/reset', 'InvitationController@resetRejected');
 
-        Route::get('mods/create', 'ProjectController@create');
-        Route::post('mods', 'ProjectController@store');
-        Route::get('mods/{id}/edit', 'ProjectController@edit');
-        Route::patch('mods/{id}', 'ProjectController@update');
+            Route::get('mods/create', 'ProjectController@create');
+            Route::post('mods', 'ProjectController@store');
+            Route::get('mods/{id}/edit', 'ProjectController@edit');
+            Route::patch('mods/{id}', 'ProjectController@update');
 
-        Route::get('mods/{id}/delete', 'ProjectController@delete');
+            Route::get('mods/{id}/delete', 'ProjectController@delete');
 
-        Route::get('mods/{id}/create-media', 'ProjectController@createMedia');
-        Route::post('mods/{id}/store-media', 'ProjectController@storeMedia');
+            Route::get('mods/{id}/create-media', 'ProjectController@createMedia');
+            Route::post('mods/{id}/store-media', 'ProjectController@storeMedia');
 
-        Route::get('users/{id}/edit', 'UserController@edit');
-        Route::patch('users/{id}', 'UserController@update');
-
-
-        Route::get('media/{id}/delete', 'MediaController@delete');
-
-        Route::get('mods/{id}/create-release', 'ReleaseController@create');
-
-        Route::get('mods/{project}/repositories', 'ProjectRepositoryController@index'); //Todo: Seo hier?
-        Route::get('mods/{project}/repositories/{repository}', 'ProjectRepositoryController@show')->where('repository',
-            '[0-9]+');
-        Route::get('mods/{project}/repositories/create', 'ProjectRepositoryController@create');
-
-        Route::post('mods/{project}/repositories', 'ProjectRepositoryController@store');
-
-        Route::get('mods/{project}/toggle-follow', 'ProjectController@toggleFollow');
-
-        Route::post('mods/{project}/repositories/{repository}/release', 'ReleaseController@store');
-        Route::get('mods/{id}/releases', 'ReleaseController@index');
-        Route::get('mods/{id}/releases/{release_id}', 'ReleaseController@show');
-        Route::get('mods/{project}/releases/{release}/destroy', 'ReleaseController@destroy');
+            Route::get('users/{id}/edit', 'UserController@edit');
+            Route::patch('users/{id}', 'UserController@update');
 
 
-        Route::get('mods/{project}/install', 'ReleaseInstallationController@index');
+            Route::get('media/{id}/delete', 'MediaController@delete');
+
+            Route::get('mods/{id}/create-release', 'ReleaseController@create');
+
+            Route::get('mods/{project}/repositories', 'ProjectRepositoryController@index'); //Todo: Seo hier?
+            Route::get('mods/{project}/repositories/{repository}', 'ProjectRepositoryController@show')->where('repository',
+                '[0-9]+');
+            Route::get('mods/{project}/repositories/create', 'ProjectRepositoryController@create');
+
+            Route::post('mods/{project}/repositories', 'ProjectRepositoryController@store');
+
+            Route::get('mods/{project}/toggle-follow', 'ProjectController@toggleFollow');
+
+            Route::post('mods/{project}/repositories/{repository}/release', 'ReleaseController@store');
+            Route::get('mods/{id}/releases', 'ReleaseController@index');
+            Route::get('mods/{id}/releases/{release_id}', 'ReleaseController@show');
+            Route::get('mods/{project}/releases/{release}/destroy', 'ReleaseController@destroy');
 
 
-        Route::get('mods/{project}/links/edit', 'LinkController@edit');
-        Route::get('mods/{project}/links/{link}/delete', 'LinkController@delete');
-        Route::patch('mods/{project}/links', 'LinkController@update');
-        Route::post('mods/{project}/links', 'LinkController@store');
+            Route::get('mods/{project}/install', 'ReleaseInstallationController@index');
 
 
-        Route::get('release/{release}/post-install', 'ReleaseInstallationController@postInstall');
-        Route::get('release/{release}/post-uninstall', 'ReleaseInstallationController@postUninstall');
-        Route::get('release/{release}/post-cancel', 'ReleaseInstallationController@postCancel');
-        Route::get('release/{release}/post-play', 'ReleaseInstallationController@postPlay');
+            Route::get('mods/{project}/links/edit', 'LinkController@edit');
+            Route::get('mods/{project}/links/{link}/delete', 'LinkController@delete');
+            Route::patch('mods/{project}/links', 'LinkController@update');
+            Route::post('mods/{project}/links', 'LinkController@store');
 
-        Route::get('multiplayer', 'AppointmentController@index');
-        Route::get('multiplayer/create', 'AppointmentController@create');
-        Route::get('multiplayer/{appointment}', 'AppointmentController@show');
-        Route::post('multiplayer', 'AppointmentController@store');
-        Route::get('multiplayer/{appointment}/edit', 'AppointmentController@edit');
-        Route::patch('multiplayer/{appointment}', 'AppointmentController@update');
-        Route::delete('multiplayer/{appointment}', 'AppointmentController@remove');
 
-        Route::post('multiplayer/{appointment}/join', 'AppointmentController@join');
-    });
-*/
+            Route::get('release/{release}/post-install', 'ReleaseInstallationController@postInstall');
+            Route::get('release/{release}/post-uninstall', 'ReleaseInstallationController@postUninstall');
+            Route::get('release/{release}/post-cancel', 'ReleaseInstallationController@postCancel');
+            Route::get('release/{release}/post-play', 'ReleaseInstallationController@postPlay');
+
+            Route::get('multiplayer', 'AppointmentController@index');
+            Route::get('multiplayer/create', 'AppointmentController@create');
+            Route::get('multiplayer/{appointment}', 'AppointmentController@show');
+            Route::post('multiplayer', 'AppointmentController@store');
+            Route::get('multiplayer/{appointment}/edit', 'AppointmentController@edit');
+            Route::patch('multiplayer/{appointment}', 'AppointmentController@update');
+            Route::delete('multiplayer/{appointment}', 'AppointmentController@remove');
+
+            Route::post('multiplayer/{appointment}/join', 'AppointmentController@join');
+        });
+    */
 });

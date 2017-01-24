@@ -4,8 +4,8 @@ namespace EmergencyExplorer\Http\Controllers\Api;
 
 use EmergencyExplorer\Models\Image;
 use EmergencyExplorer\Models\Project;
-use EmergencyExplorer\Models\User;
 use EmergencyExplorer\Util\Image\ImageUtil;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ImageController extends ApiController
@@ -25,51 +25,69 @@ class ImageController extends ApiController
         $this->imageUtil = $imageUtil;
     }
 
-    public function recent(Request $request)
-    {
-        //$projects = $this->projectRepository->recentProjects($request->user());
-        $projects = collect();
-
-        return \Response::json($projects);
-    }
-
+    /**
+     * @param Project $project
+     * @param Image $image
+     *
+     * @return JsonResponse
+     */
     public function show(Project $project, Image $image)
     {
-        return response()->json($image);
+        $this->authorizeForUser($this->getCaller(), 'show', $image);
+
+        return \Response::json($image);
     }
 
+    /**
+     * @param Project $project
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
     public function store(Project $project, Request $request)
     {
-        $this->authorize(Image::class);
+        $this->authorizeForUser($this->getCaller(), Image::class);
 
         $image       = $this->imageUtil->fromFile($request->file('image'), []);
         $image->type = Image::TYPE_IMAGE;
 
         $project->images()->save($image);
 
-        return response()->json(array_merge($image->provider, ['id' => $image->id]));
+        return \Response::json($image->provider + ['id' => $image->id]);
     }
 
+    /**
+     * @param Project $project
+     *
+     * @return JsonResponse
+     */
     public function index(Project $project)
     {
+        $this->authorizeForUser($this->getCaller(), 'show', $project);
+
         $project->load('images');
 
         return \Response::json($project->images->map(function ($image) {
-            return array_merge($image->provider, ['id' => $image->id]);
+            return $image->provider + ['id' => $image->id];
         }));
     }
 
+    /**
+     * @param Project $project
+     * @param Image $image
+     *
+     * @return JsonResponse
+     */
     public function remove(Project $project, Image $image)
     {
-        //Check if user may edit project
-        $user = $this->getCaller();
-        abort_unless($user->can('edit', $project) || $user->tokenCan('edit-project'), 401);
+        $this->authorizeForUser($this->getCaller(), $image);
+
         if ($image->owner->getKey() !== $project->getKey()) {
             abort(403, 'Image does not belong to given project');
         }
 
         $this->imageUtil->removeImage($image);
 
-        return response()->make();
+        return \Response::json(['success' => true]);
     }
 }
