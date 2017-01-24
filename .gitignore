@@ -1,7 +1,7 @@
 /vendor
 /node_modules
 /public/storage
-!/public/storage/default/*
+!public/storage/default/*
 Homestead.yaml
 Homestead.json
 .env
