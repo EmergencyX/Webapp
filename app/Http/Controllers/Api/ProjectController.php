@@ -8,10 +8,7 @@ use Illuminate\Http\Request;
 
 class ProjectController extends ApiController
 {
-    /**
-     * @var \EmergencyExplorer\ProjectRepository
-     */
-    private $projectRepository;
+    protected $projectRepository;
 
     /**
      * ProjectController constructor.
@@ -25,14 +22,17 @@ class ProjectController extends ApiController
 
     public function recent(Request $request)
     {
-        $projects = $this->projectRepository->recentProjects($request->user());
+        //abort_unless($this->getCaller()->tokenCan('access-project'), 401);
 
-        return \Response::json($projects);
+        return \Response::json($this->projectRepository->recentProjects($this->getCaller()));
     }
 
     public function show(Project $project)
     {
-        $this->authorizeForUser($this->getCaller(), 'show', $project);
+        if (! $project->visible) {
+            abort_unless($this->getCaller()->tokenCan('access-project'), 401);
+            $this->authorizeForUser($this->getCaller(), $project);
+        }
 
         return \Response::json($project);
     }

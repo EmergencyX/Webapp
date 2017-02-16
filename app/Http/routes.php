@@ -23,7 +23,6 @@
 |
 */
 
-
 Route::group(['prefix' => 'api', 'middleware' => ['bindings']], function () {
     Route::get('mods/recent', 'Api\ProjectController@recent');
     // Route::post('auth/login', 'Auth\AuthController@postLogin');
@@ -43,8 +42,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['bindings']], function () {
         //Route::patch('projects/{project}', 'Api\ProjectController@update'); //Todo
         //Route::delete('projects/{project}', 'Api\ProjectController@delete'); //Todo
 
-        Route::get('projects/{project}/images', 'Api\ImageController@store');
-        Route::get('projects/{project}/images/{image}', 'Api\ImageController@store');
+        Route::post('projects/{project}/images/{image}', 'Api\ImageController@store');
         Route::post('projects/{project}/images', 'Api\ImageController@store');
         Route::delete('projects/{project}/images/{image}', 'Api\ImageController@remove');
 
@@ -173,3 +171,4 @@ Route::group(['middleware' => ['web']], function () {
         });
     */
 });
+
