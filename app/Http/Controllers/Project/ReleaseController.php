@@ -50,7 +50,7 @@ class ReleaseController extends Controller
     {
         $this->authorize('edit', $project);
 
-        $processor = $this->releaseUtil->getLocalProcessor();
+        $processor = $this->releaseUtil->getProcessorByName($request->get('processor'));
 
         $release                  = $processor->store($request->file('release'));
         $release->name            = $request->get('name', 'Unbenannt');

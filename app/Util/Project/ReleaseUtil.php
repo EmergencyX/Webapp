@@ -4,6 +4,7 @@ namespace EmergencyExplorer\Util\Project;
 
 use EmergencyExplorer\Models\Project;
 use EmergencyExplorer\Models\Release;
+use EmergencyExplorer\Util\Project\Processor\HashedLocalReleaseProcessor;
 use EmergencyExplorer\Util\Project\Processor\LocalReleaseProcessor;
 use EmergencyExplorer\Util\Project\Processor\ReleaseProcessor;
 
@@ -17,7 +18,8 @@ class ReleaseUtil
     public function __construct()
     {
         $this->processor = [
-            LocalReleaseProcessor::IDENTIFIER => new LocalReleaseProcessor,
+            LocalReleaseProcessor::IDENTIFIER       => new LocalReleaseProcessor,
+            HashedLocalReleaseProcessor::IDENTIFIER => new HashedLocalReleaseProcessor,
         ];
     }
 
@@ -28,7 +30,21 @@ class ReleaseUtil
      */
     protected function getProcessor(Release $release): ReleaseProcessor
     {
-        return $this->processor[$release->provider['p']];
+        return $this->getProcessorByName($release->provider['p']);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return ReleaseProcessor
+     */
+    public function getProcessorByName(string $name): ReleaseProcessor
+    {
+        if (in_array($name, array_keys($this->processor))) {
+            return $this->processor[$name];
+        }
+
+        throw new \InvalidArgumentException(sprintf('Lookup for release processor %s failed', $name));
     }
 
     /**
@@ -70,6 +86,7 @@ class ReleaseUtil
     {
         $processor = $this->getProcessor($release);
         $processor->unpublish($release);
+
         return $processor->remove($release);
     }
 }

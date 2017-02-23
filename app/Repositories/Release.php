@@ -5,6 +5,8 @@ namespace EmergencyExplorer\Repositories;
 use EmergencyExplorer\Models\Project as ProjectModel;
 use EmergencyExplorer\Models\Release as ReleaseModel;
 use EmergencyExplorer\Models\User as UserModel;
+use EmergencyExplorer\Util\Project\Processor\HashedLocalReleaseProcessor;
+use EmergencyExplorer\Util\Project\Processor\LocalReleaseProcessor;
 use EmergencyExplorer\Util\ProjectRepositoryUtil;
 use EmergencyExplorer\Util\Release\LocalRelease;
 use Illuminate\Database\Eloquent\Collection;
@@ -31,7 +33,8 @@ class Release
         $this->release = $release;
 
         $this->providers = [
-            'local' => new LocalRelease,
+            'local' => new LocalReleaseProcessor,
+            'hash'  => new HashedLocalReleaseProcessor,
         ];
     }
 

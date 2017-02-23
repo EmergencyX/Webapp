@@ -36,6 +36,14 @@
             @endforeach
         </select>
     </fieldset>
+
+    <fieldset class="form-group">
+        <label for="processor">Releaseprocessor<</label>
+        <select class="c-select form-control" id="processor" name="processor">
+            <option value="local">Lokal (Sicher!)</option>
+            <option value="hash">Hash (Experiment!!!)</option>
+        </select>
+    </fieldset>
     {!! Form::file('release') !!}
 
     <p>
