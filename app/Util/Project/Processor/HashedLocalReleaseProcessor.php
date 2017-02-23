@@ -27,23 +27,41 @@ class HashedLocalReleaseProcessor implements ReleaseProcessor
     /**
      * @param File $file
      *
-     * @return Release
+     * @return \EmergencyExplorer\Models\Release
+     * @throws \Exception
      */
     public function store(File $file): Release
     {
         $filename = $this->generateFilename($file->guessExtension());
         $file->move(storage_path('ingress'), $filename);
+        $path = storage_path('ingress/' . $filename);
 
-        chmod(storage_path('ingress/' . $filename), 0644);
+        chmod($path, 0644);
 
         $release = new Release;
         $release->provider = [
-            's' => 0,                   //status == nicht verarbeitet
+            's' => 1,                   //status
             't' => $filename,           //token
             'p' => self::IDENTIFIER,    //
         ];
 
         logger()->info('Incoming release saved in ingress folder', $release->toArray());
+
+        //TODO: IMPORTANT: REMOVE EXEC HERE!
+        if (! env('APP_DEBUG', false)) {
+            throw new \Exception('Do not use exec() in production');
+        }
+
+        logger()->alert('REMOVE EXEC AND USE A MESSAGE QUEUE OR SIMILAR TO COMMUNICATE');
+
+        $cwd = getcwd();
+        chdir(app_path('../../emx-packer/'));
+        logger(getcwd());
+        $command = sprintf('node index.js --file="%s" --name=%s', $path, md5($filename));
+        logger($command);
+        $out = array();
+        logger(exec($command, $out));
+        logger(implode("\n", $out));
 
         return $release;
     }
