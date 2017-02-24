@@ -12,13 +12,14 @@ class LocalReleaseProcessor implements ReleaseProcessor
     /**
      * Get a download link for a release
      *
-     * @param Release $release
+     * @param Release $toRelease
+     * @param Release $fromRelease
      *
      * @return string
      */
-    public function url(Release $release): string
+    public function url(Release $toRelease, Release $fromRelease = null): string
     {
-        $filename = $release->provider['t'];
+        $filename = $toRelease->provider['t'];
 
         return asset(sprintf('/storage/mods/%s/%s', substr($filename, 0, 2), $filename));
     }

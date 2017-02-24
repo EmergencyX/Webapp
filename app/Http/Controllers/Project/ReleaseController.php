@@ -40,10 +40,11 @@ class ReleaseController extends Controller
         return view('project.release.create', compact('project'));
     }
 
-    public function download(ProjectModel $project, Release $release)
+    public function download(ProjectModel $project, Release $toRelease)
     {
+        $fromRelease = Release::find(request('from'));
         //$this->authorize('download', $project);
-        return redirect($this->releaseUtil->url($release));
+        return redirect($this->releaseUtil->url($toRelease, $fromRelease));
     }
 
     public function store(ProjectModel $project, Request $request)

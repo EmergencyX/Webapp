@@ -7,11 +7,6 @@ use EmergencyExplorer\Models\Release as ReleaseModel;
 use EmergencyExplorer\Models\User as UserModel;
 use EmergencyExplorer\Util\Project\Processor\HashedLocalReleaseProcessor;
 use EmergencyExplorer\Util\Project\Processor\LocalReleaseProcessor;
-use EmergencyExplorer\Util\ProjectRepositoryUtil;
-use EmergencyExplorer\Util\Release\LocalRelease;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Response;
-use Illuminate\Http\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
 
 class Release
@@ -33,8 +28,8 @@ class Release
         $this->release = $release;
 
         $this->providers = [
-            'local' => new LocalReleaseProcessor,
-            'hash'  => new HashedLocalReleaseProcessor,
+            'loc'  => new LocalReleaseProcessor,
+            'hash' => new HashedLocalReleaseProcessor,
         ];
     }
 

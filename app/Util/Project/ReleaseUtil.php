@@ -56,13 +56,14 @@ class ReleaseUtil
     }
 
     /**
-     * @param Release $release
+     * @param Release $toRelease
+     * @param Release $fromRelease
      *
      * @return string
      */
-    public function url(Release $release)
+    public function url(Release $toRelease, Release $fromRelease = null)
     {
-        return $this->getProcessor($release)->url($release);
+        return $this->getProcessor($toRelease)->url($toRelease, $fromRelease);
     }
 
     /**

@@ -13,26 +13,50 @@ class HashedLocalReleaseProcessor implements ReleaseProcessor
     /**
      * Get a download link for a release
      *
-     * @param Release $release
+     * @param Release $toRelease
+     * @param Release $fromRelease
      *
      * @return string
+     * @throws \Exception
      */
-    public function url(Release $release): string
+    public function url(Release $toRelease, Release $fromRelease = null): string
     {
-        $filename = $release->provider['t'];
+        $upgrade = false;
+        $fromName = 'null';
+        $toName = $toRelease->provider['t'];
+        if ($fromRelease) {
+            if ($fromRelease->provider['p'] !== $toRelease->provider['p']) {
+                throw new \Exception('Invalid upgrade path (different processors)');
+            }
+            $upgrade = true;
+            $fromName = $fromRelease->provider['t'];
+        }
 
-        return asset(sprintf('/storage/mods/%s/%s', substr($filename, 0, 2), $filename));
+        $downloadName = (string)($upgrade ? $fromRelease->getKey() : 'initial') . '-to-' . $toRelease->getKey();
+        $generatedPath = app_path('../../emx-packer/upgrades/' . $downloadName . '.tar.gz');
+        $publicPath = public_path('storage/mods/' . $downloadName . '.tar.gz');
+
+        if (! file_exists($publicPath)) {
+            chdir(app_path('../../emx-packer/'));
+            $command = sprintf('node upgrade.js --from=%s --to=%s --name=%s --gzip', $fromName, $toName, $downloadName);
+            exec($command);
+            copy($generatedPath, $publicPath);
+            //unlink($generatedPath);
+        }
+
+        return asset('storage/mods/' . $downloadName . '.tar.gz');
     }
 
     /**
      * @param File $file
      *
-     * @return \EmergencyExplorer\Models\Release
+     * @return Release
      * @throws \Exception
      */
     public function store(File $file): Release
     {
-        $filename = $this->generateFilename($file->guessExtension());
+        $token = $this->generateFilename();
+        $filename = $token . '.' . $file->guessExtension();
         $file->move(storage_path('ingress'), $filename);
         $path = storage_path('ingress/' . $filename);
 
@@ -41,7 +65,7 @@ class HashedLocalReleaseProcessor implements ReleaseProcessor
         $release = new Release;
         $release->provider = [
             's' => 1,                   //status
-            't' => $filename,           //token
+            't' => $token,           //token
             'p' => self::IDENTIFIER,    //
         ];
 
@@ -57,7 +81,7 @@ class HashedLocalReleaseProcessor implements ReleaseProcessor
         $cwd = getcwd();
         chdir(app_path('../../emx-packer/'));
         logger(getcwd());
-        $command = sprintf('node index.js --file="%s" --name=%s', $path, md5($filename));
+        $command = sprintf('node index.js --file="%s" --name=%s', $path, $token);
         logger($command);
         $out = array();
         logger(exec($command, $out));
@@ -67,13 +91,11 @@ class HashedLocalReleaseProcessor implements ReleaseProcessor
     }
 
     /**
-     * @param string $extension
-     *
      * @return string
      */
-    protected function generateFilename(string $extension)
+    protected function generateFilename()
     {
-        return Carbon::now()->toDateTimeString() . str_random(6) . '.' . $extension;
+        return md5(time() . str_random(24));
     }
 
     /**

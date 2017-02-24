@@ -10,11 +10,12 @@ interface ReleaseProcessor
     /**
      * Get a download link for a release
      *
-     * @param Release $release
+     * @param Release $toRelease
+     * @param Release $fromRelease
      *
      * @return string
      */
-    public function url(Release $release) : string;
+    public function url(Release $toRelease, Release $fromRelease = null) : string;
 
     /**
      * @param File $file

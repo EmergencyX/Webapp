@@ -87,7 +87,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('mods/{project}/releases/{release}', 'Project\ReleaseController@show');
         Route::get('mods/{project}/releases', 'Project\ReleaseController@index');
         Route::get('mods/{project}/releases/{release}/remove', 'Project\ReleaseController@remove');
-        Route::get('mods/{project}/releases/{release}/download', 'Project\ReleaseController@download');
+        Route::get('mods/{project}/releases/{toRelease}/download', 'Project\ReleaseController@download');
 
 
         Route::post('mods/{project}/images/{image}/remove', 'Project\ImageController@remove');

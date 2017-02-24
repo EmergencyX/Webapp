@@ -38,10 +38,11 @@
     </fieldset>
 
     <fieldset class="form-group">
-        <label for="processor">Releaseprocessor<</label>
+        <label for="processor">Releaseprocessor</label>
+        <small>Der HashLocalReleaseProcessor ermöglicht inkrementelle Upgrades, ist aber noch WIP!</small>
         <select class="c-select form-control" id="processor" name="processor">
-            <option value="local">Lokal (Sicher!)</option>
-            <option value="hash">Hash (Experiment!!!)</option>
+            <option value="loc">LocalRelease</option>
+            <option value="hash">HashedLocalRelease</option>
         </select>
     </fieldset>
     {!! Form::file('release') !!}
