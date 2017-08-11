@@ -3,6 +3,7 @@
 namespace EmergencyExplorer\Http\Controllers\Api;
 
 use EmergencyExplorer\Models\Project;
+use EmergencyExplorer\Models\Release;
 use EmergencyExplorer\Repositories\Project as ProjectRepository;
 use Illuminate\Http\Request;
 
@@ -43,4 +44,5 @@ class ProjectController extends ApiController
 
         return \Response::json($request->all());
     }
+
 }

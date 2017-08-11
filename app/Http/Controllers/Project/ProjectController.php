@@ -36,7 +36,7 @@ class ProjectController extends Controller
         ProjectRepository $projectRepository
     ) {
         $navigationHelper->setSection(NavigationHelper::PROJECTS);
-        $this->projectUtil       = $projectUtil;
+        $this->projectUtil = $projectUtil;
         $this->projectRepository = $projectRepository;
     }
 
@@ -93,7 +93,7 @@ class ProjectController extends Controller
             ]));
             $project->users()->save($request->user(), ['role' => Project::PROJECT_ROLE_ADMIN]);
 
-             return redirect($this->projectUtil->url($project));
+            return redirect($this->projectUtil->url($project));
         } catch (\Exception $e) {
             //Should wrap a transaction here
             return 'Somebody please wrap this thing into a transaction asap';

@@ -90,4 +90,29 @@ class ReleaseUtil
 
         return $processor->remove($release);
     }
+
+    /**
+     * @param array $releases
+     *
+     * @return array
+     */
+    public function checkUpdates(array $releases)
+    {
+        $releases = Release::whereIn('id', $releases)->get();
+        $mostRecent = [];
+
+        foreach ($releases as $release) {
+            $recent = Release::where('project_id', $release->project_id)
+                ->where('updated_at', '>', $release->updated_at)
+                ->whereNot('id', $release->id)
+                ->orderBy('updated_at', 'desc')
+                ->first();
+
+            if ($recent && $release->updated_at) {
+                $mostRecent[(int)$release->id] = $recent;
+            }
+        }
+
+        return $mostRecent;
+    }
 }

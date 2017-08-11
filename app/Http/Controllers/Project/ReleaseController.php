@@ -88,4 +88,14 @@ class ReleaseController extends Controller
 
         return view('project.release.index', compact('project', 'releases'));
     }
+
+
+
+    public function updateCheck(Request $request)
+    {
+        $releases = $request->get('mods', []); //['release_id']
+        //Todo Auth
+        return \Response::json($this->releaseUtil->checkUpdates($releases));
+    }
+
 }

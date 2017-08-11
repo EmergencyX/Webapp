@@ -40,10 +40,10 @@ class ReleaseController extends ApiController
 
         $processor = $this->releaseUtil->getLocalProcessor();
 
-        $release                  = $processor->store($request->file('release'));
-        $release->name            = $request->get('name', 'Unbenannt');
-        $release->beta            = intval($request->get('beta', 0));
-        $release->visible         = intval($request->get('visible', 0));
+        $release = $processor->store($request->file('release'));
+        $release->name = $request->get('name', 'Unbenannt');
+        $release->beta = intval($request->get('beta', 0));
+        $release->visible = intval($request->get('visible', 0));
         $release->game_version_id = intval($request->get('game_version_id', 0));
 
         $project->releases()->save($release);
@@ -58,7 +58,7 @@ class ReleaseController extends ApiController
      */
     public function index(ProjectModel $project)
     {
-        $this->authorizeForUser($this->getCaller(), 'show-releases', $project);
+        //$this->authorizeForUser($this->getCaller(), 'show-releases', $project);
 
         return $this->releaseUtil->forProject($project);
     }
@@ -68,6 +68,19 @@ class ReleaseController extends ApiController
         $this->authorizeForUser($this->getCaller(), 'show', $project);
 
         return \Response::json(['download_url' => $this->releaseUtil->url($release)]);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return string
+     */
+    public function download(Request $request)
+    {
+        $toRelease = Release::findOrFail($request->get('to'));
+        $fromRelease = Release::find($request->get('from'));
+
+        return $this->releaseUtil->url($toRelease, $fromRelease);
     }
 
     /**

@@ -36,6 +36,9 @@ Route::group(['prefix' => 'api', 'middleware' => ['bindings']], function () {
     Route::get('projects/{project}/images', 'Api\ImageController@index');
     Route::get('projects/{project}/images/{image}', 'Api\ImageController@show');
 
+    Route::get('releases/download', 'Api\ReleaseController@download');
+
+
     Route::group(['middleware' => 'auth:api'], function () {
         //Route::get('projects/create', 'Api\ProjectController@create'); //Todo
         //Route::post('projects', 'Api\ProjectController@store'); //Todo
@@ -57,6 +60,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['bindings']], function () {
 Route::group(['middleware' => ['web']], function () {
     //UPGRADED
     Route::get('/', 'HomeController@index');
+
+    Route::get('multiplayer/browser/{gameSlug}', 'MultiplayerController@index');
 
     Route::get('mods', 'Project\ProjectController@index');
     Route::get('mods/{project}', 'Project\ProjectController@show')->where('project', '[0-9]+');
@@ -89,6 +94,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('mods/{project}/releases/{release}/remove', 'Project\ReleaseController@remove');
         Route::get('mods/{project}/releases/{toRelease}/download', 'Project\ReleaseController@download');
 
+        Route::get('mods/updatecheck', 'Project\ReleaseController@updateCheck');
 
         Route::post('mods/{project}/images/{image}/remove', 'Project\ImageController@remove');
     });

@@ -36,15 +36,6 @@ let vm = {
         return {
             sessions: []
         }
-    },
-    events: {
-        //Event um auf neue Daten vom Masterserver zu reagieren
-        //Es wird eine vollständige Liste gesendet und wir
-        //überschreiben hier den Inhalt. Vue ändert dann
-        //das HTML, dass es wieder zu "sessions" passt
-        masterserver_em4(sessions) {
-            this.sessions = sessions;
-        }
     }
 };
 

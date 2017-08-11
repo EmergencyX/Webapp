@@ -1,30 +1,42 @@
-var path = require('path');
+const UglifyPlugin = require('uglifyjs-webpack-plugin');
+const webpack = require("webpack");
 
 module.exports = {
-    entry: './resources/assets/js/app.js',
-    output: {
-        filename: './public/app.js'
+    entry: {
+        bootstrap: './resources/assets/js/bootstrap.js',
+        browser: './resources/assets/js/browser.js',
     },
-    devtool: 'source-map',
+    output: {
+        filename: './public/[name].js'
+    },
     resolve: {
-        extensions: ['.js', '.vue'],
+        extensions: ['.js', '.vue']
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.vue$/,
-                loader: 'vue-loader'
+                loader: 'vue-loader',
             },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel',
-                query: {
+                loader: 'babel-loader',
+                options: {
                     babelrc: false,
                     presets: [['es2015', {modules: false}]]
                 }
-            },
-
+            }
         ]
-    }
+    },
+    plugins: [
+        new UglifyPlugin(),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',
+            Popper: 'popper.js',
+            Centrifuge: 'centrifuge',
+        })
+    ]
 };
