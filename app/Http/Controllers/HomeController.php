@@ -36,6 +36,14 @@ class HomeController extends Controller
         return view('home.index', compact('projects'));
     }
 
+    /**
+     * @return View
+     */
+    public function contact()
+    {
+        return view('home.contact');
+    }
+
 
     public function download()
     {

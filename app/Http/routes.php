@@ -60,6 +60,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['bindings']], function () {
 Route::group(['middleware' => ['web']], function () {
     //UPGRADED
     Route::get('/', 'HomeController@index');
+    Route::get('kontakt', 'HomeController@contact');
 
     Route::get('multiplayer/browser/{gameSlug}', 'MultiplayerController@index');
 

@@ -8,10 +8,19 @@ class NavigationHelper
     const LOGIN         = 'login';
     const USERS         = 'users';
     const PROJECTS      = 'projects';
+    const MULTIPLAYER   = 'multiplayer';
     const DASHBOARD     = 'dashboard';
     const NOTIFICATIONS = 'notifications';
 
     protected $section = self::HOME;
+
+    /**
+     * @return string
+     */
+    public function getSection()
+    {
+        return $this->section;
+    }
 
     /**
      * @param string $section
@@ -22,13 +31,15 @@ class NavigationHelper
     }
 
     /**
-     * @return string
+     * (Sugar) Check if current section equals home
+     *
+     * @return bool
      */
-    public function getSection()
+    public function isHome()
     {
-        return $this->section;
+        return $this->is(self::HOME);
     }
-    
+
     /**
      * Check if current section equals $section
      *
@@ -39,16 +50,6 @@ class NavigationHelper
     public function is(string $section)
     {
         return $this->section === $section ? 'active' : '';
-    }
-
-    /**
-     * (Sugar) Check if current section equals home
-     *
-     * @return bool
-     */
-    public function isHome()
-    {
-        return $this->is(self::HOME);
     }
 
     /**
@@ -69,6 +70,16 @@ class NavigationHelper
     public function isUsers()
     {
         return $this->is(self::USERS);
+    }
+
+    /**
+     * (Sugar) Check if current section equals users
+     *
+     * @return bool
+     */
+    public function isMultiplayer()
+    {
+        return $this->is(self::MULTIPLAYER);
     }
 
     /**

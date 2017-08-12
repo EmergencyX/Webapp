@@ -2,11 +2,20 @@
 
 namespace EmergencyExplorer\Http\Controllers;
 
+use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use EmergencyExplorer\Models\Game as GameModel;
 use phpcent\Client as CentrifugalClient;
 
 class MultiplayerController extends Controller
 {
+    /**
+     * MultiplayerController constructor.
+     */
+    public function __construct(NavigationHelper $navigationHelper)
+    {
+        $navigationHelper->setSection(NavigationHelper::MULTIPLAYER);
+    }
+
     public function index(GameModel $gameSlug)
     {
         $client = new CentrifugalClient(env('CENT_HOST'));

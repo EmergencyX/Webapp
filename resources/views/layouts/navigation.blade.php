@@ -18,11 +18,16 @@
                 </li>
                 --}}
 
-                <li class="nav-item {{ $navigation->isProjects() }}">
+                <li class="nav-item {{ $navigation->isMultiplayer() }}">
                     <a class="nav-link"
-                       href="{{ action('MultiplayerController@index', ['emergency4']) }}">{{ trans('app.modifications') }}</a>
+                       href="{{ action('MultiplayerController@index', ['emergency-4']) }}">{{ trans('app.multiplayer') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="//fms.emergencyx.de">FMS</a>
                 </li>
             </ul>
+            {{--
             <ul class="my-2 my-lg-0">
                 @if(auth()->check())
                     <li class="nav-item dropdown">
@@ -42,6 +47,7 @@
                     </li>
                 @endif
             </ul>
+            --}}
         </div>
     </div>
 </nav>
