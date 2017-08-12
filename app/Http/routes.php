@@ -62,7 +62,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'HomeController@index');
     Route::get('kontakt', 'HomeController@contact');
 
-    Route::get('multiplayer/browser/{gameSlug}', 'MultiplayerController@index');
+    Route::get('multiplayer/browser/{gameSlug}', 'Multiplayer\MultiplayerController@index');
 
     Route::get('mods', 'Project\ProjectController@index');
     Route::get('mods/{project}', 'Project\ProjectController@show')->where('project', '[0-9]+');

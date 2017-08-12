@@ -20,7 +20,7 @@
 
                 <li class="nav-item {{ $navigation->isMultiplayer() }}">
                     <a class="nav-link"
-                       href="{{ action('MultiplayerController@index', ['emergency-4']) }}">{{ trans('app.multiplayer') }}
+                       href="{{ action('Multiplayer\MultiplayerController@index', ['emergency-4']) }}">{{ trans('app.multiplayer') }}
                     </a>
                 </li>
                 <li class="nav-item">

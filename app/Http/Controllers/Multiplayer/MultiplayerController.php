@@ -1,6 +1,6 @@
 <?php
 
-namespace EmergencyExplorer\Http\Controllers;
+namespace EmergencyExplorer\Http\Controllers\Multiplayer;
 
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use EmergencyExplorer\Models\Game as GameModel;
@@ -10,6 +10,8 @@ class MultiplayerController extends Controller
 {
     /**
      * MultiplayerController constructor.
+     *
+     * @param NavigationHelper $navigationHelper
      */
     public function __construct(NavigationHelper $navigationHelper)
     {
