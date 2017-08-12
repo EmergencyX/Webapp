@@ -1,6 +1,6 @@
 <template>
     <table class="table table-striped">
-    <thead class="thead-inverse">
+        <thead>
         <tr>
             <th>Servername</th>
             <th>Spieler</th>
@@ -15,7 +15,8 @@
                 <i v-show="session.password" class="fa fa-lock" aria-hidden="true"></i>
                 <i v-show="session.started" class="fa fa-play" aria-hidden="true"></i>
 
-                {{ session.name }}</td>
+                {{ session.name }}
+            </td>
             <td>{{ session.players }}</td>
             <td>{{ session.mod }}</td>
             <td>{{ session.nation }}</td>
@@ -26,20 +27,20 @@
 </template>
 
 <script>
-//Oben ist HTML mit Vuejs gemischt:
-//Das erlaubt es uns einfach hier "sessions" zu ändern und wir müssen
-//uns keine Gedanken machen, wie das im HTML umgesetzt wird
+    //Oben ist HTML mit Vuejs gemischt:
+    //Das erlaubt es uns einfach hier "sessions" zu ändern und wir müssen
+    //uns keine Gedanken machen, wie das im HTML umgesetzt wird
 
-//vm = ViewModel, Logik hinter dem "View" (oben) zusammenfassen
-let vm = {
-    data() {
-        return {
-            sessions: []
+    //vm = ViewModel, Logik hinter dem "View" (oben) zusammenfassen
+    let vm = {
+        data() {
+            return {
+                sessions: []
+            }
         }
-    }
-};
+    };
 
-//"Default" Instanz exportieren. Wird dann bei "Import" in app.js verwendet
-//Suche "ES6 Import"
-export default vm;
+    //"Default" Instanz exportieren. Wird dann bei "Import" in app.js verwendet
+    //Suche "ES6 Import"
+    export default vm;
 </script>
