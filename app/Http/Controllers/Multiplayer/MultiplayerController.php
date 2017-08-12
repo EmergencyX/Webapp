@@ -2,6 +2,7 @@
 
 namespace EmergencyExplorer\Http\Controllers\Multiplayer;
 
+use EmergencyExplorer\Http\Controllers\Controller;
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use EmergencyExplorer\Models\Game as GameModel;
 use phpcent\Client as CentrifugalClient;
