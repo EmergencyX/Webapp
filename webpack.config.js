@@ -35,8 +35,8 @@ module.exports = {
             $: 'jquery',
             jQuery: 'jquery',
             'window.jQuery': 'jquery',
-            Popper: 'popper.js',
-            Centrifuge: 'centrifuge',
+            Popper: ['popper.js', 'default'],
+            Centrifuge: 'centrifuge'
         })
     ]
 };

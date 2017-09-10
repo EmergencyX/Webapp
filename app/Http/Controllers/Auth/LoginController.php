@@ -1,7 +1,9 @@
 <?php
+
 namespace EmergencyExplorer\Http\Controllers\Auth;
 
 use EmergencyExplorer\Http\Controllers\Controller;
+use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -26,12 +28,13 @@ class LoginController extends Controller
     protected $redirectTo = '/';
 
     /**
-     * Create a new controller instance.
+     * LoginController constructor.
      *
-     * @return void
+     * @param NavigationHelper $navigationHelper
      */
-    public function __construct()
+    public function __construct(NavigationHelper $navigationHelper)
     {
+        $navigationHelper->setSection(NavigationHelper::LOGIN);
         $this->middleware('guest', ['except' => 'logout']);
     }
 

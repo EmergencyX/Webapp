@@ -106,7 +106,13 @@ Route::group(['middleware' => ['web']], function () {
     // Authentication routes...
     Route::get('auth/login', 'Auth\LoginController@showLoginForm');
     Route::post('auth/login', 'Auth\LoginController@login');
+    Route::get('auth/logout', 'Auth\LoginController@logout');
     Route::post('auth/logout', 'Auth\LoginController@logout');
+
+    if (! env('DEMO', true)) {
+        Route::get('auth/register', 'Auth\RegisterController@createForm');
+        Route::post('auth/register', 'Auth\RegisterController@register');
+    }
 
     /*
         Route::get('users', 'UserController@index');

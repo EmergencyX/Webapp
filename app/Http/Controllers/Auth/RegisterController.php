@@ -1,9 +1,13 @@
 <?php
+
 namespace EmergencyExplorer\Http\Controllers\Auth;
-use EmergencyExplorer\Models\User;
-use Validator;
+
 use EmergencyExplorer\Http\Controllers\Controller;
+use EmergencyExplorer\Http\View\Helper\NavigationHelper;
+use EmergencyExplorer\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Validator;
+
 class RegisterController extends Controller
 {
     /*
@@ -17,21 +21,33 @@ class RegisterController extends Controller
     |
     */
     use RegistersUsers;
+
     /**
      * Where to redirect users after login / registration.
      *
      * @var string
      */
     protected $redirectTo = '/';
+
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param NavigationHelper $navigationHelper
      */
-    public function __construct()
+    public function __construct(NavigationHelper $navigationHelper)
     {
+        $navigationHelper->setSection(NavigationHelper::LOGIN);
         $this->middleware('guest');
     }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function createForm()
+    {
+        return view('auth.register');
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -42,10 +58,11 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
-            //'email' => 'required|email|max:255|unique:users',
+            'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
     }
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -56,7 +73,7 @@ class RegisterController extends Controller
     {
         return User::create([
             'name' => $data['name'],
-            //'email' => $data['email'],
+            'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
     }

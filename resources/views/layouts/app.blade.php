@@ -17,7 +17,8 @@
 {{--@include('layouts.header')--}}
 @include('layouts.navigation')
 <div class="container">
-    @yield('content')    
+    @yield('content')
+    <hr class="my-2" />
     <ul class="nav justify-content-end">
         <li class="nav-item">
             <a class="nav-link active" href="{{ action('HomeController@contact') }}">Kontakt</a>
@@ -27,5 +28,4 @@
 
 <script src="{{ asset("bootstrap.js") }}"></script>
 </body>
-
 </html>
