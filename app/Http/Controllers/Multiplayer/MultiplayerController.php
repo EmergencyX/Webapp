@@ -7,6 +7,7 @@ use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use EmergencyExplorer\Models\Game as GameModel;
 use phpcent\Client as CentrifugalClient;
 
+//TODO refactor
 class MultiplayerController extends Controller
 {
     /**

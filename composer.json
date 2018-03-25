@@ -9,13 +9,14 @@
   "type": "project",
   "require": {
     "php": "^7.2.0",
+    "barryvdh/laravel-ide-helper": "^2.2",
     "fideloper/proxy": "^4.0",
+    "guzzlehttp/guzzle": "^6.2",
+    "intervention/image": "^2.3",
     "laravel/framework": "5.6.*",
     "laravel/tinker": "^1.0",
     "laravelcollective/html": "^5.2",
-    "guzzlehttp/guzzle": "^6.2",
-    "intervention/image": "^2.3",
-    "barryvdh/laravel-ide-helper": "^2.2"
+    "vierbergenlars/php-semver": "^3.0"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.1",
@@ -43,7 +44,10 @@
   "autoload-dev": {
     "classmap": [
       "tests/TestCase.php"
-    ]
+    ],
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
   },
   "scripts": {
     "post-root-package-install": [

@@ -21,7 +21,7 @@
                 <td>{{ $repository->name }}</td>
                 <td><a href="{{ action('ProjectRepositoryController@show', [$project, $repository]) }}">Repository
                                                                                                         ansehen</a>
-                    <a href="{{ action('ReleaseController@create', [$project->id, $repository->id]) }}">Release
+                    <a href="{{ action('OldReleaseController', [$project->id, $repository->id]) }}">Release
                                                                                                         erstellen</a>
                 </td>
             </tr>

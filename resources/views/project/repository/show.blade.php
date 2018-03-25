@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>Repository {{ $repository->name }} <small><a href="{{ action('ProjectRepositoryController@index', compact('project')) }}">Alle Repositories von {{ $project->name }}</a></small></h1>
-    <a href="{{ action('ReleaseController@create', [$project->id, $repository->id]) }}">Release
+    <a href="{{ action('OldReleaseController', [$project->id, $repository->id]) }}">Release
                                                                                         erstellen</a>
     <table class="table table-striped">
         <thead>

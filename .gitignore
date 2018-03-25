@@ -13,5 +13,6 @@ yarn-error.log
 .env
 
 /storage/mods
+/storage/debugbar
 .phpstorm.meta.php
 _ide_helper.php
