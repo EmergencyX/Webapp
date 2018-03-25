@@ -2,11 +2,12 @@
 
 namespace EmergencyExplorer\Http\Controllers\Auth;
 
-use EmergencyExplorer\Http\Controllers\Controller;
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
-use EmergencyExplorer\Models\User;
+use EmergencyExplorer\User;
+use EmergencyExplorer\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Validator;
 
 class RegisterController extends Controller
 {
@@ -20,10 +21,11 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
+
     use RegistersUsers;
 
     /**
-     * Where to redirect users after login / registration.
+     * Where to redirect users after registration.
      *
      * @var string
      */
@@ -32,7 +34,7 @@ class RegisterController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param NavigationHelper $navigationHelper
+     * @return void
      */
     public function __construct(NavigationHelper $navigationHelper)
     {
@@ -57,9 +59,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
         ]);
     }
 
@@ -67,14 +69,14 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return User
+     * @return \EmergencyExplorer\User
      */
     protected function create(array $data)
     {
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => Hash::make($data['password']),
         ]);
     }
 }

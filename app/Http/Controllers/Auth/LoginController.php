@@ -18,24 +18,25 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
+
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login / registration.
+     * Where to redirect users after login.
      *
      * @var string
      */
     protected $redirectTo = '/';
 
     /**
-     * LoginController constructor.
+     * Create a new controller instance.
      *
      * @param NavigationHelper $navigationHelper
      */
     public function __construct(NavigationHelper $navigationHelper)
     {
         $navigationHelper->setSection(NavigationHelper::LOGIN);
-        $this->middleware('guest', ['except' => 'logout']);
+        $this->middleware('guest')->except('logout');
     }
 
     /**

@@ -7,9 +7,6 @@ use EmergencyExplorer\Http\View\Composers\ImageComposer;
 use EmergencyExplorer\Http\View\Composers\ProjectComposer;
 use EmergencyExplorer\Http\View\Composers\UserComposer;
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
-use Illuminate\Pagination\BootstrapFourPresenter;
-use Illuminate\Pagination\Paginator;
-use \View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,10 +19,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Carbon::setLocale(config('app.locale'));
-
-        /*Paginator::presenter(function($paginator) {
-            return new BootstrapFourPresenter($paginator);
-        });*/
     }
 
     /**
@@ -35,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        require_once app_path('Util/Helper.php');
+        require_once app_path('Util/helper.php');
 
         app()->singleton(NavigationHelper::class, function () {
             return new NavigationHelper();

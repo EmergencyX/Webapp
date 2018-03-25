@@ -21,7 +21,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * The attributes that should be hidden for arrays.
      *
      * @var array
      */
@@ -54,7 +54,7 @@ class User extends Authenticatable
     {
         return $this->morphMany(Image::class, 'owner')->where('type', Image::TYPE_AVATAR);
     }
-    
+
     function isFollowingProject($project)
     {
         return $project->users->contains($this);
