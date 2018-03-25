@@ -8,7 +8,7 @@
   "license": "MIT",
   "type": "project",
   "require": {
-    "php": ">=5.5.9",
+    "php": ">=7.2.0",
     "laravel/framework": "5.3.*",
     "laravelcollective/html": "^5.2",
     "symfony/psr-http-message-bridge": "^0.2.0",
@@ -18,7 +18,6 @@
     "guzzlehttp/guzzle": "^6.2",
     "intervention/image": "^2.3",
     "barryvdh/laravel-ide-helper": "^2.2",
-    "laravel/passport": "^1.0",
     "get-stream/stream": "dev-master",
     "sl4mmer/phpcent": "^1.0"
   },

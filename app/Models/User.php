@@ -4,11 +4,10 @@ namespace EmergencyExplorer\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -55,15 +54,9 @@ class User extends Authenticatable
     {
         return $this->morphMany(Image::class, 'owner')->where('type', Image::TYPE_AVATAR);
     }
-
-
+    
     function isFollowingProject($project)
     {
         return $project->users->contains($this);
-    }
-
-    public function findForPassport(string $name)
-    {
-        return $this->where('name', $name)->first();
     }
 }

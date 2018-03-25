@@ -3,22 +3,17 @@
 namespace EmergencyExplorer\Providers;
 
 use EmergencyExplorer\Models\Image;
+use EmergencyExplorer\Models\Invitation;
+use EmergencyExplorer\Models\Project;
 use EmergencyExplorer\Models\Release;
+use EmergencyExplorer\Models\User;
 use EmergencyExplorer\Policies\ImagePolicy;
+use EmergencyExplorer\Policies\InvitationPolicy;
+use EmergencyExplorer\Policies\ProjectPolicy;
 use EmergencyExplorer\Policies\ReleasePolicy;
-use EmergencyExplorer\Util\TokenUtil;
-use Laravel\Passport\Passport;
-
+use EmergencyExplorer\Policies\UserPolicy;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
-use EmergencyExplorer\Models\User;
-use EmergencyExplorer\Models\Project;
-use EmergencyExplorer\Models\Invitation;
-
-use EmergencyExplorer\Policies\UserPolicy;
-use EmergencyExplorer\Policies\ProjectPolicy;
-use EmergencyExplorer\Policies\InvitationPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -29,10 +24,10 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Invitation::class => InvitationPolicy::class,
-        Project::class    => ProjectPolicy::class,
-        Release::class    => ReleasePolicy::class,
-        Image::class      => ImagePolicy::class,
-        User::class       => UserPolicy::class,
+        Project::class => ProjectPolicy::class,
+        Release::class => ReleasePolicy::class,
+        Image::class => ImagePolicy::class,
+        User::class => UserPolicy::class,
     ];
 
     /**
@@ -45,9 +40,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(GateContract $gate)
     {
         $this->registerPolicies();
-
-        //Laravel Passport Setup
-        Passport::tokensCan(TokenUtil::getTokens());
-        Passport::routes();
     }
 }
