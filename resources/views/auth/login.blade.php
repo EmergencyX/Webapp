@@ -23,6 +23,4 @@
         </label>
     </div>
     {!! Form::close() !!}
-
-    <p>Noch nicht dabei? <a href="{{ action('Auth\RegisterController@createForm') }}" class="">Zur Registrierung</a></p>
 @endsection

@@ -23,8 +23,7 @@ class AppServiceProvider extends ServiceProvider
         Carbon::setLocale(config('app.locale'));
 
         Passport::routes();
-
-        Passport::enableImplicitGrant();
+        Passport::cookie(str_slug(env('APP_NAME', 'laravel'), '_').'_token');
 
         app()->singleton(NavigationHelper::class, function () {
             return new NavigationHelper();
