@@ -9,6 +9,7 @@ use EmergencyExplorer\Http\View\Composers\UserComposer;
 use EmergencyExplorer\Http\View\Helper\NavigationHelper;
 use EmergencyExplorer\Rules\Semver;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Carbon::setLocale(config('app.locale'));
+
+        Passport::routes();
+
+        Passport::enableImplicitGrant();
 
         app()->singleton(NavigationHelper::class, function () {
             return new NavigationHelper();
