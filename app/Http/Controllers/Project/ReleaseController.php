@@ -27,7 +27,7 @@ class ReleaseController extends Controller
      */
     public function create()
     {
-        //
+        return view('project.release.create', compact('project'));
     }
 
     /**

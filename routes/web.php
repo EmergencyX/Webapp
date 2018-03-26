@@ -39,6 +39,8 @@ Route::get('users/{user}-{seo}', 'User\UserController@show')->where(['user' => '
 Route::get('users/{user}/edit', 'User\UserController@edit');
 Route::patch('users/{user}', 'User\UserController@update');
 
+
+Route::get('mods/{project}/release/create', 'Project\ReleaseController@create');
 /*
 Route::group(['middleware' => 'auth'], function () {
     Route::get('mods/{project}/images/create', 'Project\ImageController@create');

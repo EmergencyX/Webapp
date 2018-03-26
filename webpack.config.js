@@ -6,6 +6,7 @@ module.exports = {
     entry: {
         bootstrap: './resources/assets/js/bootstrap.js',
         browser: './resources/assets/js/browser.js',
+        upload: './resources/assets/js/upload.js',
     },
     output: {
         path: path.resolve(__dirname, 'public')
