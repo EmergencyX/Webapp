@@ -3,8 +3,9 @@
 namespace EmergencyExplorer\Http\Controllers\Project;
 
 use EmergencyExplorer\Http\Controllers\Controller;
-use EmergencyExplorer\Http\Requests\Project\CreateRelease;
+use EmergencyExplorer\Models\Project;
 use EmergencyExplorer\Models\Release;
+use EmergencyExplorer\Rules\Semver;
 use Illuminate\Http\Request;
 
 class ReleaseController extends Controller
@@ -32,12 +33,29 @@ class ReleaseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param CreateRelease $request
-     * @return void
+     * @param Project $project
+     * @param Request $request
+     * @return \Illuminate\Http\Response
      */
-    public function store(CreateRelease $request)
+    public function store(Project $project, Request $request)
     {
-        $request->file()->storeAs($request->project()->name, $request->get('name'));
+        $validator = \Validator::make([
+            'name' => $request->input('name'),
+            'file' => $request->file('file'),
+            'version' => $request->input('version')
+        ], [
+            'name' => 'required|string|max:255',
+            'file' => 'required|file',
+            'version' => ['required', new Semver]
+        ]);
+
+        abort_unless($project->admins->contains($request->user()), 403);
+        abort_unless($validator->passes(), 403);
+
+        $filename = str_random(40);
+        $request->file('file')->storeAs('releases/' . $project->id, $filename);
+
+        return redirect('/');
     }
 
     /**
