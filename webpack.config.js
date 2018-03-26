@@ -1,5 +1,6 @@
 const UglifyPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require("webpack");
+const path = require('path');
 
 module.exports = {
     entry: {
@@ -7,7 +8,7 @@ module.exports = {
         browser: './resources/assets/js/browser.js',
     },
     output: {
-        filename: './public/[name].js'
+        path: path.resolve(__dirname, 'public')
     },
     resolve: {
         extensions: ['.js', '.vue']

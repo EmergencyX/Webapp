@@ -12,7 +12,12 @@
 */
 
 
+
+
+Route::post('projects/{project}/release', 'Project\ReleaseController@store');
+
 Route::get('/', 'HomeController@index');
+
 Route::get('kontakt', 'HomeController@contact');
 
 Route::get('multiplayer/browser/{gameSlug}', 'Multiplayer\MultiplayerController@index');
@@ -34,7 +39,7 @@ Route::get('users/{user}-{seo}', 'User\UserController@show')->where(['user' => '
 Route::get('users/{user}/edit', 'User\UserController@edit');
 Route::patch('users/{user}', 'User\UserController@update');
 
-
+/*
 Route::group(['middleware' => 'auth'], function () {
     Route::get('mods/{project}/images/create', 'Project\ImageController@create');
     Route::post('mods/{project}/images', 'Project\ImageController@store');
@@ -55,7 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
 //END UPGRADED
 
 //Route::get('/download', 'HomeController@download');
-
+*/
 // Authentication routes...
 Route::get('auth/login', 'Auth\LoginController@showLoginForm');
 Route::post('auth/login', 'Auth\LoginController@login');

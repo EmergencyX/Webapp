@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -12,6 +10,10 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::group(['prefix' => 'hooks'], function () {
+    Route::post('tus', 'TusController@hook');
+});
 
 Route::group(['prefix' => 'api', 'middleware' => ['bindings']], function () {
     Route::get('mods/recent', 'Api\ProjectController@recent');
