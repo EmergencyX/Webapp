@@ -17,8 +17,10 @@
           metadata: {
             filename: file.name,
             filetype: file.type,
-            csrf: $('meta[name="csrf-token"]').attr('content')
+            csrf: $('meta[name="csrf-token"]').attr('content'),
+            token: window.tusToken
           },
+          removeFingerprintOnSuccess: true,
           onError: function (error) {
             console.log("Failed because: " + error);
           },

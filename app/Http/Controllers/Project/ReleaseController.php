@@ -6,10 +6,25 @@ use EmergencyExplorer\Http\Controllers\Controller;
 use EmergencyExplorer\Models\Project;
 use EmergencyExplorer\Models\Release;
 use EmergencyExplorer\Rules\Semver;
+use EmergencyExplorer\Util\TokenUtil;
 use Illuminate\Http\Request;
 
 class ReleaseController extends Controller
 {
+    /**
+     * @var TokenUtil
+     */
+    protected $tokenUtil;
+
+    /**
+     * ReleaseController constructor.
+     */
+    public function __construct(TokenUtil $tokenUtil)
+    {
+        $this->tokenUtil = $tokenUtil;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +42,8 @@ class ReleaseController extends Controller
      */
     public function create()
     {
-        return view('project.release.create', compact('project'));
+        $tusToken = $this->tokenUtil->generateTusToken(auth()->user());
+        return view('project.release.create', compact('project', 'tusToken'));
     }
 
     /**

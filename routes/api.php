@@ -12,7 +12,6 @@
 */
 
 Route::group(['prefix' => 'hooks'], function () {
-    Route::get('tus', 'TusController@hook');
     Route::post('tus', 'TusController@hook');
 });
 
